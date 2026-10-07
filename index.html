@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- ==================================================================== -->
+  <!-- 1. PAGE METADATA                                                     -->
+  <!-- ==================================================================== -->
+  <!-- REPLACE: Site title if you want to customize it -->
+  <title>Letters For You — Birthday Website</title>
+  <meta name="description" content="A romantic interactive Letters For You birthday card and memories website." />
+  <meta property="og:title" content="Letters For You — Birthday Website" />
+  <meta property="og:description" content="A romantic interactive Letters For You birthday card and memories website." />
+  <meta property="og:type" content="website" />
+
+  <!-- ==================================================================== -->
+  <!-- 2. GOOGLE FONTS CDN (Playful Marker, Script, Serif, Modern Sans)     -->
+  <!-- ==================================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@700;800;900&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ==================================================================== -->
+  <!-- 3. MAIN STYLESHEET                                                   -->
+  <!-- ==================================================================== -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background Music Element (Optional) -->
+  <!-- REPLACE: Replace the src with your favorite romantic mp3 URL if desired -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="" type="audio/mp3">
+  </audio>
+
+  <!-- Ambient Music Toggle Floating Button -->
+  <button id="music-toggle" class="music-toggle-btn" aria-label="Toggle background music" title="Toggle Music">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>
+  </button>
+
+  <!-- Ambient & Interactive Particle Dispersion Canvas (Flowing Hearts, Flower Petals & Cursor Trail) -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <main id="app-container">
+
+    <!-- ================================================================== -->
+    <!-- SCENE 0: LANDING PAGE (Primary Entry Point)                        -->
+    <!-- Matching Reference: Clean top (no nav), Centered Cat Video,        -->
+    <!-- "Hello there ~!", "do you want to see your gift?",                 -->
+    <!-- YES PLEASE / NO THANKS, Botanical corner flowers with accent dots  -->
+    <!-- ================================================================== -->
+    <section id="scene-landing" class="scene landing-scene active" aria-label="Landing Page">
+      
+      <!-- Main Center Content Column (Vertically & Horizontally Centered) -->
+      <div class="scene-content landing-center-content">
+        
+        <!-- Looping Mascot Video (Cat + Flowers) -->
+        <div class="mascot-media-wrapper" aria-label="Animated cartoon cat with flowers mascot">
+          <!-- Looping HTML5 Video from Cloudinary -->
+          <video 
+            id="mascot-video" 
+            class="mascot-video-player" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            poster="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='150' viewBox='0 0 200 150'><rect width='200' height='150' fill='%23f4ece2'/></svg>"
+          >
+            <!-- REPLACE: Video source URL if you want to swap the video later -->
+            <source src="https://res.cloudinary.com/tzr2c6wg/video/upload/v1788358250/WhatsApp_Video_2026-09-02_at_7.31.44_PM.mp4" type="video/mp4">
+          </video>
+          
+          <!-- Animated Vector Mascot Fallback (graceful backdrop if network is loading) -->
+          <div class="mascot-fallback-illustration" id="mascot-fallback" aria-hidden="true">
+            <svg class="cat-mascot-svg" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Left Flower Stem & Blossom -->
+              <path d="M40 170 C 42 140, 55 120, 60 95" stroke="#7A8B67" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <path d="M48 135 C 38 128, 30 135, 34 145 C 40 148, 48 140, 48 135 Z" fill="#90A57A"/>
+              <circle cx="60" cy="90" r="14" fill="#A93F38"/>
+              <circle cx="50" cy="84" r="10" fill="#C85A53"/>
+              <circle cx="70" cy="84" r="10" fill="#C85A53"/>
+              <circle cx="60" cy="74" r="10" fill="#C85A53"/>
+              <circle cx="60" cy="90" r="6" fill="#F4E295"/>
+
+              <!-- Left Small Flower -->
+              <path d="M78 170 C 80 150, 85 135, 90 120" stroke="#7A8B67" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <circle cx="90" cy="116" r="8" fill="#E88C86"/>
+              <circle cx="90" cy="116" r="3.5" fill="#FFFDF9"/>
+
+              <!-- Right Flower Stem & Blossom -->
+              <path d="M195 170 C 192 140, 180 120, 175 95" stroke="#7A8B67" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <path d="M188 135 C 198 128, 206 135, 202 145 C 196 148, 188 140, 188 135 Z" fill="#90A57A"/>
+              <circle cx="175" cy="90" r="14" fill="#C85A53"/>
+              <circle cx="165" cy="84" r="10" fill="#E88C86"/>
+              <circle cx="185" cy="84" r="10" fill="#E88C86"/>
+              <circle cx="175" cy="74" r="10" fill="#E88C86"/>
+              <circle cx="175" cy="90" r="6" fill="#F4E295"/>
+
+              <!-- Right Small Flower -->
+              <path d="M155 170 C 153 150, 150 135, 145 125" stroke="#7A8B67" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <circle cx="145" cy="120" r="8" fill="#A93F38"/>
+              <circle cx="145" cy="120" r="3.5" fill="#FFFDF9"/>
+
+              <!-- Cat Mascot Body Group -->
+              <g class="cat-dancing-character">
+                <!-- Tail -->
+                <path d="M140 145 C 158 145, 165 130, 162 118 C 158 116, 152 122, 146 132" stroke="#4A3B32" stroke-width="3" fill="#FFFDF9" stroke-linecap="round"/>
+                
+                <!-- Body -->
+                <path d="M96 110 C 96 90, 144 90, 144 110 C 144 140, 138 156, 120 156 C 102 156, 96 140, 96 110 Z" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+                
+                <!-- Legs -->
+                <path d="M106 152 C 106 164, 114 164, 114 152" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+                <path d="M126 152 C 126 164, 134 164, 134 152" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+
+                <!-- Arms (Dancing Sway) -->
+                <path class="cat-arm-left" d="M98 112 C 86 116, 82 125, 90 130 C 96 132, 102 124, 100 118" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+                <path class="cat-arm-right" d="M142 112 C 154 116, 158 125, 150 130 C 144 132, 138 124, 140 118" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+
+                <!-- Head -->
+                <ellipse cx="120" cy="78" rx="34" ry="28" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+
+                <!-- Ears -->
+                <path d="M94 65 L 90 42 C 92 40, 105 48, 108 56 Z" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+                <path d="M94 60 L 92 48 L 104 56 Z" fill="#FCECE9"/>
+
+                <path d="M146 65 L 150 42 C 148 40, 135 48, 132 56 Z" fill="#FFFDF9" stroke="#4A3B32" stroke-width="3"/>
+                <path d="M146 60 L 148 48 L 136 56 Z" fill="#FCECE9"/>
+
+                <!-- Face -->
+                <circle cx="107" cy="74" r="3.5" fill="#4A3B32"/>
+                <circle cx="133" cy="74" r="3.5" fill="#4A3B32"/>
+                <path d="M115 80 C 117 83, 120 83, 120 80 C 120 83, 123 83, 125 80" stroke="#4A3B32" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <!-- Blush Cheeks -->
+                <ellipse cx="101" cy="80" rx="4.5" ry="2.5" fill="#F4B8B4" opacity="0.8"/>
+                <ellipse cx="139" cy="80" rx="4.5" ry="2.5" fill="#F4B8B4" opacity="0.8"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Playful Hand-Lettered Main Heading -->
+        <!-- REPLACE: Main Greeting Heading -->
+        <h1 class="landing-playful-title">Hello there ~!</h1>
+
+        <!-- Subheading / Question -->
+        <!-- REPLACE: Subheading text (will dynamically update with teasing lines if NO is attempted) -->
+        <p id="landing-subheading" class="landing-subheading">do you want to see your gift?</p>
+
+        <!-- Interactive Pill Button Group -->
+        <div class="landing-action-group" id="landing-btn-group">
+          <!-- "YES PLEASE" Button -> Transitions smoothly to next scene ("Happy Birthday to My Love" envelope intro) -->
+          <button id="btn-yes-please" class="btn-pill-choice btn-pill-yes" data-nav-target="intro" aria-label="Yes please, see gift">
+            YES PLEASE
+          </button>
+
+          <!-- "NO THANKS" Button -> Playfully dodges cursor/finger and vanishes after 2-3 tries -->
+          <button id="btn-no-thanks" class="btn-pill-choice btn-pill-no" aria-label="No thanks">
+            NO THANKS
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- Decorative Botanical Flower Illustrations (Bottom Left & Right) -->
+      <!-- Lower z-index behind main content, partially bleeding off-screen -->
+      <!-- ============================================================== -->
+      
+      <!-- Bottom Left Botanical Illustration & Accent Dots -->
+      <!-- REPLACE: Replace SVG or drop an <img src="flower-left.png"> -->
+      <div class="botanical-corner botanical-corner-left" aria-hidden="true">
+        <!-- Floating accent flower dots -->
+        <div class="accent-flower-dot dot-left-1"></div>
+        <div class="accent-flower-dot dot-left-2"></div>
+        
+        <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" class="botanical-svg">
+          <!-- Foliage Stems -->
+          <path d="M-20 300 C 20 200, 60 140, 110 60" stroke="#728461" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M40 180 C 15 155, 10 120, 25 105 C 45 105, 55 140, 40 180 Z" fill="#889C74" opacity="0.9"/>
+          <path d="M75 125 C 100 100, 135 105, 130 125 C 115 145, 85 135, 75 125 Z" fill="#889C74" opacity="0.9"/>
+          <path d="M-10 240 C 40 210, 80 200, 150 180" stroke="#728461" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          
+          <!-- Rose Terracotta Peony Bloom 1 -->
+          <g transform="translate(100, 50)">
+            <circle cx="0" cy="0" r="32" fill="#C85A53"/>
+            <path d="M-25 -5 C -35 -25, -10 -35, 10 -28 C 30 -20, 35 5, 20 25 C 5 35, -20 25, -25 -5 Z" fill="#A93F38"/>
+            <path d="M-15 -18 C -22 -8, -18 12, 0 18 C 18 12, 18 -10, 5 -18 C -5 -22, -10 -22, -15 -18 Z" fill="#E88C86"/>
+            <circle cx="0" cy="0" r="10" fill="#F4E295"/>
+            <circle cx="0" cy="0" r="5" fill="#D4AF37"/>
+          </g>
+
+          <!-- Rose Terracotta Peony Bloom 2 -->
+          <g transform="translate(150, 170)">
+            <circle cx="0" cy="0" r="26" fill="#A93F38"/>
+            <path d="M-18 -18 C 0 -28, 22 -15, 18 8 C 12 25, -12 22, -20 5 Z" fill="#C85A53"/>
+            <circle cx="0" cy="0" r="8" fill="#F4E295"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Bottom Right Botanical Illustration & Accent Dots -->
+      <!-- REPLACE: Replace SVG or drop an <img src="flower-right.png"> -->
+      <div class="botanical-corner botanical-corner-right" aria-hidden="true">
+        <!-- Floating accent flower dots -->
+        <div class="accent-flower-dot dot-right-1"></div>
+        <div class="accent-flower-dot dot-right-2"></div>
+
+        <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" class="botanical-svg">
+          <!-- Foliage Stems -->
+          <path d="M300 300 C 260 200, 220 140, 170 60" stroke="#728461" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M240 180 C 265 155, 270 120, 255 105 C 235 105, 225 140, 240 180 Z" fill="#889C74" opacity="0.9"/>
+          <path d="M205 125 C 180 100, 145 105, 150 125 C 165 145, 195 135, 205 125 Z" fill="#889C74" opacity="0.9"/>
+          
+          <!-- Rose Terracotta Peony Bloom -->
+          <g transform="translate(170, 50)">
+            <circle cx="0" cy="0" r="32" fill="#A93F38"/>
+            <path d="M25 -5 C 35 -25, 10 -35, -10 -28 C -30 -20, -35 5, -20 25 C -5 35, 20 25, 25 -5 Z" fill="#C85A53"/>
+            <path d="M15 -18 C 22 -8, 18 12, 0 18 C -18 12, -18 -10, -5 -18 C 5 -22, 10 -22, 15 -18 Z" fill="#E88C86"/>
+            <circle cx="0" cy="0" r="10" fill="#F4E295"/>
+            <circle cx="0" cy="0" r="5" fill="#D4AF37"/>
+          </g>
+
+          <!-- Rose Accent Bloom -->
+          <g transform="translate(110, 160)">
+            <circle cx="0" cy="0" r="24" fill="#C85A53"/>
+            <circle cx="0" cy="0" r="8" fill="#F4E295"/>
+          </g>
+        </svg>
+      </div>
+
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 1: ENVELOPE INTRO SCENE                                      -->
+    <!-- Matching Video: Closed envelope with wax seal, "Letters For You"   -->
+    <!-- ================================================================== -->
+    <section id="scene-intro" class="scene" aria-label="Envelope Intro" aria-hidden="true">
+      <div class="scene-content">
+        
+        <div id="intro-envelope" class="intro-container" role="button" tabindex="0" aria-label="Click to open the envelope">
+          
+          <!-- 3D CSS-Drawn Envelope -->
+          <div class="envelope-stage">
+            <div class="envelope-wrapper">
+              
+              <!-- Inside letter paper peek -->
+              <div class="envelope-letter-inside">
+                <span>With all my love...</span>
+              </div>
+              
+              <!-- Folded Flaps -->
+              <div class="envelope-pocket-left"></div>
+              <div class="envelope-pocket-right"></div>
+              <div class="envelope-pocket-bottom"></div>
+              <div class="envelope-top-flap"></div>
+              
+              <!-- Wax Seal Stamp -->
+              <div class="wax-seal" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Script-Style Site Title & Tap Prompt -->
+          <div class="intro-title-wrap">
+            <!-- REPLACE: Site title / Greeting -->
+            <h1 class="script-hero-title">Letters<br>For You</h1>
+            <div class="tap-prompt">
+              <span>Tap envelope to open</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 2: HOME SCENE                                                -->
+    <!-- Elegant script heading, romantic subheading, open button           -->
+    <!-- ================================================================== -->
+    <section id="scene-home" class="scene" aria-label="Home Welcome" aria-hidden="true">
+      <div class="scene-content">
+        
+        <div class="home-card">
+          <!-- REPLACE: Main home greeting / girlfriend's name -->
+          <h1 class="home-title">Happy Birthday, My Love</h1>
+          
+          <!-- REPLACE: Romantic subheading / short intro message -->
+          <p class="home-subtitle">
+            I created this little space to hold some special letters, sweet reminders,
+            and our favorite moments together. I hope every page brings a smile to your face.
+          </p>
+
+          <div class="home-actions">
+            <!-- Button to open the Letters Grid -->
+            <button class="btn-primary" data-nav-target="lettersGrid" id="btn-open-letters">
+              <span>Open Letters</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </button>
+
+            <!-- Link to "Together" Memories scene -->
+            <button class="btn-secondary" data-nav-target="together" id="btn-view-memories-home">
+              <span>Our Memories</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 3: LETTERS GRID SCENE                                        -->
+    <!-- Matching Video: 4 Envelope cards labeled Letter 1 to Letter 4      -->
+    <!-- ================================================================== -->
+    <section id="scene-letters-grid" class="scene" aria-label="Letters Grid" aria-hidden="true">
+      <!-- Universal Back Button -->
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="home" aria-label="Back to home">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        
+        <div class="letters-header">
+          <!-- REPLACE: Letters grid section heading -->
+          <h2 class="section-script-title">Choose a letter...</h2>
+          <p class="section-subtitle">Each one holds a piece of my heart</p>
+        </div>
+
+        <!-- 4 Envelope Cards Grid -->
+        <div class="letters-grid">
+
+          <!-- Card 1: Letter 1 -->
+          <div class="letter-card" role="button" tabindex="0" data-nav-target="letter1" data-letter-key="letter1" id="card-letter-1">
+            <span class="letter-read-badge" aria-label="Read">✓ Read</span>
+            <div class="mini-envelope">
+              <div class="mini-envelope-flap"></div>
+              <div class="mini-envelope-pocket"></div>
+              <div class="mini-wax-seal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+            <!-- REPLACE: Letter 1 card label -->
+            <span class="letter-card-label">Letter 1</span>
+            <span class="letter-card-hint">Read when you need a smile</span>
+          </div>
+
+          <!-- Card 2: Letter 2 -->
+          <div class="letter-card" role="button" tabindex="0" data-nav-target="letter2" data-letter-key="letter2" id="card-letter-2">
+            <span class="letter-read-badge" aria-label="Read">✓ Read</span>
+            <div class="mini-envelope">
+              <div class="mini-envelope-flap"></div>
+              <div class="mini-envelope-pocket"></div>
+              <div class="mini-wax-seal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+            <!-- REPLACE: Letter 2 card label -->
+            <span class="letter-card-label">Letter 2</span>
+            <span class="letter-card-hint">A virtual bouquet for you</span>
+          </div>
+
+          <!-- Card 3: Letter 3 -->
+          <div class="letter-card" role="button" tabindex="0" data-nav-target="letter3" data-letter-key="letter3" id="card-letter-3">
+            <span class="letter-read-badge" aria-label="Read">✓ Read</span>
+            <div class="mini-envelope">
+              <div class="mini-envelope-flap"></div>
+              <div class="mini-envelope-pocket"></div>
+              <div class="mini-wax-seal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+            <!-- REPLACE: Letter 3 card label -->
+            <span class="letter-card-label">Letter 3</span>
+            <span class="letter-card-hint">Make a birthday wish</span>
+          </div>
+
+          <!-- Card 4: Letter 4 (or "Last but not least") -->
+          <div class="letter-card" role="button" tabindex="0" data-nav-target="letter4" data-letter-key="letter4" id="card-letter-4">
+            <span class="letter-read-badge" aria-label="Read">✓ Read</span>
+            <div class="mini-envelope">
+              <div class="mini-envelope-flap"></div>
+              <div class="mini-envelope-pocket"></div>
+              <div class="mini-wax-seal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+            <!-- REPLACE: Letter 4 card label -->
+            <span class="letter-card-label">Last but not least</span>
+            <span class="letter-card-hint">My deepest message to you</span>
+          </div>
+
+        </div>
+
+        <!-- Quick Access to "Together" Memories & Unlockable Secret Bonus -->
+        <div class="grid-footer-link">
+          <div class="grid-footer-actions">
+            <button class="btn-primary" data-nav-target="together" id="btn-view-memories-grid">
+              <span>✨ View Our Memories (Together)</span>
+            </button>
+            <button class="btn-secret-bonus is-locked" id="btn-secret-bonus" type="button" aria-label="Secret Bonus Surprise">
+              <span class="secret-bonus-icon" id="secret-bonus-icon">🔒</span>
+              <span class="secret-bonus-text" id="secret-bonus-text">Read all 4 letters to unlock Secret Surprise (0/4)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 4.1: LETTER 1 REVEAL (Scrapbook Love Note)                   -->
+    <!-- Matching Video: Photo box + washi tape + romantic message          -->
+    <!-- ================================================================== -->
+    <section id="scene-letter-1" class="scene reveal-scene" aria-label="Letter 1" aria-hidden="true">
+      <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="reading-progress-fill"></div>
+      </div>
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="lettersGrid" aria-label="Back to letters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        <div class="scrapbook-wrapper">
+          <div class="washi-tape-top"></div>
+
+          <div class="scrapbook-grid">
+            
+            <!-- Photo Slot -->
+            <div class="scrapbook-photo-card">
+              <!-- REPLACE: letter 1 photo (drop your photo URL in src below or keep illustration) -->
+              <div class="photo-placeholder-box">
+                <!-- Example: <img src="your-photo-1.jpg" alt="Memory Photo 1" /> -->
+                <div class="photo-card-art">
+                  <svg viewBox="0 0 160 160" fill="none" class="photo-art-svg" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="80" cy="80" r="70" fill="rgba(200, 90, 83, 0.14)"/>
+                    <path d="M80 42 C66 22, 32 37, 47 67 C 57 87, 80 115, 80 115 C 80 115, 103 87, 113 67 C 128 37, 94 22, 80 42 Z" fill="#C85A53"/>
+                    <path d="M96 54 C88 42, 68 52, 76 70 C 82 82, 96 100, 96 100 C 96 100, 110 82, 116 70 C 124 52, 104 42, 96 54 Z" fill="#E88C86"/>
+                    <circle cx="118" cy="45" r="8" fill="#F4E295"/>
+                    <path d="M118 36 L120 43 L127 45 L120 47 L118 54 L116 47 L109 45 L116 43 Z" fill="#D4AF37"/>
+                  </svg>
+                  <span class="photo-caption-tag">✨ Sweet Moments ✨</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Letter 1 Content -->
+            <div class="scrapbook-content">
+              <!-- REPLACE: letter 1 title -->
+              <h3 class="letter-title">To my sweetest person,</h3>
+              
+              <!-- REPLACE: letter 1 message -->
+              <p class="letter-text">
+                Every single day with you feels like a gift. Thank you for your warmth,
+                your laughter, and for being the gentlest place in my whole world.
+                I hope this year brings you all the happiness you give so effortlessly to everyone else.
+              </p>
+
+              <!-- REPLACE: girlfriend's name or your signature -->
+              <div class="letter-signature">Forever yours, &hearts;</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 4.2: LETTER 2 REVEAL (Virtual Bouquet Scene)                 -->
+    <!-- Matching Video: Flower bouquet illustration + reasons I adore you  -->
+    <!-- ================================================================== -->
+    <section id="scene-letter-2" class="scene reveal-scene" aria-label="Letter 2" aria-hidden="true">
+      <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="reading-progress-fill"></div>
+      </div>
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="lettersGrid" aria-label="Back to letters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        <div class="bouquet-card">
+          
+          <div class="bouquet-text-wrap">
+            <!-- REPLACE: letter 2 title -->
+            <h3 class="letter-title">Your Virtual Bouquet</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.12rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+              Every flower represents a reason why I adore you:
+            </p>
+
+            <!-- REPLACE: reasons why I adore you -->
+            <ul class="reasons-list">
+              <li>Because your laugh is my absolute favorite sound in the world.</li>
+              <li>Because you listen to my random thoughts and make every day brighter.</li>
+              <li>Because you are so endlessly kind, thoughtful, and patient.</li>
+              <li>Because being next to you feels like coming home.</li>
+            </ul>
+          </div>
+
+          <!-- Bouquet Graphic Frame -->
+          <div class="bouquet-graphic-wrap">
+            <!-- REPLACE: bouquet photo / graphic URL if you have one -->
+            <div class="bouquet-illustration photo-placeholder-box">
+              <div class="bouquet-art-container">
+                <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="bouquet-svg">
+                  <!-- Stems & Foliage -->
+                  <path d="M100 220 L90 140" stroke="#728461" stroke-width="4.5" stroke-linecap="round"/>
+                  <path d="M100 220 L105 135" stroke="#637553" stroke-width="4" stroke-linecap="round"/>
+                  <path d="M100 220 L78 145" stroke="#889C74" stroke-width="3.5" stroke-linecap="round"/>
+                  <path d="M100 220 L122 145" stroke="#889C74" stroke-width="3.5" stroke-linecap="round"/>
+                  <!-- Leaves -->
+                  <path d="M85 170 C60 160, 50 140, 65 130 C75 140, 85 155, 85 170 Z" fill="#889C74"/>
+                  <path d="M115 170 C140 160, 150 140, 135 130 C125 140, 115 155, 115 170 Z" fill="#889C74"/>
+                  <path d="M95 145 C75 125, 70 105, 85 95 C95 110, 95 130, 95 145 Z" fill="#728461"/>
+                  <!-- Ribbon & Bow -->
+                  <path d="M82 195 C92 205, 108 205, 118 195 C124 185, 76 185, 82 195 Z" fill="#D4AF37"/>
+                  <path d="M92 200 C80 220, 72 235, 70 240" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M108 200 C120 220, 128 235, 130 240" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="100" cy="195" r="5" fill="#F4E295"/>
+                  <!-- Rose 1 (Center) -->
+                  <circle cx="100" cy="110" r="28" fill="#C85A53"/>
+                  <path d="M85 105 C78 90, 95 80, 110 85 C125 90, 128 110, 115 125 C100 135, 80 120, 85 105 Z" fill="#A93F38"/>
+                  <path d="M92 98 C88 92, 102 88, 108 94 C112 100, 106 108, 100 108 C94 108, 90 102, 92 98 Z" fill="#E88C86"/>
+                  <circle cx="100" cy="102" r="5" fill="#F4E295"/>
+                  <!-- Rose 2 (Left Peony) -->
+                  <circle cx="68" cy="120" r="22" fill="#E88C86"/>
+                  <path d="M55 115 C50 102, 65 95, 78 100 C88 108, 82 125, 72 130 C62 130, 55 125, 55 115 Z" fill="#C85A53"/>
+                  <circle cx="68" cy="115" r="4" fill="#FFFDF9"/>
+                  <!-- Rose 3 (Right Blossom) -->
+                  <circle cx="132" cy="120" r="22" fill="#E88C86"/>
+                  <path d="M145 115 C150 102, 135 95, 122 100 C112 108, 118 125, 128 130 C138 130, 145 125, 145 115 Z" fill="#C85A53"/>
+                  <circle cx="132" cy="115" r="4" fill="#FFFDF9"/>
+                  <!-- Golden sparkles -->
+                  <circle cx="50" cy="80" r="3" fill="#D4AF37"/>
+                  <circle cx="150" cy="80" r="3" fill="#D4AF37"/>
+                  <circle cx="100" cy="60" r="4" fill="#F4E295"/>
+                </svg>
+                <span class="bouquet-badge">💐 A bouquet that never withers</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 4.3: LETTER 3 REVEAL (Virtual Cake & Wish Scene)             -->
+    <!-- Matching Video: Illustrated birthday cake, blow candle interaction -->
+    <!-- ================================================================== -->
+    <section id="scene-letter-3" class="scene reveal-scene" aria-label="Letter 3" aria-hidden="true">
+      <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="reading-progress-fill"></div>
+      </div>
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="lettersGrid" aria-label="Back to letters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        <div class="cake-card">
+          
+          <!-- REPLACE: letter 3 title -->
+          <h3 class="letter-title">Here's Your Virtual Cake!</h3>
+          <p style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-muted);">
+            It's calorie-free and filled with so much love.
+          </p>
+
+          <!-- Interactive Cake SVG Visual -->
+          <div class="cake-visual-wrap" title="Click to blow out the candles">
+            <svg class="cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Plate -->
+              <ellipse cx="100" cy="175" rx="85" ry="16" fill="#F0E6E0" stroke="#C85A53" stroke-width="2"/>
+              <!-- Bottom Cake Layer -->
+              <rect x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
+              <path d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <!-- Top Cake Layer -->
+              <rect x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
+              <!-- Frosting Drips -->
+              <path d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <!-- Candle 1 -->
+              <rect x="75" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
+              <!-- Candle 2 (Center) -->
+              <rect x="97" y="50" width="6" height="35" rx="3" fill="#C85A53"/>
+              <!-- Candle 3 -->
+              <rect x="119" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
+              <!-- Animated Candle Flames Group -->
+              <g id="candle-flame" class="candle-flame">
+                <circle cx="78" cy="48" r="5" fill="#FFA500"/>
+                <circle cx="78" cy="46" r="3" fill="#FFFF00"/>
+                <circle cx="100" cy="42" r="6" fill="#FFA500"/>
+                <circle cx="100" cy="40" r="3.5" fill="#FFFF00"/>
+                <circle cx="122" cy="48" r="5" fill="#FFA500"/>
+                <circle cx="122" cy="46" r="3" fill="#FFFF00"/>
+              </g>
+            </svg>
+          </div>
+
+          <div>
+            <button id="blow-candle-btn" class="btn-secondary blow-candle-btn">
+              💨 Blow Candle & Make a Wish
+            </button>
+          </div>
+
+          <!-- REPLACE: letter 3 birthday wish message -->
+          <p class="wish-message">
+            May all the dreams and secret wishes you carry in your heart come true this year.
+            You deserve everything wonderful!
+          </p>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 4.4: LETTER 4 REVEAL (The Deep Heartfelt Letter)             -->
+    <!-- Matching Video: Full heartfelt letter parchment                    -->
+    <!-- ================================================================== -->
+    <section id="scene-letter-4" class="scene reveal-scene" aria-label="Letter 4" aria-hidden="true">
+      <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="reading-progress-fill"></div>
+      </div>
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="lettersGrid" aria-label="Back to letters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        <div class="heartfelt-card">
+          
+          <div class="heartfelt-seal-corner">
+            <div class="mini-wax-seal" style="width: 32px; height: 32px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="heartfelt-header-row">
+            <!-- REPLACE: letter 4 title -->
+            <h3 class="letter-title" style="margin-bottom: 0;">My Heartfelt Promise</h3>
+            <button type="button" id="btn-ink-skip" class="btn-ink-control" title="Reveal full letter">
+              ✒️ Instant Reveal
+            </button>
+          </div>
+
+          <div class="heartfelt-content" id="heartfelt-ink-container">
+            <!-- REPLACE: letter 4 message (replace this with your personal full letter) -->
+            <p class="ink-paragraph" id="ink-p1" data-full-text="Looking back at all our memories, I'm constantly reminded of how lucky I am to have you in my life. You are not only my partner, but my confidant, my biggest cheerleader, and my favorite person to talk to at the end of every day." style="margin-bottom: 1rem;">
+              Looking back at all our memories, I'm constantly reminded of how lucky I am to have
+              you in my life. You are not only my partner, but my confidant, my biggest cheerleader,
+              and my favorite person to talk to at the end of every day.
+            </p>
+            <p class="ink-paragraph" id="ink-p2" data-full-text="I promise to always celebrate your victories, hold your hand through the hard days, and love you more with every passing birthday. Happy Birthday!" style="margin-bottom: 1.5rem;">
+              I promise to always celebrate your victories, hold your hand through the hard days,
+              and love you more with every passing birthday. Happy Birthday!
+            </p>
+
+            <!-- REPLACE: girlfriend's name or your signature -->
+            <div class="letter-signature ink-signature" id="ink-signature">Always &amp; forever, &hearts;</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================== -->
+    <!-- SCENE 5: "TOGETHER" MEMORIES SCENE                                 -->
+    <!-- Matching Video (00:15 - 00:19):                                    -->
+    <!-- Bold "TOGETHER" title, warm red/white texture, 3 tilted polaroids  -->
+    <!-- ================================================================== -->
+    <section id="scene-together" class="scene together-scene" aria-label="Together Memories" aria-hidden="true">
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="lettersGrid" aria-label="Back to letters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        
+        <!-- Scene Header -->
+        <div class="together-header">
+          <!-- REPLACE: Tagline above TOGETHER -->
+          <p class="together-tagline">Forever &amp; Always</p>
+          <!-- Bold Condensed Sans-Serif "TOGETHER" Heading Matching Video -->
+          <h2 class="together-bold-title">TOGETHER</h2>
+          <p class="polaroid-flip-hint">✨ Tap any Polaroid to flip &amp; read the story behind it ✨</p>
+        </div>
+
+        <!-- 3 Tilted Polaroid Photo Frames (Interactive 3D Flip) -->
+        <div class="polaroid-gallery">
+
+          <!-- Polaroid 1 (Tilted Left) -->
+          <div class="polaroid-card" id="polaroid-1" role="button" tabindex="0" aria-label="Memory Polaroid 1 - Tap to flip">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-flip-inner">
+              <!-- Front Face -->
+              <div class="polaroid-face polaroid-front">
+                <!-- REPLACE: photo 1 (together photo - add your img src or keep placeholder) -->
+                <div class="polaroid-photo-frame">
+                  <!-- Example: <img src="together-photo-1.jpg" alt="Our Memory 1" /> -->
+                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0.5rem; text-align: center;">
+                    <svg viewBox="0 0 100 100" fill="none" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="50" cy="50" r="42" fill="rgba(200, 90, 83, 0.16)"/>
+                      <circle cx="50" cy="38" r="16" fill="#F4E295"/>
+                      <path d="M20 74 C35 55, 65 55, 80 74 Z" fill="#C85A53"/>
+                      <path d="M50 25 L52 30 L58 32 L52 34 L50 39 L48 34 L42 32 L48 30 Z" fill="#D4AF37"/>
+                    </svg>
+                  </div>
+                </div>
+                <!-- REPLACE: photo 1 caption -->
+                <p class="polaroid-caption">Where it all began ✨</p>
+                <span class="polaroid-flip-badge">↻ Flip</span>
+              </div>
+              <!-- Back Face (Handwritten Memory Story) -->
+              <div class="polaroid-face polaroid-back">
+                <span class="polaroid-back-date">Chapter One • Day 1</span>
+                <p class="polaroid-back-note">
+                  "From the very first conversation, I knew there was something magical about your smile. Time stood still."
+                </p>
+                <span class="polaroid-back-heart">&hearts;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Polaroid 2 (Tilted Right / Center Lifted) -->
+          <div class="polaroid-card" id="polaroid-2" role="button" tabindex="0" aria-label="Memory Polaroid 2 - Tap to flip">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-flip-inner">
+              <!-- Front Face -->
+              <div class="polaroid-face polaroid-front">
+                <!-- REPLACE: photo 2 (together photo - add your img src or keep placeholder) -->
+                <div class="polaroid-photo-frame">
+                  <!-- Example: <img src="together-photo-2.jpg" alt="Our Memory 2" /> -->
+                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0.5rem; text-align: center;">
+                    <svg viewBox="0 0 100 100" fill="none" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="100" height="100" rx="6" fill="rgba(232, 140, 134, 0.18)"/>
+                      <path d="M50 28 C40 12, 16 24, 28 46 C 36 60, 50 76, 50 76 C 50 76, 64 60, 72 46 C 84 24, 60 12, 50 28 Z" fill="#BF4F49"/>
+                      <circle cx="74" cy="24" r="5" fill="#F4E295"/>
+                      <circle cx="28" cy="24" r="4" fill="#D4AF37"/>
+                    </svg>
+                  </div>
+                </div>
+                <!-- REPLACE: photo 2 caption -->
+                <p class="polaroid-caption">My favorite adventure 🌅</p>
+                <span class="polaroid-flip-badge">↻ Flip</span>
+              </div>
+              <!-- Back Face (Handwritten Memory Story) -->
+              <div class="polaroid-face polaroid-back">
+                <span class="polaroid-back-date">Golden Hour • Us</span>
+                <p class="polaroid-back-note">
+                  "Every ordinary place turns into my favorite destination as long as I get to walk beside you."
+                </p>
+                <span class="polaroid-back-heart">&hearts;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Polaroid 3 (Tilted Left) -->
+          <div class="polaroid-card" id="polaroid-3" role="button" tabindex="0" aria-label="Memory Polaroid 3 - Tap to flip">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-flip-inner">
+              <!-- Front Face -->
+              <div class="polaroid-face polaroid-front">
+                <!-- REPLACE: photo 3 (together photo - add your img src or keep placeholder) -->
+                <div class="polaroid-photo-frame">
+                  <!-- Example: <img src="together-photo-3.jpg" alt="Our Memory 3" /> -->
+                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0.5rem; text-align: center;">
+                    <svg viewBox="0 0 100 100" fill="none" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="50" cy="50" r="42" fill="rgba(128, 35, 48, 0.12)"/>
+                      <path d="M55 24 C45 28, 40 40, 44 50 C 48 60, 60 64, 70 60 C 60 72, 42 72, 32 60 C 22 48, 26 30, 42 22 C 47 19, 52 21, 55 24 Z" fill="#D4AF37"/>
+                      <circle cx="68" cy="30" r="3" fill="#E88C86"/>
+                      <circle cx="38" cy="42" r="2.5" fill="#F4E295"/>
+                      <circle cx="58" cy="48" r="2" fill="#D4AF37"/>
+                    </svg>
+                  </div>
+                </div>
+                <!-- REPLACE: photo 3 caption -->
+                <p class="polaroid-caption">To a thousand more 💖</p>
+                <span class="polaroid-flip-badge">↻ Flip</span>
+              </div>
+              <!-- Back Face (Handwritten Memory Story) -->
+              <div class="polaroid-face polaroid-back">
+                <span class="polaroid-back-date">Today &amp; Forever</span>
+                <p class="polaroid-back-note">
+                  "Here is to countless more laughs, late-night talks, and birthdays together. I love you endlessly!"
+                </p>
+                <span class="polaroid-back-heart">&hearts;</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 0.75rem;">
+          <button class="btn-secondary" data-nav-target="home" id="btn-back-home-from-together">
+            <span>Back to Home</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SCENE 6: SECRET BONUS SURPRISE (Scratch-Off Gift + Voice Note)     -->
+    <!-- ================================================================== -->
+    <section id="scene-secret-bonus" class="scene reveal-scene" aria-label="Secret Bonus Surprise" aria-hidden="true">
+      <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+        <div class="reading-progress-fill is-complete" style="width: 100%;"></div>
+      </div>
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="lettersGrid" aria-label="Back to letters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        <div class="secret-bonus-card">
+          <div class="bonus-header">
+            <span class="bonus-pill-tag">✨ Secret Birthday Vault ✨</span>
+            <h2 class="letter-title" style="margin-bottom: 0.2rem;">Your Final Surprise</h2>
+            <p class="bonus-subtitle">Play your birthday melody &amp; scratch the golden foil below</p>
+          </div>
+
+          <div class="bonus-interactive-grid">
+            <!-- 1. Custom Voice Note / Vintage Vinyl Record Player -->
+            <div class="vinyl-player-box">
+              <!-- REPLACE: Optional custom voice note or song audio file -->
+              <audio id="voice-note-audio" preload="auto">
+                <!-- Drop your voice note MP3/M4A here, e.g.: <source src="birthday-voice-note.mp3" type="audio/mpeg" /> -->
+              </audio>
+
+              <div class="vinyl-stage">
+                <div class="vinyl-disc" id="vinyl-disc">
+                  <div class="vinyl-grooves"></div>
+                  <div class="vinyl-center-label">
+                    <span>&hearts;</span>
+                  </div>
+                </div>
+                <div class="vinyl-tonearm" id="vinyl-tonearm"></div>
+              </div>
+
+              <div class="vinyl-info">
+                <span class="vinyl-track-title" id="vinyl-track-title">Birthday Music Box &amp; Note</span>
+                <span class="vinyl-track-status" id="vinyl-track-status">Tap play to listen 🎶</span>
+                <div class="vinyl-waveform" id="vinyl-waveform" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <button type="button" class="btn-primary btn-vinyl-play" id="btn-vinyl-play">
+                  <span id="vinyl-play-label">▶ Play Birthday Melody</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. Interactive Gold Foil Scratch-Off Card -->
+            <div class="scratch-card-box">
+              <div class="scratch-prize-container" id="scratch-prize-container">
+                <!-- Hidden Prize Underneath -->
+                <div class="scratch-hidden-prize">
+                  <span class="prize-badge">🎟️ VIP BIRTHDAY VOUCHER</span>
+                  <h4 class="prize-title">One Dream Date Night &amp; Any Wish Granted!</h4>
+                  <p class="prize-desc">
+                    Redeemable anytime for your favorite dinner, dessert, movie night, and a special birthday gift waiting for you! 💖
+                  </p>
+                  <span class="prize-code">CODE: HAPPY-BDAY-MY-LOVE</span>
+                </div>
+                <!-- Interactive Scratch-Off Canvas Overlay -->
+                <canvas id="scratch-canvas" class="scratch-canvas" aria-label="Scratch off gold foil to reveal surprise"></canvas>
+              </div>
+              <div class="scratch-footer-row">
+                <span class="scratch-status-text" id="scratch-status-text">✨ Rub with your finger or cursor to scratch off!</span>
+                <button type="button" class="btn-scratch-reset" id="btn-scratch-reset">Reset Foil</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- 4. MAIN JAVASCRIPT CONTROLLER                                        -->
+  <!-- ==================================================================== -->
+  <script src="script.js"></script>
+</body>
+</html>
