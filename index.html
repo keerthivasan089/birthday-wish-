@@ -555,6 +555,10 @@
                 <li>Because having you as my sister means I will never have to face this world alone.</li>
               </ul>
 
+              <p style="font-family: var(--font-serif); font-size: 1.12rem; font-style: italic; color: var(--maroon-dark); margin-top: 1.2rem; margin-bottom: 0.6rem; line-height: 1.5;">
+                Nee enaku kidaitha miga periya pokkisham, Kavin.
+              </p>
+
               <div class="letter-signature" style="margin-top: 1.4rem;">With all my love &amp; blooming roses, &hearts;</div>
             </div>
 
@@ -667,6 +671,11 @@
                 Zero calories, zero carbs, and baked with 100% big-sister love.
               </p>
 
+              <!-- Elegant Italicized Serif Heading Above Cake -->
+              <h4 class="cake-tamil-heading mb-6">
+                En uyir thangachi Kavin kku, Iniya Pirandha Naal Vaazhthukkal! ✨
+              </h4>
+
               <!-- Interactive Cake SVG Visual -->
               <div class="cake-visual-wrap" title="Click to blow out the candles">
                 <svg class="cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -702,6 +711,11 @@
                   💨 Blow Candle &amp; Make a Wish
                 </button>
               </div>
+
+              <!-- Warm Concluding Text Block Below the Cake & Button -->
+              <p class="cake-concluding-text mt-8">
+                Un kanavugal ellam meipada vendum. Now make a wish and blow out the candles!
+              </p>
 
               <p class="wish-message">
                 May all the secret wishes you carry in your heart come true this year.
@@ -840,6 +854,110 @@
 
 
     <!-- ================================================================== -->
+    <!-- SCENE 4.5: SECRET PASSCODE LOCK SCREEN (Memories Gatekeeper)       -->
+    <!-- Phone Passcode Screen Inspired, Champagne & Burgundy Theme         -->
+    <!-- ================================================================== -->
+    <section id="scene-memories-lock" class="scene memories-lock-scene" aria-label="Memories Passcode Lock" aria-hidden="true">
+      <nav class="top-nav">
+        <button class="btn-back" data-nav-target="back" aria-label="Go back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back</span>
+        </button>
+      </nav>
+
+      <div class="scene-content">
+        <div class="passcode-card" id="passcode-card">
+          <!-- Top Lock Icon & Phone Passcode Title -->
+          <div class="passcode-header">
+            <div class="passcode-lock-icon-wrap" id="passcode-lock-icon-wrap">
+              <!-- Locked state icon -->
+              <svg class="passcode-lock-svg icon-locked" id="icon-padlock-locked" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <!-- Unlocked state icon -->
+              <svg class="passcode-lock-svg icon-unlocked" id="icon-padlock-unlocked" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+              </svg>
+            </div>
+            <h2 class="passcode-title">Enter passcode to unlock memories</h2>
+            <p class="passcode-subtitle">Enter passcode to unlock our memories (Namma Ninaivugal)</p>
+          </div>
+
+          <!-- 4-Letter Square Input Boxes Display (styled with burgundy borders/text) -->
+          <div class="passcode-display" id="passcode-display" role="group" aria-label="4-letter passcode display">
+            <div class="passcode-box is-active" id="passcode-box-0" data-index="0" aria-label="First letter"></div>
+            <div class="passcode-box" id="passcode-box-1" data-index="1" aria-label="Second letter"></div>
+            <div class="passcode-box" id="passcode-box-2" data-index="2" aria-label="Third letter"></div>
+            <div class="passcode-box" id="passcode-box-3" data-index="3" aria-label="Fourth letter"></div>
+          </div>
+
+          <!-- Feedback message line -->
+          <div class="passcode-feedback" id="passcode-feedback" aria-live="polite">
+            <span class="feedback-text" id="passcode-feedback-text">Tap letters below or type on your keyboard</span>
+          </div>
+
+          <!-- 26-Letter Alphabet Keyboard (QWERTY Layout, soft rounded buttons matching champagne & burgundy theme) -->
+          <div class="passcode-keyboard" id="passcode-keyboard" aria-label="Passcode keyboard">
+            <!-- Row 1: Q W E R T Y U I O P -->
+            <div class="keyboard-row">
+              <button type="button" class="key-btn" data-key="Q">Q</button>
+              <button type="button" class="key-btn" data-key="W">W</button>
+              <button type="button" class="key-btn" data-key="E">E</button>
+              <button type="button" class="key-btn" data-key="R">R</button>
+              <button type="button" class="key-btn" data-key="T">T</button>
+              <button type="button" class="key-btn" data-key="Y">Y</button>
+              <button type="button" class="key-btn" data-key="U">U</button>
+              <button type="button" class="key-btn" data-key="I">I</button>
+              <button type="button" class="key-btn" data-key="O">O</button>
+              <button type="button" class="key-btn" data-key="P">P</button>
+            </div>
+
+            <!-- Row 2: A S D F G H J K L -->
+            <div class="keyboard-row">
+              <button type="button" class="key-btn" data-key="A">A</button>
+              <button type="button" class="key-btn" data-key="S">S</button>
+              <button type="button" class="key-btn" data-key="D">D</button>
+              <button type="button" class="key-btn" data-key="F">F</button>
+              <button type="button" class="key-btn" data-key="G">G</button>
+              <button type="button" class="key-btn" data-key="H">H</button>
+              <button type="button" class="key-btn" data-key="J">J</button>
+              <button type="button" class="key-btn" data-key="K">K</button>
+              <button type="button" class="key-btn" data-key="L">L</button>
+            </div>
+
+            <!-- Row 3: CLEAR | Z X C V B N M | BACKSPACE -->
+            <div class="keyboard-row keyboard-row-bottom">
+              <button type="button" class="key-btn key-action key-clear" id="key-clear" data-action="clear" aria-label="Clear passcode">CLEAR</button>
+              <button type="button" class="key-btn" data-key="Z">Z</button>
+              <button type="button" class="key-btn" data-key="X">X</button>
+              <button type="button" class="key-btn" data-key="C">C</button>
+              <button type="button" class="key-btn" data-key="V">V</button>
+              <button type="button" class="key-btn" data-key="B">B</button>
+              <button type="button" class="key-btn" data-key="N">N</button>
+              <button type="button" class="key-btn" data-key="M">M</button>
+              <button type="button" class="key-btn key-action key-backspace" id="key-backspace" data-action="backspace" aria-label="Backspace">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                  <line x1="18" y1="9" x2="12" y2="15"></line>
+                  <line x1="12" y1="9" x2="18" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Subtle Sisterly Passcode Hint -->
+          <div class="passcode-footer-hint">
+            <span class="hint-pill">✨ Hint: 4 letters — her glowing energy</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
     <!-- SCENE 5: "TOGETHER" MEMORIES SCENE                                 -->
     <!-- Matching Video (00:15 - 00:19):                                    -->
     <!-- Bold "TOGETHER" title, warm red/white texture, 3 tilted polaroids  -->
@@ -852,6 +970,13 @@
           </svg>
           <span>Back</span>
         </button>
+        <button class="btn-relock" id="btn-relock-memories" type="button" aria-label="Lock memories again" title="Lock memories again">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Lock</span>
+        </button>
       </nav>
 
       <div class="scene-content">
@@ -863,72 +988,95 @@
           <p class="polaroid-flip-hint">✨ Tap any Polaroid to flip &amp; read the story behind it ✨</p>
         </div>
 
-        <!-- 3 Tilted Polaroid Photo Frames (Interactive 3D Flip) -->
+        <!-- 4 Tilted Polaroid Photo Frames (Interactive 3D Flip) -->
         <div class="polaroid-gallery">
 
-          <!-- Polaroid 1 (Tilted Left) -->
-          <div class="polaroid-card" id="polaroid-1" role="button" tabindex="0" aria-label="Memory Polaroid 1 - Tap to flip">
+          <!-- Polaroid 1 (s1.jpg) -->
+          <div class="polaroid-card" id="polaroid-1" role="button" tabindex="0" aria-label="Memory Polaroid 1 - Partners in Crime - Tap to flip">
             <div class="polaroid-tape"></div>
             <div class="polaroid-flip-inner">
               <!-- Front Face -->
               <div class="polaroid-face polaroid-front">
                 <div class="polaroid-photo-frame">
-                  <img src="/1.jpeg" alt="Memory Polaroid 1 - Where it all began" />
+                  <img src="/s1.jpg" alt="Memory Polaroid 1 - Partners in Crime" />
                 </div>
-                <p class="polaroid-caption">Where it all began ✨</p>
+                <p class="polaroid-caption">Partners in Crime 👯‍♀️</p>
                 <span class="polaroid-flip-badge">↻ Flip</span>
               </div>
               <!-- Back Face (Handwritten Memory Story) -->
               <div class="polaroid-face polaroid-back">
-                <span class="polaroid-back-date">Chapter One • Day 1</span>
+                <span class="polaroid-back-date">Sister Bond • Memory 1</span>
                 <p class="polaroid-back-note">
-                  "From the day Mom brought you home, my whole world changed. You became my built-in best friend."
+                  "From stealing each other's clothes to covering for one another, life is just better with you by my side."
                 </p>
                 <span class="polaroid-back-heart">&hearts;</span>
               </div>
             </div>
           </div>
 
-          <!-- Polaroid 2 (Tilted Right / Center Lifted) -->
-          <div class="polaroid-card" id="polaroid-2" role="button" tabindex="0" aria-label="Memory Polaroid 2 - Tap to flip">
+          <!-- Polaroid 2 (s2.jpg) -->
+          <div class="polaroid-card" id="polaroid-2" role="button" tabindex="0" aria-label="Memory Polaroid 2 - Through Thick & Thin - Tap to flip">
             <div class="polaroid-tape"></div>
             <div class="polaroid-flip-inner">
               <!-- Front Face -->
               <div class="polaroid-face polaroid-front">
                 <div class="polaroid-photo-frame">
-                  <img src="/2.jpeg" alt="Memory Polaroid 2 - Partners in crime" />
+                  <img src="/s2.jpg" alt="Memory Polaroid 2 - Through Thick & Thin" />
                 </div>
-                <p class="polaroid-caption">Partners in crime 🌅</p>
+                <p class="polaroid-caption">Through Thick &amp; Thin ❤️</p>
                 <span class="polaroid-flip-badge">↻ Flip</span>
               </div>
               <!-- Back Face (Handwritten Memory Story) -->
               <div class="polaroid-face polaroid-back">
-                <span class="polaroid-back-date">Growing Up • Us</span>
+                <span class="polaroid-back-date">Always Together • Memory 2</span>
                 <p class="polaroid-back-note">
-                  "Every ordinary day turned into an adventure because I had you by my side to share it with."
+                  "No matter how much we argue, at the end of the day, you are my ultimate safe space and my biggest cheerleader."
                 </p>
                 <span class="polaroid-back-heart">&hearts;</span>
               </div>
             </div>
           </div>
 
-          <!-- Polaroid 3 (Tilted Left) -->
-          <div class="polaroid-card" id="polaroid-3" role="button" tabindex="0" aria-label="Memory Polaroid 3 - Tap to flip">
+          <!-- Polaroid 3 (s3.jpg) -->
+          <div class="polaroid-card" id="polaroid-3" role="button" tabindex="0" aria-label="Memory Polaroid 3 - Endless Laughter - Tap to flip">
             <div class="polaroid-tape"></div>
             <div class="polaroid-flip-inner">
               <!-- Front Face -->
               <div class="polaroid-face polaroid-front">
                 <div class="polaroid-photo-frame">
-                  <img src="/3.jpeg" alt="Memory Polaroid 3 - Sisters forever" />
+                  <img src="/s3.jpg" alt="Memory Polaroid 3 - Endless Laughter" />
                 </div>
-                <p class="polaroid-caption">Sisters forever 💖</p>
+                <p class="polaroid-caption">Endless Laughter ✨</p>
                 <span class="polaroid-flip-badge">↻ Flip</span>
               </div>
               <!-- Back Face (Handwritten Memory Story) -->
               <div class="polaroid-face polaroid-back">
-                <span class="polaroid-back-date">Today &amp; Forever</span>
+                <span class="polaroid-back-date">Inside Jokes • Memory 3</span>
                 <p class="polaroid-back-note">
-                  "Here is to countless more laughs, stolen clothes, late-night talks, and birthdays together. I love you endlessly!"
+                  "Nobody in the world understands our weird, crazy inside jokes the way you do."
+                </p>
+                <span class="polaroid-back-heart">&hearts;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Polaroid 4 (s4.jpg) -->
+          <div class="polaroid-card" id="polaroid-4" role="button" tabindex="0" aria-label="Memory Polaroid 4 - Forever Sisters - Tap to flip">
+            <div class="polaroid-tape"></div>
+            <div class="polaroid-flip-inner">
+              <!-- Front Face -->
+              <div class="polaroid-face polaroid-front">
+                <div class="polaroid-photo-frame">
+                  <img src="/s4.jpg" alt="Memory Polaroid 4 - Forever Sisters" />
+                </div>
+                <p class="polaroid-caption">Forever Sisters 🌸</p>
+                <span class="polaroid-flip-badge">↻ Flip</span>
+              </div>
+              <!-- Back Face (Handwritten Memory Story) -->
+              <div class="polaroid-face polaroid-back">
+                <span class="polaroid-back-date">Built-In Best Friend • Memory 4</span>
+                <p class="polaroid-back-note">
+                  "Friends come and go, but a sister is a built-in best friend for life. I love you so much, Kavin!"
                 </p>
                 <span class="polaroid-back-heart">&hearts;</span>
               </div>
@@ -967,6 +1115,9 @@
           <div class="bonus-header">
             <span class="bonus-pill-tag">✨ Secret Sister Vault ✨</span>
             <h2 class="letter-title" style="margin-bottom: 0.2rem;">Your Final Surprise, Little Sis!</h2>
+            <p class="vault-tamil-subtitle" style="font-family: var(--font-serif); font-style: italic; font-size: clamp(0.95rem, 2vw, 1.12rem); color: var(--maroon-accent); margin-bottom: 0.35rem; font-weight: 600;">
+              Idhu unakaga mattum...
+            </p>
             <p class="bonus-subtitle" id="vault-subtitle">Scratch the giant golden card to reveal your sister melody, vinyl record &amp; VIP pass</p>
           </div>
 

@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     letter2: document.getElementById('scene-letter-2'),
     letter3: document.getElementById('scene-letter-3'),
     letter4: document.getElementById('scene-letter-4'),
+    memoriesLock: document.getElementById('scene-memories-lock'),
     together: document.getElementById('scene-together'),
     secretBonus: document.getElementById('scene-secret-bonus'),
   };
@@ -42,6 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let noThanksDodgeCount = 0;
   const readLetters = new Set();
   let bgSongStarted = false;
+
+  // Passcode Lock Screen State (Secret passcode to unlock Memories: 'AURA')
+  let isMemoriesUnlocked = false;
+  let currentPasscode = '';
+  let isPasscodeChecking = false;
+  const PASSCODE_SECRET = 'AURA';
 
   /**
    * Plays the background song (bg-song.mp3) on infinite loop at 40% volume.
@@ -290,6 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. SCENE TRANSITION CONTROLLER
   // --------------------------------------------------------------------------
   function navigateTo(targetSceneName) {
+    // Gatekeeper: intercept navigation to Together scene if memories are locked
+    if (targetSceneName === 'together' && !isMemoriesUnlocked) {
+      targetSceneName = 'memoriesLock';
+    }
+
     if (!scenes[targetSceneName]) return;
 
     // Record previous scene for dynamic back navigation
@@ -318,6 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (targetEl) targetEl.scrollTop = 0;
     const appContainer = document.getElementById('app-container');
     if (appContainer) appContainer.scrollTop = 0;
+
+    // If entering Passcode Lock Screen, reset input fields
+    if (targetSceneName === 'memoriesLock') {
+      resetPasscodeState();
+    }
 
     // Trigger festive confetti explosion when opening any of the four letters, memory gallery, or secret bonus
     const confettiScenes = ['letter1', 'letter2', 'letter3', 'letter4', 'together', 'secretBonus'];
@@ -739,7 +756,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = btn.getAttribute('data-nav-target');
       if (target === 'back') {
         // Return intelligently based on current context
-        if (currentScene.startsWith('letter') || currentScene === 'together') {
+        if (currentScene === 'memoriesLock') {
+          navigateTo(previousScene && previousScene !== 'memoriesLock' ? previousScene : 'lettersGrid');
+        } else if (currentScene.startsWith('letter') || currentScene === 'together') {
           navigateTo('lettersGrid');
         } else if (currentScene === 'lettersGrid') {
           navigateTo('home');
@@ -757,6 +776,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   // 5. VIRTUAL CAKE CANDLE INTERACTION (Letter 3)
   // --------------------------------------------------------------------------
+  /**
+   * Automatically fires an exuberant confetti particle effect when the birthday
+   * candles are blown out in Letter 3 to heighten the celebratory atmosphere.
+   */
+  function triggerBirthdayCandleBlowConfetti() {
+    // Determine cake & flame location on screen to trigger targeted confetti plume
+    let originX = window.innerWidth * 0.35;
+    let originY = window.innerHeight * 0.48;
+
+    const candleWrap = document.getElementById('candle-flame') || document.querySelector('.cake-visual-wrap');
+    if (candleWrap) {
+      const rect = candleWrap.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        originX = rect.left + rect.width / 2;
+        originY = rect.top + rect.height * 0.35;
+      }
+    }
+
+    // Phase 1: High-energy confetti fountain burst directly from candle top
+    if (window.particleEngine && typeof window.particleEngine.confettiBurst === 'function') {
+      window.particleEngine.confettiBurst(originX, originY, 65);
+    }
+
+    // Phase 2: Full-screen celebration confetti explosion across the entire page
+    triggerConfettiExplosion();
+
+    // Phase 3: Secondary celebratory volley after 280ms to sustain the crescendo with melody
+    setTimeout(() => {
+      triggerConfettiExplosion();
+      if (window.particleEngine && typeof window.particleEngine.confettiBurst === 'function') {
+        window.particleEngine.confettiBurst(originX, originY, 45);
+      }
+      spawnHeartShower(12);
+    }, 280);
+
+    // Phase 4: Gentle golden flutter after 580ms
+    setTimeout(() => {
+      if (window.particleEngine && typeof window.particleEngine.confettiBurst === 'function') {
+        window.particleEngine.confettiBurst(window.innerWidth / 2, window.innerHeight * 0.38, 30);
+      }
+    }, 580);
+  }
+
   function toggleCandleFlame() {
     if (!candleFlame) return;
     isCandleLit = !isCandleLit;
@@ -771,8 +833,16 @@ document.addEventListener('DOMContentLoaded', () => {
       if (blowCandleBtn) blowCandleBtn.textContent = '🕯️ Relight Candle';
       spawnHeartShower(16);
       triggerBirthdayMelodyOnCandleBlow();
+      triggerBirthdayCandleBlowConfetti();
     }
   }
+
+  window.addEventListener('sisterhood-candle-blow', () => {
+    // Extra safety guarantee: if candle blow is fired from any other source
+    if (!isCandleLit) {
+      triggerBirthdayCandleBlowConfetti();
+    }
+  });
 
   if (blowCandleBtn) {
     blowCandleBtn.addEventListener('click', toggleCandleFlame);
@@ -1374,6 +1444,40 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       confetti() {
         this.confettiExplosion();
+      },
+      confettiBurst(originX, originY, count = 55) {
+        const pCount = width < 600 ? Math.floor(count * 0.75) : count;
+        for (let i = 0; i < pCount; i++) {
+          const spread = (Math.random() - 0.5) * 1.9;
+          const angle = -Math.PI / 2 + spread;
+          const speed = Math.random() * 12 + 4.5;
+          const randType = Math.random();
+          const pType = randType < 0.72 ? 'confetti' : randType < 0.88 ? 'heart' : 'sparkle';
+
+          const sizeTier = Math.random();
+          let particleSize;
+          if (sizeTier < 0.35) {
+            particleSize = Math.random() * 3 + 3;
+          } else if (sizeTier < 0.78) {
+            particleSize = Math.random() * 5 + 6.5;
+          } else {
+            particleSize = Math.random() * 6.5 + 11.5;
+          }
+
+          particles.push(new Particle({
+            x: originX + (Math.random() - 0.5) * 24,
+            y: originY + (Math.random() - 0.5) * 16,
+            type: pType,
+            isConfetti: true,
+            angle,
+            speed,
+            gravity: sizeTier < 0.35 ? 0.09 : sizeTier < 0.78 ? 0.13 : 0.16,
+            drag: sizeTier < 0.35 ? 0.955 : 0.963,
+            alpha: 0.98,
+            size: particleSize,
+            maxLife: Math.random() * 85 + 70
+          }));
+        }
       }
     };
 
@@ -1776,12 +1880,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (vinylDisc) {
       vinylDisc.classList.toggle('is-spinning', playing);
       vinylDisc.classList.toggle('playing', playing);
-      vinylDisc.classList.toggle('animate-spin', playing);
+      vinylDisc.classList.toggle('animate-[spin_6s_linear_infinite]', playing);
+      vinylDisc.classList.remove('animate-spin');
     }
     if (vinylSvg) {
       vinylSvg.classList.toggle('is-spinning', playing);
       vinylSvg.classList.toggle('playing', playing);
-      vinylSvg.classList.toggle('animate-spin', playing);
+      vinylSvg.classList.toggle('animate-[spin_6s_linear_infinite]', playing);
+      vinylSvg.classList.remove('animate-spin');
     }
     if (vinylTonearm) vinylTonearm.classList.toggle('is-active', playing);
     if (vinylWaveform) vinylWaveform.classList.toggle('is-playing', playing);
@@ -2113,10 +2219,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const vinylDisc = document.getElementById('vinyl-disc');
     const vinylSvg = document.querySelector('.vinyl-record-svg');
     if (vinylDisc) {
-      vinylDisc.classList.add('playing', 'is-spinning', 'animate-spin');
+      vinylDisc.classList.add('playing', 'is-spinning', 'animate-[spin_6s_linear_infinite]');
+      vinylDisc.classList.remove('animate-spin');
     }
     if (vinylSvg) {
-      vinylSvg.classList.add('playing', 'is-spinning', 'animate-spin');
+      vinylSvg.classList.add('playing', 'is-spinning', 'animate-[spin_6s_linear_infinite]');
+      vinylSvg.classList.remove('animate-spin');
     }
     const vinylEq = document.getElementById('vinyl-equalizer');
     if (vinylEq) {
@@ -2174,6 +2282,296 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnScratchReset) {
     btnScratchReset.addEventListener('click', () => {
       initScratchCard();
+    });
+  }
+
+  // ==========================================================================
+  // PASSCODE LOCK SCREEN GATEKEEPER FOR MEMORIES (Passcode: 'AURA')
+  // ==========================================================================
+  const passcodeBoxes = [
+    document.getElementById('passcode-box-0'),
+    document.getElementById('passcode-box-1'),
+    document.getElementById('passcode-box-2'),
+    document.getElementById('passcode-box-3'),
+  ];
+  const passcodeDisplayEl = document.getElementById('passcode-display');
+  const passcodeFeedbackEl = document.getElementById('passcode-feedback');
+  const passcodeFeedbackText = document.getElementById('passcode-feedback-text');
+  const passcodeLockIconWrap = document.getElementById('passcode-lock-icon-wrap');
+  const iconPadlockLocked = document.getElementById('icon-padlock-locked');
+  const iconPadlockUnlocked = document.getElementById('icon-padlock-unlocked');
+  const passcodeKeyboard = document.getElementById('passcode-keyboard');
+  const btnRelockMemories = document.getElementById('btn-relock-memories');
+
+  // Web Audio chime for passcode unlock (gentle soft bells)
+  function playPasscodeUnlockSound() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      if (ctx.state === 'suspended') ctx.resume();
+
+      const now = ctx.currentTime;
+      // Note 1: E5 (659.25 Hz)
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(659.25, now);
+      gain1.gain.setValueAtTime(0, now);
+      gain1.gain.linearRampToValueAtTime(0.2, now + 0.03);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.4);
+
+      // Note 2: A5 (880 Hz)
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(880, now + 0.12);
+      gain2.gain.setValueAtTime(0, now + 0.12);
+      gain2.gain.linearRampToValueAtTime(0.24, now + 0.15);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.12);
+      osc2.stop(now + 0.65);
+
+      // Note 3: C#6 (1108.7 Hz) - cheerful resolution
+      const osc3 = ctx.createOscillator();
+      const gain3 = ctx.createGain();
+      osc3.type = 'triangle';
+      osc3.frequency.setValueAtTime(1108.7, now + 0.22);
+      gain3.gain.setValueAtTime(0, now + 0.22);
+      gain3.gain.linearRampToValueAtTime(0.18, now + 0.25);
+      gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+      osc3.connect(gain3);
+      gain3.connect(ctx.destination);
+      osc3.start(now + 0.22);
+      osc3.stop(now + 0.85);
+    } catch (e) {}
+  }
+
+  // Soft tactile click for key tap
+  function playKeyTapSound() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      if (ctx.state === 'suspended') ctx.resume();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(560, now);
+      osc.frequency.exponentialRampToValueAtTime(260, now + 0.035);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch (e) {}
+  }
+
+  // Soft buzz for incorrect passcode
+  function playPasscodeErrorSound() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      if (ctx.state === 'suspended') ctx.resume();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(160, now);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.26);
+    } catch (e) {}
+  }
+
+  function renderPasscodeBoxes() {
+    passcodeBoxes.forEach((box, i) => {
+      if (!box) return;
+      if (i < currentPasscode.length) {
+        box.textContent = currentPasscode[i];
+        box.classList.add('is-filled');
+        box.classList.remove('is-active');
+      } else if (i === currentPasscode.length) {
+        box.textContent = '';
+        box.classList.remove('is-filled');
+        box.classList.add('is-active');
+      } else {
+        box.textContent = '';
+        box.classList.remove('is-filled');
+        box.classList.remove('is-active');
+      }
+    });
+  }
+
+  function resetPasscodeState() {
+    currentPasscode = '';
+    isPasscodeChecking = false;
+    if (passcodeDisplayEl) {
+      passcodeDisplayEl.classList.remove('is-shaking', 'is-success');
+    }
+    if (passcodeLockIconWrap) {
+      passcodeLockIconWrap.classList.remove('is-unlocked');
+    }
+    if (iconPadlockLocked) iconPadlockLocked.style.display = 'block';
+    if (iconPadlockUnlocked) iconPadlockUnlocked.style.display = 'none';
+    if (passcodeFeedbackText) {
+      passcodeFeedbackText.textContent = 'Tap letters below or type on your keyboard';
+      passcodeFeedbackText.classList.remove('is-error-text', 'is-success-text');
+    }
+    renderPasscodeBoxes();
+  }
+
+  function handlePasscodeLetterInput(letter) {
+    if (isPasscodeChecking) return;
+    if (currentPasscode.length >= 4) return;
+
+    currentPasscode += letter.toUpperCase();
+    playKeyTapSound();
+    renderPasscodeBoxes();
+
+    if (currentPasscode.length === 4) {
+      checkPasscode();
+    }
+  }
+
+  function handlePasscodeBackspace() {
+    if (isPasscodeChecking) return;
+    if (currentPasscode.length === 0) return;
+
+    currentPasscode = currentPasscode.slice(0, -1);
+    playKeyTapSound();
+    renderPasscodeBoxes();
+    if (passcodeFeedbackText) {
+      passcodeFeedbackText.textContent = 'Tap letters below or type on your keyboard';
+      passcodeFeedbackText.classList.remove('is-error-text');
+    }
+  }
+
+  function handlePasscodeClear() {
+    if (isPasscodeChecking) return;
+    currentPasscode = '';
+    playKeyTapSound();
+    renderPasscodeBoxes();
+    if (passcodeFeedbackText) {
+      passcodeFeedbackText.textContent = 'Tap letters below or type on your keyboard';
+      passcodeFeedbackText.classList.remove('is-error-text');
+    }
+  }
+
+  function checkPasscode() {
+    isPasscodeChecking = true;
+    const isMatch = currentPasscode.toUpperCase() === PASSCODE_SECRET;
+
+    if (isMatch) {
+      // Correct passcode ('AURA')!
+      if (passcodeDisplayEl) {
+        passcodeDisplayEl.classList.add('is-success');
+      }
+      if (passcodeLockIconWrap) {
+        passcodeLockIconWrap.classList.add('is-unlocked');
+      }
+      if (iconPadlockLocked) iconPadlockLocked.style.display = 'none';
+      if (iconPadlockUnlocked) iconPadlockUnlocked.style.display = 'block';
+
+      if (passcodeFeedbackText) {
+        passcodeFeedbackText.textContent = '✨ Passcode accepted! Unlocking memories...';
+        passcodeFeedbackText.classList.remove('is-error-text');
+        passcodeFeedbackText.classList.add('is-success-text');
+      }
+
+      playPasscodeUnlockSound();
+      spawnHeartShower(10);
+      isMemoriesUnlocked = true;
+
+      // Immediately transition to Memories scene
+      setTimeout(() => {
+        navigateTo('together');
+        isPasscodeChecking = false;
+      }, 650);
+    } else {
+      // Incorrect passcode!
+      if (passcodeDisplayEl) {
+        passcodeDisplayEl.classList.add('is-shaking');
+      }
+      if (passcodeFeedbackText) {
+        passcodeFeedbackText.textContent = 'Incorrect passcode. Try again!';
+        passcodeFeedbackText.classList.add('is-error-text');
+      }
+
+      playPasscodeErrorSound();
+
+      setTimeout(() => {
+        if (passcodeDisplayEl) {
+          passcodeDisplayEl.classList.remove('is-shaking');
+        }
+        currentPasscode = '';
+        renderPasscodeBoxes();
+        if (passcodeFeedbackText) {
+          passcodeFeedbackText.textContent = 'Tap letters below or type on your keyboard';
+          passcodeFeedbackText.classList.remove('is-error-text');
+        }
+        isPasscodeChecking = false;
+      }, 550);
+    }
+  }
+
+  // Keyboard button click listener (delegated)
+  if (passcodeKeyboard) {
+    passcodeKeyboard.addEventListener('click', (e) => {
+      const btn = e.target.closest('.key-btn');
+      if (!btn) return;
+      e.preventDefault();
+
+      btn.classList.add('is-pressed');
+      setTimeout(() => btn.classList.remove('is-pressed'), 100);
+
+      const key = btn.getAttribute('data-key');
+      const action = btn.getAttribute('data-action');
+
+      if (key) {
+        handlePasscodeLetterInput(key);
+      } else if (action === 'backspace') {
+        handlePasscodeBackspace();
+      } else if (action === 'clear') {
+        handlePasscodeClear();
+      }
+    });
+  }
+
+  // Physical keyboard listener
+  window.addEventListener('keydown', (e) => {
+    if (currentScene !== 'memoriesLock') return;
+
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      handlePasscodeBackspace();
+    } else if (e.key === 'Escape' || e.key === 'Delete') {
+      e.preventDefault();
+      handlePasscodeClear();
+    } else if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) {
+      e.preventDefault();
+      handlePasscodeLetterInput(e.key);
+    }
+  });
+
+  // Re-lock memories button
+  if (btnRelockMemories) {
+    btnRelockMemories.addEventListener('click', (e) => {
+      e.preventDefault();
+      isMemoriesUnlocked = false;
+      navigateTo('memoriesLock');
     });
   }
 

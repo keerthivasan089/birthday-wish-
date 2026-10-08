@@ -1588,6 +1588,31 @@ body::before {
   padding: clamp(0.55rem, 1.3vh, 0.75rem) clamp(1.2rem, 2.8vw, 1.7rem);
 }
 
+.cake-tamil-heading {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.5vw, 1.48rem);
+  font-weight: 700;
+  color: var(--maroon-dark);
+  line-height: 1.35;
+  margin-top: 0.85rem;
+  margin-bottom: 1.5rem; /* mb-6 breathing room */
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.cake-concluding-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.08rem, 2.2vw, 1.28rem);
+  font-weight: 600;
+  color: var(--maroon-accent);
+  line-height: 1.5;
+  margin-top: 2rem; /* mt-8 fills vertical empty space */
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
 .wish-message {
   margin-top: clamp(0.6rem, 1.4vh, 1rem);
   font-family: var(--font-letter);
@@ -1715,6 +1740,364 @@ body::before {
 }
 
 /* --------------------------------------------------------------------------
+   8.5. SCENE 4.5: SECRET PASSCODE LOCK SCREEN (MEMORIES GATEKEEPER)
+   Phone Passcode Screen Layout, Champagne & Burgundy Palette
+   -------------------------------------------------------------------------- */
+.memories-lock-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(200, 90, 83, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(128, 35, 48, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255, 253, 249, 0.98) 0%, rgba(244, 236, 226, 0.98) 100%);
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(0.75rem, 2vh, 1.5rem) clamp(0.5rem, 2vw, 1.25rem);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.memories-lock-scene .scene-content {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: clamp(1rem, 2vh, 2rem) 0;
+}
+
+/* Classic Phone Passcode Screen Card Container */
+.passcode-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-paper);
+  border: 1.5px solid rgba(128, 35, 48, 0.18);
+  border-radius: 26px;
+  box-shadow: 0 24px 60px -15px rgba(92, 29, 36, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  padding: clamp(1.4rem, 3.2vh, 2.2rem) clamp(1rem, 3vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+/* Header & Padlock Icon */
+.passcode-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.passcode-lock-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(200, 90, 83, 0.1);
+  border: 1.5px solid rgba(128, 35, 48, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--maroon-dark);
+  box-shadow: 0 4px 14px rgba(92, 29, 36, 0.08);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.passcode-lock-icon-wrap.is-unlocked {
+  background: rgba(46, 125, 50, 0.12);
+  border-color: #2E7D32;
+  color: #2E7D32;
+  transform: scale(1.12);
+  box-shadow: 0 0 22px rgba(46, 125, 50, 0.4);
+}
+
+.passcode-lock-svg {
+  transition: transform 0.25s ease;
+}
+
+.passcode-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 3vw, 1.48rem);
+  font-weight: 700;
+  color: var(--maroon-dark);
+  margin-top: 0.85rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+.passcode-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.78rem, 1.8vw, 0.88rem);
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}
+
+/* 4-Letter Square Input Boxes Display */
+.passcode-display {
+  display: flex;
+  gap: clamp(8px, 2.5vw, 14px);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.65rem;
+  transition: transform 0.2s ease;
+}
+
+.passcode-box {
+  width: clamp(50px, 12vw, 60px);
+  height: clamp(50px, 12vw, 60px);
+  background: #FFFDF9;
+  border: 2px solid var(--maroon-dark);
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: clamp(1.45rem, 3.8vw, 1.85rem);
+  font-weight: 800;
+  color: var(--maroon-dark);
+  text-transform: uppercase;
+  box-shadow: 0 3px 8px rgba(92, 29, 36, 0.08);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              background-color 0.2s ease,
+              color 0.2s ease;
+  user-select: none;
+  position: relative;
+}
+
+/* Active empty cursor box */
+.passcode-box.is-active {
+  border-color: var(--maroon-accent);
+  box-shadow: 0 0 0 3px rgba(128, 35, 48, 0.15), 0 3px 8px rgba(92, 29, 36, 0.08);
+}
+
+/* Filled letter pop */
+.passcode-box.is-filled {
+  animation: boxPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background-color: #FAF4EE;
+  box-shadow: 0 4px 12px rgba(92, 29, 36, 0.12);
+}
+
+@keyframes boxPop {
+  0% { transform: scale(0.85); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Error Shake Animation on the 4 boxes */
+.passcode-display.is-shaking {
+  animation: passcodeShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.passcode-display.is-shaking .passcode-box {
+  border-color: #C85A53;
+  color: #A93F38;
+  background-color: #FFF2F2;
+  box-shadow: 0 0 14px rgba(200, 90, 83, 0.45);
+}
+
+@keyframes passcodeShake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-9px); }
+  30% { transform: translateX(8px); }
+  45% { transform: translateX(-6px); }
+  60% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+  90% { transform: translateX(2px); }
+}
+
+/* Success Glow Animation on the 4 boxes */
+.passcode-display.is-success .passcode-box {
+  border-color: #2E7D32 !important;
+  color: #2E7D32 !important;
+  background-color: #F1F8F2 !important;
+  box-shadow: 0 0 18px rgba(46, 125, 50, 0.45) !important;
+  animation: successPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Feedback Row */
+.passcode-feedback {
+  min-height: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: clamp(0.78rem, 1.8vw, 0.85rem);
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.95rem;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.passcode-feedback.is-error-text {
+  color: #A93F38 !important;
+  font-weight: 700;
+}
+
+.passcode-feedback.is-success-text {
+  color: #2E7D32 !important;
+  font-weight: 700;
+}
+
+/* 26-Letter Alphabet Keyboard (QWERTY layout, soft rounded buttons) */
+.passcode-keyboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px, 1.2vw, 7px);
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(3px, 1.1vw, 5px);
+  width: 100%;
+}
+
+.key-btn {
+  flex: 1;
+  min-width: 0;
+  max-width: 36px;
+  height: clamp(39px, 5.8vh, 45px);
+  background: #FAF4EE;
+  color: var(--maroon-dark);
+  border: 1px solid rgba(92, 29, 36, 0.16);
+  border-radius: 9px;
+  font-family: var(--font-sans);
+  font-size: clamp(0.92rem, 2.2vw, 1.12rem);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(92, 29, 36, 0.06), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  transition: transform 0.08s ease, background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.key-btn:hover {
+  background: #F3E6DA;
+  border-color: rgba(92, 29, 36, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(92, 29, 36, 0.1);
+}
+
+.key-btn:active, .key-btn.is-pressed {
+  transform: scale(0.92) translateY(1px);
+  background: #E8D3C3;
+  box-shadow: 0 1px 2px rgba(92, 29, 36, 0.15) inset;
+}
+
+/* Action Keys (Clear & Backspace) */
+.key-action.key-clear {
+  flex: 1.5;
+  max-width: 58px;
+  font-size: clamp(0.68rem, 1.5vw, 0.78rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--maroon-accent);
+  background: rgba(200, 90, 83, 0.12);
+  border-color: rgba(128, 35, 48, 0.22);
+}
+
+.key-action.key-clear:hover {
+  background: rgba(200, 90, 83, 0.2);
+  border-color: rgba(128, 35, 48, 0.35);
+}
+
+.key-action.key-backspace {
+  flex: 1.5;
+  max-width: 58px;
+  color: var(--maroon-dark);
+  background: rgba(200, 90, 83, 0.12);
+  border-color: rgba(128, 35, 48, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key-action.key-backspace:hover {
+  background: rgba(200, 90, 83, 0.2);
+  border-color: rgba(128, 35, 48, 0.35);
+}
+
+/* Footer Hint */
+.passcode-footer-hint {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hint-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(212, 175, 55, 0.14);
+  color: var(--maroon-dark);
+  border: 1px dashed rgba(212, 175, 55, 0.45);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+/* Re-lock Button in Together Scene Nav */
+.btn-relock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 253, 249, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: clamp(0.35rem, 0.9vh, 0.48rem) clamp(0.65rem, 1.8vw, 0.85rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 1.6vh, 0.8rem);
+  font-weight: 600;
+  color: var(--maroon-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.25s ease;
+  margin-left: 0.5rem;
+}
+
+.btn-relock:hover {
+  background: var(--bg-paper);
+  border-color: var(--maroon-accent);
+  color: var(--maroon-accent);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
    9. SCENE 5: "TOGETHER" MEMORIES SCENE (3 INTERACTIVE 3D POLAROIDS)
    -------------------------------------------------------------------------- */
 .together-scene {
@@ -1789,25 +2172,42 @@ body::before {
   letter-spacing: 0.02em;
 }
 
-/* 3 POLAROIDS GALLERY */
+/* 4 POLAROIDS GALLERY */
 .polaroid-gallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-content: center;
+  justify-items: center;
   align-items: center;
-  gap: clamp(1.2rem, 3vw, 2.2rem);
+  gap: clamp(1.2rem, 2.5vw, 2rem);
   width: 100%;
-  max-width: 860px;
+  max-width: 620px;
   margin: clamp(0.6rem, 1.5vh, 1.2rem) auto;
   perspective: 1200px;
   box-sizing: border-box;
 }
 
+@media (min-width: 1024px) {
+  .polaroid-gallery {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 1080px;
+    gap: clamp(1rem, 1.8vw, 1.5rem);
+  }
+}
+
+@media (max-width: 580px) {
+  .polaroid-gallery {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    gap: 1.5rem;
+  }
+}
+
 /* Individual Polaroid 3D Container */
 .polaroid-card {
   position: relative;
-  width: clamp(210px, 26vw, 250px);
-  height: clamp(280px, 34vw, 325px);
+  width: clamp(210px, 24vw, 250px);
+  height: clamp(285px, 33vw, 330px);
   perspective: 1000px;
   cursor: pointer;
   user-select: none;
@@ -1826,21 +2226,27 @@ body::before {
 
 /* Staggered Tilts */
 .polaroid-card:nth-child(1) {
-  transform: rotate(-3.5deg);
+  transform: rotate(-3deg);
   animation-delay: 0s;
   animation-duration: 4.4s;
 }
 
 .polaroid-card:nth-child(2) {
-  transform: rotate(2.2deg) translateY(-5px);
-  animation-delay: -1.6s;
-  animation-duration: 4.9s;
+  transform: rotate(2.5deg) translateY(-4px);
+  animation-delay: -1.4s;
+  animation-duration: 4.8s;
 }
 
 .polaroid-card:nth-child(3) {
-  transform: rotate(-2.5deg);
-  animation-delay: -3s;
-  animation-duration: 4.6s;
+  transform: rotate(-2.2deg);
+  animation-delay: -2.8s;
+  animation-duration: 4.5s;
+}
+
+.polaroid-card:nth-child(4) {
+  transform: rotate(3deg) translateY(-2px);
+  animation-delay: -3.8s;
+  animation-duration: 5s;
 }
 
 .polaroid-card:hover {
@@ -1983,9 +2389,9 @@ body::before {
 
 .polaroid-back-note {
   font-family: var(--font-letter);
-  font-size: clamp(0.98rem, 2vh, 1.15rem);
+  font-size: clamp(0.88rem, 1.7vh, 1.02rem);
   font-style: italic;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--text-main);
   margin: auto 0;
   padding: 0 4px;
@@ -2217,7 +2623,7 @@ body::before {
   transform-origin: center center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.42);
   /* Stationary by default; steady, realistic turntable timing */
-  animation: spinVinylDisc 5s linear infinite;
+  animation: spinVinylDisc 6s linear infinite;
   animation-play-state: paused;
   will-change: transform;
 }
@@ -2228,15 +2634,19 @@ body::before {
   border-radius: 50%;
   display: block;
   pointer-events: none;
+  animation: none !important;
 }
 
-/* Tailwind-style .animate-spin on the parent div + standard playing classes.
-   Rotates at a steady, realistic 5s linear infinite pace. */
+/* Tailwind-style arbitrary .animate-[spin_6s_linear_infinite] and playing classes.
+   Rotates at a steady, realistic 6s linear infinite pace. */
+.vinyl-disc[class*="animate-[spin"],
+.vinyl-disc[class*="spin_6s"],
+.vinyl-disc[class*="spin_5s"],
 .vinyl-disc.animate-spin,
 .vinyl-disc.playing,
 .vinyl-disc.is-spinning,
 .vinyl-player-box.playing .vinyl-disc {
-  animation: spinVinylDisc 5s linear infinite !important;
+  animation: spinVinylDisc 6s linear infinite !important;
   animation-play-state: running !important;
 }
 

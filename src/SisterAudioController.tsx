@@ -188,17 +188,17 @@ export function SisterAudioController({ onRegisterTrigger }: SisterAudioControll
 
     if (vinylDisc) {
       if (isPlayingGolden) {
-        vinylDisc.classList.add('playing', 'is-spinning', 'animate-spin');
+        vinylDisc.classList.add('playing', 'is-spinning', 'animate-[spin_6s_linear_infinite]');
       } else {
-        vinylDisc.classList.remove('playing', 'is-spinning', 'animate-spin');
+        vinylDisc.classList.remove('playing', 'is-spinning', 'animate-spin', 'animate-[spin_6s_linear_infinite]');
       }
     }
 
     if (vinylSvg) {
       if (isPlayingGolden) {
-        vinylSvg.classList.add('playing', 'is-spinning', 'animate-spin');
+        vinylSvg.classList.add('playing', 'is-spinning', 'animate-[spin_6s_linear_infinite]');
       } else {
-        vinylSvg.classList.remove('playing', 'is-spinning', 'animate-spin');
+        vinylSvg.classList.remove('playing', 'is-spinning', 'animate-spin', 'animate-[spin_6s_linear_infinite]');
       }
     }
 
