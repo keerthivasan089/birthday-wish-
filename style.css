@@ -3940,4 +3940,339 @@ body::before {
   justify-content: center;
 }
 
+/* --------------------------------------------------------------------------
+   15. CUSTOM CAKE FLAVOR & TOPPER STUDIO + SISTER BIRTHDAY WHEEL (#2 & #3)
+   -------------------------------------------------------------------------- */
+.cake-studio-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.btn-cake-flavor,
+.btn-cake-topper {
+  background: #FFFDF9;
+  border: 1.5px solid rgba(200, 90, 83, 0.3);
+  border-radius: 10px;
+  padding: 0.36rem 0.72rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--maroon-dark);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-cake-flavor:hover,
+.btn-cake-topper:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-rose);
+}
+
+.btn-cake-flavor.is-active {
+  background: var(--maroon-dark);
+  color: #FFFDF9;
+  border-color: var(--maroon-dark);
+  box-shadow: 0 4px 12px rgba(92, 29, 36, 0.22);
+}
+
+.btn-cake-topper.is-active {
+  background: linear-gradient(135deg, #FFF8E1, #F7E4A3);
+  color: var(--maroon-dark);
+  border-color: #D4AF37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.28);
+}
+
+#cake-bottom-sponge,
+#cake-top-sponge,
+#cake-bottom-drip,
+#cake-top-drip,
+#cake-slice-wedge-path {
+  transition: fill 0.35s ease, stroke 0.35s ease;
+}
+
+/* Spin the Sister Birthday Wheel Widget */
+.sister-wheel-widget {
+  margin-top: 1.35rem;
+  padding: 1.2rem 1.25rem;
+  background: linear-gradient(145deg, rgba(255, 253, 249, 0.95), rgba(252, 236, 233, 0.6));
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(92, 29, 36, 0.08);
+  text-align: left;
+  width: 100%;
+}
+
+.sister-wheel-header {
+  margin-bottom: 0.85rem;
+}
+
+.sister-wheel-kicker {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--primary-rose-dark);
+  margin-bottom: 0.2rem;
+}
+
+.sister-wheel-title {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--maroon-dark);
+  margin: 0 0 0.15rem 0;
+}
+
+.sister-wheel-sub {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.sister-wheel-stage {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+@media (max-width: 560px) {
+  .sister-wheel-stage {
+    flex-direction: column;
+  }
+}
+
+.wheel-visual-container {
+  position: relative;
+  flex: 0 0 132px;
+  width: 132px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel-pointer-arrow {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.15rem;
+  color: var(--maroon-dark);
+  z-index: 5;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.sister-wheel-svg {
+  width: 128px;
+  height: 128px;
+  filter: drop-shadow(0 6px 14px rgba(92, 29, 36, 0.14));
+  transition: transform 3.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wheel-controls-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.btn-spin-wheel {
+  align-self: flex-start;
+  padding: 0.58rem 1.15rem;
+  font-size: 0.84rem;
+}
+
+.wheel-prize-result {
+  background: #FFFDF9;
+  border: 1px dashed rgba(212, 175, 55, 0.65);
+  border-left: 4px solid #D4AF37;
+  border-radius: 12px;
+  padding: 0.75rem 0.95rem;
+  box-shadow: 0 4px 12px rgba(92, 29, 36, 0.05);
+}
+
+.wheel-prize-badge {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--maroon-dark);
+  margin-bottom: 0.2rem;
+}
+
+.wheel-prize-text {
+  font-family: var(--font-letter);
+  font-size: 1.05rem;
+  color: var(--text-main);
+  line-height: 1.38;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   16. POLAROID LIGHTBOX & HEART REACTIONS ON ALL LETTER PHOTOS (#4)
+   -------------------------------------------------------------------------- */
+.letter-taped-photo {
+  cursor: pointer;
+}
+
+.polaroid-heart-chip {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 12;
+  background: rgba(255, 253, 249, 0.92);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(200, 90, 83, 0.35);
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--maroon-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(92, 29, 36, 0.14);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+
+.polaroid-heart-chip:hover {
+  transform: scale(1.12);
+  background: #FFFDF9;
+}
+
+.polaroid-heart-chip.is-liked {
+  background: #FCECE9;
+  border-color: var(--primary-rose);
+}
+
+.polaroid-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.polaroid-lightbox-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.polaroid-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 10, 14, 0.68);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.polaroid-lightbox-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  transform: translateY(14px) scale(0.95);
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.polaroid-lightbox-modal.is-open .polaroid-lightbox-card {
+  transform: translateY(0) scale(1);
+}
+
+.polaroid-lightbox-close {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFFDF9;
+  border: 1.5px solid rgba(92, 29, 36, 0.25);
+  color: var(--maroon-dark);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.polaroid-lightbox-close:hover {
+  transform: scale(1.1);
+}
+
+.polaroid-lightbox-frame {
+  position: relative;
+  width: 100%;
+  background: #FFFDF9;
+  padding: 14px 14px 18px 14px;
+  border-radius: 12px;
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.polaroid-lightbox-img {
+  width: 100%;
+  max-height: 330px;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 6px;
+  display: block;
+}
+
+.polaroid-lightbox-caption {
+  font-family: var(--font-letter);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--maroon-dark);
+  margin: 0.75rem 0 0.35rem 0;
+}
+
+.polaroid-lightbox-secret-note {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  font-style: italic;
+  color: var(--text-muted);
+  background: rgba(252, 236, 233, 0.55);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  margin: 0;
+  line-height: 1.42;
+}
+
+.polaroid-lightbox-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-polaroid-love {
+  width: 100%;
+  justify-content: center;
+}
+
+
 

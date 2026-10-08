@@ -2943,6 +2943,272 @@ document.addEventListener('DOMContentLoaded', () => {
     gemModalBackdrop.addEventListener('click', closeGemModal);
   }
 
+  // ==========================================================================
+  // 17. CUSTOM CAKE FLAVOR & TOPPER BADGE STUDIO (#2)
+  // ==========================================================================
+  const cakeFlavorPresets = {
+    vanilla: {
+      topSponge: '#FFFDF9',
+      bottomSponge: '#FCECE9',
+      drip: '#C85A53',
+      sliceFill: '#FFF5EE'
+    },
+    redvelvet: {
+      topSponge: '#A4243B',
+      bottomSponge: '#7D192B',
+      drip: '#FFFDF9',
+      sliceFill: '#B8334A'
+    },
+    chocolate: {
+      topSponge: '#5C3317',
+      bottomSponge: '#3E210E',
+      drip: '#D4AF37',
+      sliceFill: '#6B3E23'
+    },
+    butterscotch: {
+      topSponge: '#FFF3C4',
+      bottomSponge: '#F5D77F',
+      drip: '#C67D17',
+      sliceFill: '#FFF8DC'
+    }
+  };
+
+  const flavorButtons = document.querySelectorAll('.btn-cake-flavor');
+  const topperButtons = document.querySelectorAll('.btn-cake-topper');
+  const cakeTopSponge = document.getElementById('cake-top-sponge');
+  const cakeBottomSponge = document.getElementById('cake-bottom-sponge');
+  const cakeTopDrip = document.getElementById('cake-top-drip');
+  const cakeBottomDrip = document.getElementById('cake-bottom-drip');
+  const cakeSliceWedgePath = document.getElementById('cake-slice-wedge-path');
+  const cakeTopperSvgText = document.getElementById('cake-topper-svg-text');
+
+  flavorButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const flavorKey = btn.getAttribute('data-flavor');
+      const preset = cakeFlavorPresets[flavorKey];
+      if (!preset) return;
+
+      flavorButtons.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      playKeyTapSound();
+
+      if (cakeTopSponge) cakeTopSponge.setAttribute('fill', preset.topSponge);
+      if (cakeBottomSponge) cakeBottomSponge.setAttribute('fill', preset.bottomSponge);
+      if (cakeTopDrip) cakeTopDrip.setAttribute('stroke', preset.drip);
+      if (cakeBottomDrip) cakeBottomDrip.setAttribute('stroke', preset.drip);
+      if (cakeSliceWedgePath) cakeSliceWedgePath.setAttribute('fill', preset.sliceFill);
+
+      if (e.clientX && window.particleEngine) {
+        window.particleEngine.burst(e.clientX, e.clientY, 12);
+      }
+    });
+  });
+
+  topperButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const topperText = btn.getAttribute('data-topper');
+      if (!topperText) return;
+
+      topperButtons.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      playKeyTapSound();
+
+      if (cakeTopperSvgText) {
+        cakeTopperSvgText.textContent = topperText;
+      }
+      if (e.clientX && window.particleEngine) {
+        window.particleEngine.burst(e.clientX, e.clientY, 12);
+      }
+    });
+  });
+
+  // ==========================================================================
+  // 18. SPIN THE SISTER BIRTHDAY WHEEL (#3)
+  // ==========================================================================
+  const sisterWheelPrizes = [
+    {
+      badge: '🍦 WON: Late-Night Ice Cream Run!',
+      text: 'Redeemable anytime for a late-night dessert & ice cream drive—Di’s treat!'
+    },
+    {
+      badge: '👑 WON: "Win Any Argument With Di" Pass!',
+      text: 'Play this royal card once to automatically win any sister disagreement, zero questions asked!'
+    },
+    {
+      badge: '🎬 WON: Ultimate Movie Night Pick!',
+      text: 'You pick the movie, the snacks, and the blankets—Di cannot complain about your choice!'
+    },
+    {
+      badge: '🛍️ WON: Shopping Spree Veto Power!',
+      text: 'One guaranteed favorite outfit or accessory added to cart on Di’s tab!'
+    },
+    {
+      badge: '🧹 WON: "Di Does Your Chores" Coupon!',
+      text: 'Hand over one annoying chore day to your big sister while you relax like royalty!'
+    },
+    {
+      badge: '🍕 WON: Favorite Food Craving Delivery!',
+      text: 'Craving pizza, biryani, or momos during exam week? One text and Di orders it to your door!'
+    }
+  ];
+
+  const btnSpinWheel = document.getElementById('btn-spin-wheel');
+  const sisterWheelSvg = document.getElementById('sister-wheel-svg');
+  const wheelPrizeBadge = document.getElementById('wheel-prize-badge');
+  const wheelPrizeText = document.getElementById('wheel-prize-text');
+  let wheelRotationDeg = 0;
+  let isWheelSpinning = false;
+
+  if (btnSpinWheel && sisterWheelSvg) {
+    btnSpinWheel.addEventListener('click', (e) => {
+      if (isWheelSpinning) return;
+      isWheelSpinning = true;
+
+      const prizeIndex = Math.floor(Math.random() * sisterWheelPrizes.length);
+      const extraSpins = (Math.floor(Math.random() * 3) + 4) * 360;
+      const sliceAngle = 360 / sisterWheelPrizes.length;
+      const targetSliceDeg = 360 - (prizeIndex * sliceAngle + sliceAngle / 2);
+      wheelRotationDeg += extraSpins + targetSliceDeg - (wheelRotationDeg % 360);
+
+      sisterWheelSvg.style.transform = `rotate(${wheelRotationDeg}deg)`;
+      playKeyTapSound();
+
+      if (wheelPrizeBadge) wheelPrizeBadge.textContent = '🎡 Spinning the wheel...';
+      if (wheelPrizeText) wheelPrizeText.textContent = 'Hold tight, Kavin! Let’s see which sister perk lands for you...';
+
+      setTimeout(() => {
+        const won = sisterWheelPrizes[prizeIndex];
+        if (wheelPrizeBadge) wheelPrizeBadge.textContent = won.badge;
+        if (wheelPrizeText) wheelPrizeText.textContent = won.text;
+        playPasscodeUnlockSound();
+        spawnHeartShower(10);
+        if (e.clientX && window.particleEngine) {
+          window.particleEngine.confettiBurst(e.clientX, e.clientY, 45);
+        } else {
+          triggerConfettiExplosion();
+        }
+        isWheelSpinning = false;
+      }, 3100);
+    });
+  }
+
+  // ==========================================================================
+  // 19. POLAROID LIGHTBOX & HEART REACTIONS ON ALL LETTER PHOTOS (#4)
+  // ==========================================================================
+  const secretPhotoBackNotes = [
+    'Secret Back-Note: Every time I look at this photo, I am reminded how fast you’ve grown into the most graceful young woman.',
+    'Secret Back-Note: No matter how busy life gets, these little moments with my baby sister are my favorite chapters.',
+    'Secret Back-Note: Your smile in this picture could light up an entire room—never stop shining like this, Kavin!',
+    'Secret Back-Note: Built-in best friends since day one. Nobody makes me laugh the way you do!',
+    'Secret Back-Note: One day we will look back at these photos when we’re old and still giggle the exact same way.'
+  ];
+
+  const letterPhotos = document.querySelectorAll('.letter-taped-photo');
+  const lightboxModal = document.getElementById('polaroid-lightbox-modal');
+  const lightboxBackdrop = document.getElementById('polaroid-lightbox-backdrop');
+  const lightboxCloseBtn = document.getElementById('btn-polaroid-lightbox-close');
+  const lightboxImg = document.getElementById('polaroid-lightbox-img');
+  const lightboxCaption = document.getElementById('polaroid-lightbox-caption');
+  const lightboxSecretNote = document.getElementById('polaroid-lightbox-secret-note');
+  const lightboxLoveBtn = document.getElementById('btn-polaroid-lightbox-love');
+  const lightboxHeartCountEl = document.getElementById('polaroid-lightbox-heart-count');
+
+  const photoLikesMap = new Map();
+  let activeLightboxPhotoIndex = null;
+
+  letterPhotos.forEach((photoCard, idx) => {
+    const initialLikes = 12 + (idx % 7);
+    photoLikesMap.set(idx, initialLikes);
+
+    // Inject interactive heart reaction chip on each taped photo
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'polaroid-heart-chip';
+    chip.title = 'Tap to shower hearts on this photo!';
+    chip.innerHTML = `<span>❤️</span><span class="chip-count">${initialLikes}</span>`;
+
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const updated = (photoLikesMap.get(idx) || initialLikes) + 1;
+      photoLikesMap.set(idx, updated);
+      chip.classList.add('is-liked');
+      const countSpan = chip.querySelector('.chip-count');
+      if (countSpan) countSpan.textContent = String(updated);
+      playKeyTapSound();
+      spawnHeartShower(5);
+      if (e.clientX && window.particleEngine) {
+        window.particleEngine.burst(e.clientX, e.clientY, 15);
+      }
+    });
+
+    photoCard.appendChild(chip);
+
+    // Clicking the polaroid opens the zoomed-in Polaroid Lightbox with secret back-note
+    photoCard.addEventListener('click', () => {
+      const imgEl = photoCard.querySelector('img');
+      const captionEl = photoCard.querySelector('.photo-caption-note');
+      if (!imgEl || !lightboxModal) return;
+
+      activeLightboxPhotoIndex = idx;
+      if (lightboxImg) {
+        lightboxImg.src = imgEl.getAttribute('src') || '/1.jpeg';
+        lightboxImg.alt = imgEl.getAttribute('alt') || 'Sisterhood Memory';
+      }
+      if (lightboxCaption) {
+        lightboxCaption.textContent = captionEl ? captionEl.textContent : 'Precious Sister Memory ✨';
+      }
+      if (lightboxSecretNote) {
+        lightboxSecretNote.textContent = `💌 ${secretPhotoBackNotes[idx % secretPhotoBackNotes.length]}`;
+      }
+      if (lightboxHeartCountEl) {
+        lightboxHeartCountEl.textContent = String(photoLikesMap.get(idx) || initialLikes);
+      }
+
+      playKeyTapSound();
+      lightboxModal.classList.add('is-open');
+      lightboxModal.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  function closePolaroidLightbox() {
+    if (!lightboxModal) return;
+    lightboxModal.classList.remove('is-open');
+    lightboxModal.setAttribute('aria-hidden', 'true');
+  }
+
+  if (lightboxLoveBtn) {
+    lightboxLoveBtn.addEventListener('click', (e) => {
+      if (activeLightboxPhotoIndex === null) return;
+      const updated = (photoLikesMap.get(activeLightboxPhotoIndex) || 12) + 1;
+      photoLikesMap.set(activeLightboxPhotoIndex, updated);
+      if (lightboxHeartCountEl) {
+        lightboxHeartCountEl.textContent = String(updated);
+      }
+
+      // Sync the badge on the photo card in the background
+      const targetCard = letterPhotos[activeLightboxPhotoIndex];
+      if (targetCard) {
+        const chip = targetCard.querySelector('.polaroid-heart-chip');
+        const countSpan = targetCard.querySelector('.chip-count');
+        if (chip) chip.classList.add('is-liked');
+        if (countSpan) countSpan.textContent = String(updated);
+      }
+
+      playPasscodeUnlockSound();
+      spawnHeartShower(8);
+      if (e.clientX && window.particleEngine) {
+        window.particleEngine.confettiBurst(e.clientX, e.clientY, 28);
+      }
+    });
+  }
+
+  if (lightboxCloseBtn) {
+    lightboxCloseBtn.addEventListener('click', closePolaroidLightbox);
+  }
+  if (lightboxBackdrop) {
+    lightboxBackdrop.addEventListener('click', closePolaroidLightbox);
+  }
+
   // Initial setup: activate landing scene as primary entry point
   navigateTo('landing');
 });

@@ -752,36 +752,67 @@
                 En uyir thangachi Kavin kku, Iniya Pirandha Naal Vaazhthukkal! ✨
               </h4>
 
-              <!-- FEATURE #4 STEP 1: DECORATE YOUR CAKE TOPPINGS BAR -->
-              <div class="cake-Step-bar" aria-label="Step 1: Decorate your birthday cake">
-                <span class="cake-step-label">Step 1 · Add Toppings:</span>
-                <div class="cake-toppings-group">
-                  <button type="button" class="btn-cake-topping" id="btn-topping-strawberries" data-topping="strawberries">
-                    🍓 Strawberries
-                  </button>
-                  <button type="button" class="btn-cake-topping" id="btn-topping-sprinkles" data-topping="sprinkles">
-                    🌈 Rainbow Sprinkles
-                  </button>
-                  <button type="button" class="btn-cake-topping" id="btn-topping-choco" data-topping="choco">
-                    🍫 Choco Hearts
-                  </button>
+              <!-- FEATURE #2: CUSTOM CAKE FLAVOR, TOPPING & TOPPER BADGE STUDIO -->
+              <div class="cake-studio-controls" aria-label="Custom Cake Baker Studio">
+                <div class="cake-Step-bar">
+                  <span class="cake-step-label">Step 1 · Choose Cake Flavor:</span>
+                  <div class="cake-toppings-group">
+                    <button type="button" class="btn-cake-flavor is-active" data-flavor="vanilla">
+                      🌸 Vanilla Rose
+                    </button>
+                    <button type="button" class="btn-cake-flavor" data-flavor="redvelvet">
+                      ❤️ Red Velvet
+                    </button>
+                    <button type="button" class="btn-cake-flavor" data-flavor="chocolate">
+                      🍫 Belgian Choco
+                    </button>
+                    <button type="button" class="btn-cake-flavor" data-flavor="butterscotch">
+                      🍯 Butterscotch Gold
+                    </button>
+                  </div>
+                </div>
+
+                <div class="cake-Step-bar">
+                  <span class="cake-step-label">Step 2 · Add Toppings &amp; Topper Badge:</span>
+                  <div class="cake-toppings-group">
+                    <button type="button" class="btn-cake-topping" id="btn-topping-strawberries" data-topping="strawberries">
+                      🍓 Strawberries
+                    </button>
+                    <button type="button" class="btn-cake-topping" id="btn-topping-sprinkles" data-topping="sprinkles">
+                      🌈 Rainbow Sprinkles
+                    </button>
+                    <button type="button" class="btn-cake-topping" id="btn-topping-choco" data-topping="choco">
+                      🍫 Choco Hearts
+                    </button>
+                  </div>
+                  <div class="cake-toppings-group" style="margin-top: 4px;">
+                    <button type="button" class="btn-cake-topper is-active" data-topper="👑 Queen Kavin">
+                      👑 Queen Kavin
+                    </button>
+                    <button type="button" class="btn-cake-topper" data-topper="💖 Best Thangachi">
+                      💖 Best Thangachi
+                    </button>
+                    <button type="button" class="btn-cake-topper" data-topper="🚀 Future CEO">
+                      🚀 Future CEO
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <!-- Interactive Cake SVG Visual -->
-              <div class="cake-visual-wrap" id="cake-visual-wrap" title="Decorate your birthday cake and cut the first slice!">
+              <div class="cake-visual-wrap" id="cake-visual-wrap" title="Click to cut the first slice for Di!">
                 <svg class="cake-svg" id="birthday-cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <!-- Plate -->
                   <ellipse cx="100" cy="175" rx="85" ry="16" fill="#F0E6E0" stroke="#C85A53" stroke-width="2"/>
                   <!-- Whole Cake Group (shifts slightly when sliced) -->
                   <g id="cake-main-body">
                     <!-- Bottom Cake Layer -->
-                    <rect x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
-                    <path d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+                    <rect id="cake-bottom-sponge" x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
+                    <path id="cake-bottom-drip" d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
                     <!-- Top Cake Layer -->
-                    <rect x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
+                    <rect id="cake-top-sponge" x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
                     <!-- Frosting Drips -->
-                    <path d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+                    <path id="cake-top-drip" d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
 
                     <!-- TOPPING LAYER 1: STRAWBERRIES (Hidden until toggled) -->
                     <g id="cake-layer-strawberries" class="cake-topping-layer">
@@ -815,33 +846,25 @@
                       <circle cx="132" cy="152" r="4.5" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
                     </g>
 
+                    <!-- Custom Topper Banner Stick & Plaque -->
+                    <g id="cake-topper-group" class="cake-topper-group">
+                      <line x1="76" y1="52" x2="76" y2="85" stroke="#D4AF37" stroke-width="2"/>
+                      <line x1="124" y1="52" x2="124" y2="85" stroke="#D4AF37" stroke-width="2"/>
+                      <rect x="44" y="28" width="112" height="26" rx="8" fill="#FFFDF9" stroke="#D4AF37" stroke-width="2"/>
+                      <text id="cake-topper-svg-text" x="100" y="45" text-anchor="middle" fill="#5C1D24" font-family="Montserrat, sans-serif" font-size="9.5" font-weight="800">👑 Queen Kavin</text>
+                    </g>
+
                     <!-- Cut Slice Wedge Visual Indicator -->
                     <g id="cake-slice-cut-line" class="cake-slice-cut-line">
-                      <path d="M100 85 L118 167 L142 167 L130 85 Z" fill="#FFF5EE" stroke="#5C1D24" stroke-width="1.8" stroke-dasharray="3 2"/>
+                      <path id="cake-slice-wedge-path" d="M100 85 L118 167 L142 167 L130 85 Z" fill="#FFF5EE" stroke="#5C1D24" stroke-width="1.8" stroke-dasharray="3 2"/>
                       <line x1="102" y1="105" x2="132" y2="105" stroke="#C85A53" stroke-width="3"/>
                       <line x1="108" y1="145" x2="138" y2="145" stroke="#C85A53" stroke-width="3"/>
                     </g>
                   </g>
-
-                  <!-- Candle 1 -->
-                  <rect x="75" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
-                  <!-- Candle 2 (Center) -->
-                  <rect x="97" y="50" width="6" height="35" rx="3" fill="#C85A53"/>
-                  <!-- Candle 3 -->
-                  <rect x="119" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
-                  <!-- Animated Candle Flames Group -->
-                  <g id="candle-flame" class="candle-flame">
-                    <circle cx="78" cy="48" r="5" fill="#FFA500"/>
-                    <circle cx="78" cy="46" r="3" fill="#FFFF00"/>
-                    <circle cx="100" cy="42" r="6" fill="#FFA500"/>
-                    <circle cx="100" cy="40" r="3.5" fill="#FFFF00"/>
-                    <circle cx="122" cy="48" r="5" fill="#FFA500"/>
-                    <circle cx="122" cy="46" r="3" fill="#FFFF00"/>
-                  </g>
                 </svg>
               </div>
 
-              <!-- FEATURE #4 STEP 2: CUT CAKE SLICE -->
+              <!-- STEP 3: CUT CAKE SLICE -->
               <div class="cake-actions-cluster">
                 <button id="btn-slice-cake" type="button" class="btn-secondary blow-candle-btn" title="Cut a birthday slice for you and Di!">
                   🔪 Cut First Slice for Di
@@ -853,9 +876,56 @@
                 🍰 <strong>First Slice Served!</strong> You fed the first virtual bite to Di—zero calories and 100% sisterly sweetness! 💖
               </div>
 
-              <!-- Warm Concluding Text Block Below the Cake & Button -->
+              <!-- FEATURE #3: SPIN THE SISTER BIRTHDAY WHEEL -->
+              <div class="sister-wheel-widget" id="sister-wheel-widget" aria-label="Spin the Sister Birthday Wheel">
+                <div class="sister-wheel-header">
+                  <span class="sister-wheel-kicker">🎡 BIRTHDAY BONUS GAME</span>
+                  <h4 class="sister-wheel-title">Spin the Sister Birthday Wheel!</h4>
+                  <p class="sister-wheel-sub">Every spin is a guaranteed real-life sister perk from Di!</p>
+                </div>
+
+                <div class="sister-wheel-stage">
+                  <div class="wheel-visual-container">
+                    <div class="wheel-pointer-arrow" aria-hidden="true">▼</div>
+                    <svg class="sister-wheel-svg" id="sister-wheel-svg" viewBox="0 0 200 200">
+                      <circle cx="100" cy="100" r="95" fill="#FFFDF9" stroke="#D4AF37" stroke-width="4"/>
+                      <!-- 6 Wheel Slices -->
+                      <path d="M100 100 L100 8 A92 92 0 0 1 179.6 54 Z" fill="#FCECE9" stroke="#C85A53" stroke-width="1.2"/>
+                      <path d="M100 100 L179.6 54 A92 92 0 0 1 179.6 146 Z" fill="#FFF6D6" stroke="#C85A53" stroke-width="1.2"/>
+                      <path d="M100 100 L179.6 146 A92 92 0 0 1 100 192 Z" fill="#F8D7DA" stroke="#C85A53" stroke-width="1.2"/>
+                      <path d="M100 100 L100 192 A92 92 0 0 1 20.4 146 Z" fill="#FFFDF9" stroke="#C85A53" stroke-width="1.2"/>
+                      <path d="M100 100 L20.4 146 A92 92 0 0 1 20.4 54 Z" fill="#FFF0E6" stroke="#C85A53" stroke-width="1.2"/>
+                      <path d="M100 100 L20.4 54 A92 92 0 0 1 100 8 Z" fill="#F3E5F5" stroke="#C85A53" stroke-width="1.2"/>
+                      <!-- Slice Icons -->
+                      <text x="132" y="52" font-size="18" text-anchor="middle">🍦</text>
+                      <text x="158" y="106" font-size="18" text-anchor="middle">👑</text>
+                      <text x="132" y="160" font-size="18" text-anchor="middle">🎬</text>
+                      <text x="68" y="160" font-size="18" text-anchor="middle">🛍️</text>
+                      <text x="42" y="106" font-size="18" text-anchor="middle">🧹</text>
+                      <text x="68" y="52" font-size="18" text-anchor="middle">🍕</text>
+                      <!-- Center Hub -->
+                      <circle cx="100" cy="100" r="18" fill="#5C1D24" stroke="#D4AF37" stroke-width="3"/>
+                      <text x="100" y="105" font-size="12" text-anchor="middle" fill="#FFFDF9">✨</text>
+                    </svg>
+                  </div>
+
+                  <div class="wheel-controls-col">
+                    <button type="button" class="btn-primary btn-spin-wheel" id="btn-spin-wheel">
+                      <span>🎡 Spin for Your Birthday Perk!</span>
+                    </button>
+                    <div class="wheel-prize-result" id="wheel-prize-result" aria-live="polite">
+                      <span class="wheel-prize-badge" id="wheel-prize-badge">🎁 Tap Spin to Roll!</span>
+                      <p class="wheel-prize-text" id="wheel-prize-text">
+                        See which special sister coupon you win today—spin as many times as you want!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Warm Concluding Text Block Below the Cake & Wheel -->
               <p class="cake-concluding-text leading-relaxed my-6">
-                Un kanavugal ellam meipada vendum. Decorate your cake and cut the first slice!
+                Un kanavugal ellam meipada vendum. Customize your cake, cut a slice, and spin for your birthday perks!
               </p>
 
               <p class="wish-message leading-relaxed my-6">
@@ -1511,6 +1581,29 @@
         <button type="button" class="btn-primary gem-modal-close-btn" id="btn-gem-modal-close">
           <span>Keep Exploring 💖</span>
         </button>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- FEATURE #4: POLAROID LIGHTBOX & SECRET BACK-NOTE MODAL             -->
+    <!-- ================================================================== -->
+    <div class="polaroid-lightbox-modal" id="polaroid-lightbox-modal" aria-hidden="true" role="dialog" aria-labelledby="polaroid-lightbox-caption">
+      <div class="polaroid-lightbox-backdrop" id="polaroid-lightbox-backdrop"></div>
+      <div class="polaroid-lightbox-card" id="polaroid-lightbox-card">
+        <button type="button" class="polaroid-lightbox-close" id="btn-polaroid-lightbox-close" aria-label="Close photo view">✕</button>
+        <div class="polaroid-lightbox-frame">
+          <div class="photo-tape-strip"></div>
+          <img src="/1.jpeg" alt="Zoomed Sister Memory" id="polaroid-lightbox-img" class="polaroid-lightbox-img" />
+          <h4 class="polaroid-lightbox-caption" id="polaroid-lightbox-caption">Sisterhood Memory ✨</h4>
+          <p class="polaroid-lightbox-secret-note" id="polaroid-lightbox-secret-note">
+            "Every single photo with you holds a memory I will treasure for the rest of my life."
+          </p>
+        </div>
+        <div class="polaroid-lightbox-actions">
+          <button type="button" class="btn-primary btn-polaroid-love" id="btn-polaroid-lightbox-love">
+            <span>❤️ Shower Love on This Memory (<span id="polaroid-lightbox-heart-count">1</span>)</span>
+          </button>
+        </div>
       </div>
     </div>
 
