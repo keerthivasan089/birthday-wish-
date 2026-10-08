@@ -1,8 +1,10 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+import React from 'react';
+import { SisterAudioController } from './SisterAudioController';
 
 export default function App() {
-  return <div></div>;
+  return (
+    <div id="react-sister-audio-root" style={{ display: 'none' }}>
+      <SisterAudioController />
+    </div>
+  );
 }

@@ -1182,33 +1182,48 @@ body::before {
 }
 
 .reveal-scene {
-  padding: clamp(0.6rem, 1.8vh, 1.5rem) clamp(0.6rem, 2vw, 1.5rem);
-  box-sizing: border-box;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
+  padding: clamp(0.75rem, 2vh, 1.5rem) clamp(0.75rem, 2.5vw, 2rem) !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  scroll-behavior: smooth !important;
   overscroll-behavior-y: contain;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 .reveal-scene .scene-content {
-  height: auto;
-  min-height: 100%;
-  padding-top: clamp(2.8rem, 6.5vh, 4rem);
-  padding-bottom: clamp(1.5rem, 3.5vh, 2.5rem);
-  justify-content: center;
-  overflow: visible;
+  height: auto !important;
+  min-height: auto !important;
+  width: 100% !important;
+  max-width: min(96vw, 1160px) !important;
+  padding-top: clamp(3.2rem, 6vh, 4.5rem) !important;
+  padding-bottom: clamp(3rem, 5vh, 5rem) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow: visible !important;
   scroll-snap-align: start;
 }
 
-/* REVEAL TEMPLATE 1: SCRAPBOOK LOVE LETTER */
+#scene-secret-bonus .scene-content {
+  max-width: min(98vw, 1340px) !important;
+  width: 100% !important;
+  transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* REVEAL TEMPLATE 1: SCRAPBOOK LOVE LETTER (DESKTOP WEBSITE SPREAD) */
 .scrapbook-wrapper {
   background-color: var(--bg-paper);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: clamp(1.25rem, 2.6vh, 2.25rem) clamp(1.15rem, 2.5vw, 2rem);
-  max-width: min(94vw, 700px);
-  width: 100%;
+  padding: clamp(1.4rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2.4rem) !important;
+  max-width: min(96vw, 1140px) !important;
+  width: 100% !important;
   box-shadow: var(--shadow-deep);
   position: relative;
   box-sizing: border-box;
@@ -1229,17 +1244,27 @@ body::before {
   border-radius: 2px;
 }
 
+/* Desktop 2-Column Spread for Scrapbook Love Letter */
 .scrapbook-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(1rem, 2.5vw, 1.85rem);
-  align-items: center;
+  grid-template-columns: minmax(280px, 1fr) minmax(360px, 1.4fr);
+  gap: clamp(1.5rem, 3vw, 2.8rem);
+  align-items: start;
+  width: 100%;
   text-align: left;
 }
 
-@media (min-width: 580px) {
+.scrapbook-photos-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+@media (max-width: 820px) {
   .scrapbook-grid {
-    grid-template-columns: 1fr 1.35fr;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -1254,30 +1279,23 @@ body::before {
 
 .scrapbook-photo-card {
   background: #FFF;
-  padding: 8px 8px 18px 8px;
+  padding: 12px 12px 18px 12px;
+  border: 5px solid #FFFFFF;
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(92, 29, 36, 0.16);
-  opacity: 0;
-  transform: translateX(-18px) translateY(16px) rotate(-6deg) scale(0.95);
-  transition:
-    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
-    box-shadow 0.35s ease;
-  max-width: clamp(180px, 48vw, 260px);
-  width: 100%;
-  margin: 0 auto;
-  animation: scrapbook-polaroid-float 4.6s ease-in-out infinite;
-  will-change: opacity, transform, translate;
-}
-
-.scene.active .scrapbook-photo-card {
+  box-shadow: 0 10px 28px rgba(92, 29, 36, 0.16);
   opacity: 1;
-  transform: translateX(0) translateY(0) rotate(-2.5deg) scale(1);
+  transform: rotate(-1.5deg);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+  max-width: 520px;
+  width: 100%;
+  margin: 2rem auto;
+  box-sizing: border-box;
 }
 
-.scene.active .scrapbook-photo-card:hover {
-  transform: translateX(0) translateY(0) rotate(0deg) scale(1.03);
-  transition-delay: 0s;
+.scrapbook-photo-card:hover {
+  transform: rotate(0deg) scale(1.03);
 }
 
 .photo-placeholder-box {
@@ -1374,28 +1392,54 @@ body::before {
   text-align: right;
 }
 
-/* REVEAL TEMPLATE 2: VIRTUAL BOUQUET */
+/* REVEAL TEMPLATE 2: VIRTUAL BOUQUET (DESKTOP WEBSITE SPREAD) */
 .bouquet-card {
   background-color: var(--bg-paper);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: clamp(1.25rem, 2.6vh, 2.25rem) clamp(1.15rem, 2.5vw, 2rem);
-  max-width: min(94vw, 740px);
+  padding: clamp(1.4rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2.4rem) !important;
+  max-width: min(96vw, 1140px) !important;
   width: 100%;
   box-shadow: var(--shadow-deep);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(1rem, 2.5vw, 1.85rem);
-  align-items: center;
   box-sizing: border-box;
   scroll-snap-align: center;
   scroll-margin-top: 3rem;
+  text-align: left;
 }
 
-@media (min-width: 580px) {
-  .bouquet-card {
-    grid-template-columns: 1.35fr 1fr;
-    text-align: left;
+.bouquet-content-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.25fr) minmax(280px, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.8rem);
+  align-items: start;
+  width: 100%;
+}
+
+.bouquet-visuals-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  width: 100%;
+}
+
+.bouquet-photos-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.bouquet-photos-row .letter-memory-photo-wrap {
+  max-width: 230px !important;
+  margin: 0.35rem auto !important;
+}
+
+@media (max-width: 820px) {
+  .bouquet-content-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -1427,6 +1471,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .bouquet-illustration {
@@ -1464,19 +1509,48 @@ body::before {
   text-align: center;
 }
 
-/* REVEAL TEMPLATE 3: VIRTUAL CAKE & WISH */
+/* REVEAL TEMPLATE 3: VIRTUAL CAKE & WISH (DESKTOP WEBSITE SPREAD) */
 .cake-card {
   background-color: var(--bg-paper);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: clamp(1.25rem, 2.6vh, 2.25rem) clamp(1.15rem, 2.5vw, 2rem);
-  max-width: min(94vw, 580px);
+  padding: clamp(1.4rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2.4rem) !important;
+  max-width: min(96vw, 1140px) !important;
   width: 100%;
   box-shadow: var(--shadow-deep);
-  text-align: center;
   box-sizing: border-box;
   scroll-snap-align: center;
   scroll-margin-top: 3rem;
+}
+
+.cake-content-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.1fr) minmax(280px, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.8rem);
+  align-items: center;
+  width: 100%;
+}
+
+.cake-interactive-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.cake-photos-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+@media (max-width: 820px) {
+  .cake-content-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 .cake-visual-wrap {
@@ -1520,15 +1594,16 @@ body::before {
   font-size: clamp(1.08rem, 2.3vh, 1.28rem);
   color: var(--text-main);
   line-height: 1.55;
+  text-align: center;
 }
 
-/* REVEAL TEMPLATE 4: HEARTFELT LETTER */
+/* REVEAL TEMPLATE 4: HEARTFELT LETTER (DESKTOP WEBSITE SPREAD) */
 .heartfelt-card {
   background-color: var(--bg-paper);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: clamp(1.3rem, 2.8vh, 2.4rem) clamp(1.15rem, 2.8vw, 2.1rem);
-  max-width: min(94vw, 640px);
+  padding: clamp(1.4rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2.4rem) !important;
+  max-width: min(96vw, 1140px) !important;
   width: 100%;
   box-shadow: var(--shadow-deep);
   position: relative;
@@ -1536,6 +1611,40 @@ body::before {
   box-sizing: border-box;
   scroll-snap-align: center;
   scroll-margin-top: 3rem;
+}
+
+.heartfelt-desktop-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.15fr) minmax(320px, 1.35fr);
+  gap: clamp(1.5rem, 3vw, 2.8rem);
+  align-items: start;
+  width: 100%;
+  text-align: left;
+}
+
+.heartfelt-photos-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.heartfelt-photos-col .letter-memory-photo-wrap {
+  margin: 0.25rem auto !important;
+  max-width: 220px !important;
+}
+
+@media (max-width: 820px) {
+  .heartfelt-desktop-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heartfelt-photos-col {
+    grid-template-columns: 1fr;
+  }
 }
 
 .heartfelt-seal-corner {
@@ -1606,7 +1715,7 @@ body::before {
 }
 
 /* --------------------------------------------------------------------------
-   9. SCENE 5: "TOGETHER" MEMORIES SCENE (3D FLIP POLAROIDS)
+   9. SCENE 5: "TOGETHER" MEMORIES SCENE (3 INTERACTIVE 3D POLAROIDS)
    -------------------------------------------------------------------------- */
 .together-scene {
   position: absolute;
@@ -1616,22 +1725,24 @@ body::before {
   height: 100vh;
   height: 100dvh;
   background: 
-    radial-gradient(circle at 10% 20%, rgba(200, 90, 83, 0.28) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(128, 35, 48, 0.22) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(255, 253, 249, 0.9) 0%, rgba(245, 239, 235, 0.95) 100%);
-  overflow: hidden;
-  padding: clamp(0.75rem, 2vh, 1.5rem) clamp(0.5rem, 1.5vw, 1rem);
+    radial-gradient(circle at 12% 18%, rgba(200, 90, 83, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 88% 82%, rgba(128, 35, 48, 0.18) 0%, transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(255, 253, 249, 0.96) 0%, rgba(245, 239, 235, 0.98) 100%);
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(0.75rem, 2vh, 1.5rem) clamp(0.5rem, 1.5vw, 1.25rem);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .together-scene .scene-content {
   width: 100%;
-  max-width: min(96vw, 760px);
-  height: 100%;
+  max-width: 960px;
+  height: auto;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1639,180 +1750,97 @@ body::before {
   text-align: center;
   margin: 0 auto;
   position: relative;
-  overflow: visible;
+  padding-top: clamp(2.4rem, 5vh, 3.6rem);
+  padding-bottom: clamp(1.8rem, 3.5vh, 2.8rem);
+  box-sizing: border-box;
 }
 
 .together-header {
   text-align: center;
-  margin-bottom: clamp(0.3rem, 1vh, 0.65rem);
+  margin-bottom: clamp(0.8rem, 2vh, 1.4rem);
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 .together-tagline {
   font-family: var(--font-script);
-  font-size: clamp(1.3rem, 3vh, 2rem);
+  font-size: clamp(1.25rem, 2.8vh, 1.95rem);
   color: var(--primary-rose-dark);
-  margin-bottom: 0.05rem;
+  margin-bottom: 0.1rem;
 }
 
 .together-bold-title {
   font-family: var(--font-condensed);
-  font-size: clamp(2rem, 5vh, 3.6rem);
+  font-size: clamp(2.2rem, 5.5vh, 3.8rem);
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #FFFFFF;
-  text-shadow: 
-    0 3px 10px rgba(92, 29, 36, 0.35),
-    0 1px 2px rgba(0, 0, 0, 0.2);
-  line-height: 1;
+  color: var(--maroon-dark);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+  line-height: 1.05;
 }
 
 .polaroid-flip-hint {
   font-family: var(--font-serif);
-  font-size: clamp(0.75rem, 1.5vh, 0.88rem);
-  color: var(--maroon-dark);
-  margin-top: 0.25rem;
-  opacity: 0.85;
+  font-size: clamp(0.82rem, 1.6vh, 0.96rem);
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  letter-spacing: 0.02em;
 }
 
-/* POLAROID PHOTO GALLERY */
+/* 3 POLAROIDS GALLERY */
 .polaroid-gallery {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(0.45rem, 1.8vw, 1.2rem);
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 2.2rem);
   width: 100%;
-  max-width: min(96vw, 720px);
-  margin: clamp(0.35rem, 1.4vh, 0.9rem) auto;
-  position: relative;
-  z-index: 2;
+  max-width: 860px;
+  margin: clamp(0.6rem, 1.5vh, 1.2rem) auto;
+  perspective: 1200px;
   box-sizing: border-box;
+}
+
+/* Individual Polaroid 3D Container */
+.polaroid-card {
+  position: relative;
+  width: clamp(210px, 26vw, 250px);
+  height: clamp(280px, 34vw, 325px);
+  perspective: 1000px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.35s ease, filter 0.35s ease;
+  animation: polaroid-float 4.6s ease-in-out infinite;
 }
 
 @keyframes polaroid-float {
   0%, 100% {
-    translate: 0 0;
+    margin-top: 0;
   }
   50% {
-    translate: 0 -6px;
+    margin-top: -6px;
   }
 }
 
-.polaroid-card {
-  background: transparent;
-  width: 100%;
-  max-width: clamp(100px, 29vw, 200px);
-  position: relative;
-  box-sizing: border-box;
-  cursor: pointer;
-  perspective: 1000px;
-  animation: polaroid-float 4.5s ease-in-out infinite;
-  will-change: transform, translate;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  outline: none;
-}
-
-.polaroid-flip-inner {
-  position: relative;
-  width: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.polaroid-card.is-flipped .polaroid-flip-inner {
-  transform: rotateY(180deg);
-}
-
-.polaroid-face {
-  background: #FFFFFF;
-  padding: clamp(6px, 1vw, 10px) clamp(6px, 1vw, 10px) clamp(12px, 1.8vh, 18px) clamp(6px, 1vw, 10px);
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(92, 29, 36, 0.16);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.polaroid-front {
-  position: relative;
-}
-
-.polaroid-back {
-  position: absolute;
-  inset: 0;
-  transform: rotateY(180deg);
-  background: linear-gradient(145deg, #FFFDF9 0%, #F9EFEA 100%);
-  border: 1px solid rgba(200, 90, 83, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: clamp(8px, 1.4vw, 14px);
-  text-align: center;
-}
-
-.polaroid-back-date {
-  font-family: var(--font-sans);
-  font-size: clamp(0.6rem, 1.2vh, 0.72rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--primary-rose-dark);
-  border-bottom: 1px dashed rgba(200, 90, 83, 0.3);
-  padding-bottom: 3px;
-  width: 100%;
-}
-
-.polaroid-back-note {
-  font-family: var(--font-letter);
-  font-size: clamp(0.75rem, 1.55vh, 0.94rem);
-  font-style: italic;
-  line-height: 1.35;
-  color: var(--maroon-dark);
-  margin: auto 0;
-}
-
-.polaroid-back-heart {
-  color: var(--primary-rose);
-  font-size: 0.9rem;
-}
-
-.polaroid-flip-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 253, 249, 0.88);
-  color: var(--maroon-dark);
-  font-family: var(--font-sans);
-  font-size: 0.62rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-  pointer-events: none;
-}
-
-/* Alternating tilted polaroids with staggered float timing */
+/* Staggered Tilts */
 .polaroid-card:nth-child(1) {
-  transform: rotate(-3deg);
+  transform: rotate(-3.5deg);
   animation-delay: 0s;
-  animation-duration: 4.3s;
+  animation-duration: 4.4s;
 }
 
 .polaroid-card:nth-child(2) {
-  transform: rotate(2deg) translateY(-4px);
-  animation-delay: -1.5s;
-  animation-duration: 4.8s;
+  transform: rotate(2.2deg) translateY(-5px);
+  animation-delay: -1.6s;
+  animation-duration: 4.9s;
 }
 
 .polaroid-card:nth-child(3) {
-  transform: rotate(-2deg);
-  animation-delay: -2.9s;
-  animation-duration: 4.5s;
+  transform: rotate(-2.5deg);
+  animation-delay: -3s;
+  animation-duration: 4.6s;
 }
 
 .polaroid-card:hover {
@@ -1820,49 +1848,93 @@ body::before {
   z-index: 10;
 }
 
-.polaroid-card:hover .polaroid-face {
-  box-shadow: 0 14px 28px rgba(92, 29, 36, 0.24);
+.polaroid-card:focus-visible {
+  outline: 2px solid var(--primary-rose);
+  outline-offset: 4px;
+}
+
+/* 3D Flip Inner Card */
+.polaroid-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 8px;
+}
+
+.polaroid-card.is-flipped .polaroid-flip-inner {
+  transform: rotateY(180deg);
 }
 
 /* Tape sticker on top of polaroids */
 .polaroid-tape {
   position: absolute;
-  top: -7px;
+  top: -8px;
   left: 50%;
-  transform: translateX(-50%);
-  width: clamp(40px, 8vw, 60px);
-  height: 14px;
-  background-color: rgba(255, 255, 255, 0.7);
+  transform: translateX(-50%) rotate(-1deg);
+  width: clamp(48px, 9vw, 68px);
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  z-index: 5;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  z-index: 6;
   pointer-events: none;
+}
+
+/* Front & Back Faces */
+.polaroid-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: clamp(10px, 1.5vh, 14px);
+  box-shadow: 0 8px 24px rgba(92, 29, 36, 0.14);
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.polaroid-card:hover .polaroid-face {
+  box-shadow: 0 14px 30px rgba(92, 29, 36, 0.22);
+}
+
+/* Front Face Layout */
+.polaroid-front {
+  justify-content: flex-start;
 }
 
 .polaroid-photo-frame {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: linear-gradient(135deg, #F3EAE6 0%, #E2D3CC 100%);
+  background: linear-gradient(135deg, #F5ECE8 0%, #E6D7D0 100%);
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
+  border: 1px solid rgba(106, 27, 41, 0.08);
 }
 
 .polaroid-photo-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .polaroid-caption {
-  margin-top: clamp(6px, 1vh, 10px);
+  margin-top: clamp(8px, 1.4vh, 12px);
   font-family: var(--font-letter);
-  font-size: clamp(0.82rem, 1.7vh, 0.98rem);
-  font-weight: 600;
+  font-size: clamp(0.92rem, 1.8vh, 1.08rem);
+  font-weight: 700;
   font-style: italic;
   color: var(--text-main);
   text-align: center;
@@ -1871,19 +1943,79 @@ body::before {
   text-overflow: ellipsis;
 }
 
+.polaroid-flip-badge {
+  display: inline-block;
+  align-self: center;
+  margin-top: auto;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--primary-rose);
+  background: rgba(200, 90, 83, 0.1);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(200, 90, 83, 0.2);
+}
+
+/* Back Face Layout (Handwritten Memory Note) */
+.polaroid-back {
+  transform: rotateY(180deg);
+  background: #FFFDF9;
+  border: 1px dashed rgba(200, 90, 83, 0.3);
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: clamp(14px, 2.2vh, 20px);
+}
+
+.polaroid-back-date {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary-rose-dark);
+  background: rgba(200, 90, 83, 0.12);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.polaroid-back-note {
+  font-family: var(--font-letter);
+  font-size: clamp(0.98rem, 2vh, 1.15rem);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-main);
+  margin: auto 0;
+  padding: 0 4px;
+}
+
+.polaroid-back-heart {
+  font-size: 1.25rem;
+  color: var(--primary-rose);
+  animation: pulse-heart 2s infinite ease-in-out;
+}
+
 /* --------------------------------------------------------------------------
-   9.5. SCENE 6: SECRET BONUS SURPRISE (VINYL PLAYER + GOLD SCRATCH-OFF CARD)
+   9.5. SCENE 6: SECRET SISTER VAULT (GIANT GOLD OVERLAY + 3-COLUMN REVEAL)
    -------------------------------------------------------------------------- */
 .secret-bonus-card {
   background-color: var(--bg-paper);
   border: 1px solid var(--border-subtle);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: clamp(1rem, 2.2vh, 1.75rem) clamp(1rem, 2.4vw, 1.85rem);
-  max-width: min(94vw, 760px);
+  max-width: 100% !important;
   width: 100%;
   box-shadow: var(--shadow-deep);
   box-sizing: border-box;
   scroll-snap-align: center;
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.secret-bonus-card.is-revealed {
+  max-width: 100% !important;
 }
 
 .bonus-header {
@@ -1910,67 +2042,207 @@ body::before {
   color: var(--text-muted);
 }
 
-.bonus-interactive-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(0.85rem, 2vw, 1.4rem);
-  align-items: stretch;
+/* Vault Arena Wrapper (holds the 3-column layout and the giant overlay) */
+.vault-stage-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  border-radius: 18px;
+  overflow: visible;
+  background: linear-gradient(150deg, #FCF7F2 0%, #F5ECE3 100%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: inset 0 2px 14px rgba(92, 29, 36, 0.04);
+  box-sizing: border-box;
 }
 
-@media (min-width: 620px) {
-  .bonus-interactive-grid {
-    grid-template-columns: 1fr 1.25fr;
+/* Giant Golden Overlay (Before Scratch): covers the ENTIRE vault layout */
+.giant-golden-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.giant-golden-overlay:active {
+  cursor: grabbing;
+}
+
+.giant-golden-overlay.is-revealed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.giant-golden-overlay canvas.scratch-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 18px;
+}
+
+/* The Revealed Layout (After Scratch): wide, 3-column flexbox layout */
+.vault-revealed-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: clamp(0.75rem, 1.4vw, 1.6rem);
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: clamp(0.75rem, 1.5vw, 1.25rem);
+  box-sizing: border-box;
+  min-height: auto;
+}
+
+@media (max-width: 920px) {
+  .vault-revealed-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
   }
 }
 
-/* Vintage Vinyl Record & Voice Note Player */
-.vinyl-player-box {
-  background: linear-gradient(145deg, #FAF3EE 0%, #F2E5DC 100%);
-  border: 1px solid rgba(200, 90, 83, 0.2);
-  border-radius: 14px;
-  padding: clamp(0.75rem, 1.8vh, 1.15rem);
+/* 1. LEFT COLUMN: Spotify-Style Synced Lyrics */
+.vault-col-lyrics {
+  flex: 1 1 310px;
+  min-width: 0;
+  max-width: 390px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 920px) {
+  .vault-col-lyrics {
+    max-width: 580px;
+    width: 100%;
+  }
+}
+
+.vault-col-lyrics .spotify-lyrics-container {
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-height: clamp(380px, 52vh, 480px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #100E14;
+  background: linear-gradient(165deg, rgba(20, 18, 26, 0.96) 0%, rgba(10, 9, 14, 0.98) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  /* Adequate horizontal padding (px-6 / 1.5rem) inside the lyrics container */
+  padding: 1.5rem !important;
+  box-sizing: border-box;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.vault-col-lyrics .spotify-lyrics-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 2. CENTER COLUMN: Spinning Vinyl Record Graphic */
+.vault-col-vinyl {
+  flex: 0 0 310px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
 }
 
-.vinyl-stage {
+.vault-col-vinyl .vinyl-player-box {
+  width: 100%;
+  background: linear-gradient(150deg, #FAF2EB 0%, #F1E2D6 100%);
+  border: 1px solid rgba(200, 90, 83, 0.22);
+  border-radius: 18px;
+  padding: clamp(1rem, 2.2vh, 1.4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  box-shadow: 0 10px 28px rgba(92, 29, 36, 0.08);
+  box-sizing: border-box;
+}
+
+.vault-col-vinyl .vinyl-stage {
   position: relative;
-  width: clamp(92px, 14vh, 118px);
-  height: clamp(92px, 14vh, 118px);
+  width: clamp(190px, 22vw, 240px);
+  height: clamp(190px, 22vw, 240px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-@keyframes vinyl-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes spinVinylDisc {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
+/* Outermost parent container (.vinyl-disc) containing both the record SVG and the label.
+   The entire black disc and center label rotate together as one single connected unit. */
 .vinyl-disc {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle, #2B181A 0%, #160B0C 68%, #2E1B1D 70%, #12090A 100%);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  animation: vinyl-spin 4s linear infinite;
+  transform-origin: center center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.42);
+  /* Stationary by default; steady, realistic turntable timing */
+  animation: spinVinylDisc 5s linear infinite;
   animation-play-state: paused;
+  will-change: transform;
 }
 
-.vinyl-disc.is-spinning {
-  animation-play-state: running;
+.vinyl-record-svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Tailwind-style .animate-spin on the parent div + standard playing classes.
+   Rotates at a steady, realistic 5s linear infinite pace. */
+.vinyl-disc.animate-spin,
+.vinyl-disc.playing,
+.vinyl-disc.is-spinning,
+.vinyl-player-box.playing .vinyl-disc {
+  animation: spinVinylDisc 5s linear infinite !important;
+  animation-play-state: running !important;
 }
 
 .vinyl-grooves {
   position: absolute;
-  inset: 10px;
+  inset: 12px;
   border-radius: 50%;
   border: 1px dashed rgba(255, 255, 255, 0.12);
   pointer-events: none;
@@ -1985,16 +2257,16 @@ body::before {
   align-items: center;
   justify-content: center;
   color: #FFFDF9;
-  font-size: 0.9rem;
-  box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+  font-size: 1.15rem;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.35);
 }
 
 .vinyl-tonearm {
   position: absolute;
-  top: 4px;
-  right: -6px;
-  width: 32px;
-  height: 4px;
+  top: 6px;
+  right: -8px;
+  width: 44px;
+  height: 5px;
   background: linear-gradient(90deg, #D4AF37, #8C6D1F);
   border-radius: 4px;
   transform-origin: right center;
@@ -2003,7 +2275,8 @@ body::before {
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.vinyl-tonearm.is-active {
+.vinyl-tonearm.is-active,
+.vinyl-player-box.playing .vinyl-tonearm {
   transform: rotate(-12deg);
 }
 
@@ -2017,8 +2290,8 @@ body::before {
 
 .vinyl-track-title {
   font-family: var(--font-serif);
-  font-size: clamp(0.88rem, 1.7vh, 1rem);
-  font-weight: 600;
+  font-size: clamp(0.92rem, 1.7vh, 1.05rem);
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
@@ -2027,66 +2300,373 @@ body::before {
   color: var(--text-muted);
 }
 
+/* Animated Equalizer (Beats) under Sister Keepsake Melody */
+.vinyl-equalizer,
 .vinyl-waveform {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  gap: 3px;
-  height: 16px;
-  margin: 2px 0;
+  gap: 4px;
+  height: 18px;
+  margin: 4px 0;
 }
 
+.vinyl-equalizer .eq-bar,
 .vinyl-waveform span {
   display: inline-block;
-  width: 3px;
-  height: 5px;
-  background: var(--primary-rose);
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(180deg, #D4AF37 0%, var(--primary-rose) 100%);
   border-radius: 2px;
-  transition: height 0.2s ease;
+  transform-origin: bottom center;
+  transform: scaleY(0.22);
+  transition: transform 0.2s ease;
 }
 
-@keyframes wave-bar {
-  0%, 100% { height: 4px; }
-  50% { height: 15px; }
+@keyframes eqBeat {
+  0%, 100% {
+    transform: scaleY(0.22);
+  }
+  50% {
+    transform: scaleY(1);
+  }
 }
 
-.vinyl-waveform.is-playing span:nth-child(1) { animation: wave-bar 0.55s infinite ease-in-out 0s; }
-.vinyl-waveform.is-playing span:nth-child(2) { animation: wave-bar 0.55s infinite ease-in-out 0.12s; }
-.vinyl-waveform.is-playing span:nth-child(3) { animation: wave-bar 0.55s infinite ease-in-out 0.24s; }
-.vinyl-waveform.is-playing span:nth-child(4) { animation: wave-bar 0.55s infinite ease-in-out 0.08s; }
-.vinyl-waveform.is-playing span:nth-child(5) { animation: wave-bar 0.55s infinite ease-in-out 0.2s; }
-.vinyl-waveform.is-playing span:nth-child(6) { animation: wave-bar 0.55s infinite ease-in-out 0.3s; }
-.vinyl-waveform.is-playing span:nth-child(7) { animation: wave-bar 0.55s infinite ease-in-out 0.15s; }
-
-.btn-vinyl-play {
-  padding: 0.45rem 1.1rem;
-  font-size: 0.8rem;
-  margin-top: 0.15rem;
+/* Staggered animation delays for the equalizer bars - only animate when playing */
+.vinyl-equalizer.playing .eq-bar:nth-child(1),
+.vinyl-equalizer.is-playing .eq-bar:nth-child(1),
+.vinyl-waveform.is-playing span:nth-child(1) {
+  animation: eqBeat 0.75s ease-in-out infinite 0s;
 }
 
-/* Interactive Gold Foil Scratch-Off Card */
-.scratch-card-box {
+.vinyl-equalizer.playing .eq-bar:nth-child(2),
+.vinyl-equalizer.is-playing .eq-bar:nth-child(2),
+.vinyl-waveform.is-playing span:nth-child(2) {
+  animation: eqBeat 0.62s ease-in-out infinite 0.18s;
+}
+
+.vinyl-equalizer.playing .eq-bar:nth-child(3),
+.vinyl-equalizer.is-playing .eq-bar:nth-child(3),
+.vinyl-waveform.is-playing span:nth-child(3) {
+  animation: eqBeat 0.82s ease-in-out infinite 0.36s;
+}
+
+.vinyl-equalizer.playing .eq-bar:nth-child(4),
+.vinyl-equalizer.is-playing .eq-bar:nth-child(4),
+.vinyl-waveform.is-playing span:nth-child(4) {
+  animation: eqBeat 0.68s ease-in-out infinite 0.1s;
+}
+
+/* 3. RIGHT COLUMN: SISTERHOOD VIP PASS & Personal Sisterly Message */
+.vault-col-vip {
+  flex: 1 1 350px;
+  min-width: 0;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 0.45rem;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-.scratch-prize-container {
-  position: relative;
+@media (max-width: 920px) {
+  .vault-col-vip {
+    max-width: 580px;
+    width: 100%;
+  }
+}
+
+.vault-col-vip .scratch-prize-container {
   width: 100%;
-  min-height: clamp(145px, 23vh, 185px);
-  background: linear-gradient(135deg, #FFFDF9 0%, #FCECE9 100%);
-  border: 2px dashed rgba(212, 175, 55, 0.65);
-  border-radius: 14px;
-  overflow: hidden;
+  min-height: auto;
+  height: 100%;
+  background: linear-gradient(135deg, #FFFDF9 0%, #FAF0E6 50%, #F5E6D8 100%);
+  border: 2px dashed rgba(212, 175, 55, 0.75);
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(1rem, 1.8vw, 1.4rem);
   box-sizing: border-box;
-  box-shadow: inset 0 2px 10px rgba(92, 29, 36, 0.06);
+  box-shadow: 0 14px 36px rgba(92, 29, 36, 0.09), inset 0 2px 10px rgba(212, 175, 55, 0.08);
   user-select: none;
+  position: relative;
+}
+
+.scratch-hidden-prize {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.vip-pass-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.vip-serial-badge {
+  font-family: 'Plus Jakarta Sans', Montserrat, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.prize-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, #D4AF37 0%, #B88E1E 100%);
+  color: #FFFDF9;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(184, 142, 30, 0.3);
+}
+
+.prize-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.8vh, 1.3rem);
+  font-weight: 700;
+  color: var(--maroon-dark);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.prize-desc {
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, 1.5vh, 0.94rem);
+  color: var(--text-main);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.prize-sister-note {
+  background: rgba(255, 255, 255, 0.65);
+  border-left: 3px solid var(--gold-accent);
+  border-radius: 0 10px 10px 0;
+  padding: 0.6rem 0.85rem;
+  margin: 0.35rem 0;
+}
+
+.prize-personal-words {
+  font-family: var(--font-letter);
+  font-size: clamp(0.95rem, 1.6vh, 1.08rem);
+  font-style: italic;
+  color: var(--maroon-dark);
+  line-height: 1.45;
+  margin: 0 0 0.25rem 0;
+}
+
+.prize-signature {
+  display: block;
+  font-family: var(--font-letter);
+  font-size: 0.92rem;
+  color: var(--primary-rose-dark);
+  text-align: right;
+}
+
+.prize-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.35rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(212, 175, 55, 0.4);
+}
+
+.prize-code {
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--maroon-dark);
+  background: rgba(212, 175, 55, 0.18);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.06em;
+}
+
+.prize-expiry {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--primary-rose-dark);
+}
+
+/* Spotify Header Row */
+.spotify-lyrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  padding-bottom: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.spotify-lyrics-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, 'Circular Std', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1ED760;
+  background: rgba(30, 215, 96, 0.14);
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(30, 215, 96, 0.28);
+}
+
+.spotify-sound-icon {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+}
+
+.spotify-sound-icon i {
+  display: block;
+  width: 2px;
+  background-color: #1ED760;
+  border-radius: 1px;
+  animation: spotifyEqualizer 1.2s ease-in-out infinite alternate;
+}
+
+.spotify-sound-icon i:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+.spotify-sound-icon i:nth-child(2) { height: 11px; animation-delay: 0.3s; }
+.spotify-sound-icon i:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+.spotify-sound-icon i:nth-child(4) { height: 10px; animation-delay: 0.4s; }
+
+@keyframes spotifyEqualizer {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1.0); }
+}
+
+.spotify-song-title {
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.02em;
+}
+
+/* Spotify-style Lyrics Typography */
+.lyrics-scroll-container,
+.spotify-lyrics-container {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.spotify-lyrics-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Premium, clean sans-serif font (Inter / system-ui / Helvetica Neue) with relaxed line-height */
+.spotify-lyric-line {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif !important;
+  font-size: clamp(1rem, 1.45vw, 1.18rem);
+  font-weight: 500;
+  line-height: 1.7; /* Relaxed line-height */
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.42); /* Subtle semi-transparent gray un-highlighted text */
+  margin: 0 0 0.55rem 0;
+  padding: 4px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  /* Text wrapping: long lines must wrap to the next line instead of pushing outside the box */
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  text-wrap: balance;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  transform-origin: left center;
+  transition: color 0.22s ease, opacity 0.22s ease, font-weight 0.22s ease;
+  user-select: text;
+}
+
+/* Un-highlighted hover preview */
+.spotify-lyric-line:hover {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Active text: crisp font-bold white, perfectly contained within the dark box */
+.spotify-lyric-line.active,
+.spotify-lyric-line.is-active-sync,
+.spotify-lyric-line.text-white {
+  color: #FFFFFF !important; /* Crisp font-bold white */
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.35) !important;
+  transform: none !important; /* Prevent horizontal translate or scale from pushing outside */
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+.spotify-lyric-line.scale-105 {
+  transform: none !important;
+}
+
+.spotify-lyric-line.font-extrabold {
+  font-weight: 700 !important;
+}
+
+.spotify-lyric-line.transition-all {
+  transition: color 0.22s ease, opacity 0.22s ease, font-weight 0.22s ease;
+}
+
+/* Verse headings (e.g. [Verse 1], [Chorus]): bright white! */
+.spotify-verse-heading {
+  font-family: 'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, 'Circular Std', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FFFFFF; /* Bright white */
+  opacity: 0.95;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  margin-top: 1.45rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.spotify-verse-heading:first-child {
+  margin-top: 0.2rem;
+}
+
+.spotify-verse-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+}
+
+@keyframes fadeInSpotifyLyrics {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .scratch-hidden-prize {
@@ -2184,38 +2764,8 @@ body::before {
 }
 
 /* --------------------------------------------------------------------------
-   10. AMBIENT AUDIO & ACCESSIBILITY TOGGLES
+   10. AMBIENT CELEBRATION EFFECTS
    -------------------------------------------------------------------------- */
-.music-toggle-btn {
-  position: fixed;
-  bottom: clamp(0.75rem, 2vh, 1.25rem);
-  right: clamp(0.75rem, 2vw, 1.25rem);
-  width: clamp(38px, 5vh, 42px);
-  height: clamp(38px, 5vh, 42px);
-  border-radius: 50%;
-  background-color: var(--bg-paper);
-  border: 1px solid var(--border-subtle);
-  color: var(--maroon-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: var(--shadow-soft);
-  z-index: 990;
-  transition: all 0.25s ease;
-  outline: none;
-}
-
-.music-toggle-btn:hover {
-  transform: scale(1.08);
-  box-shadow: var(--shadow-deep);
-  color: var(--primary-rose);
-}
-
-.music-toggle-btn:focus-visible {
-  outline: 2px solid var(--gold-accent);
-}
-
 /* Floating celebration heart sparkles */
 .floating-heart {
   position: fixed;
@@ -2236,3 +2786,175 @@ body::before {
     transform: translateY(-100px) scale(1.3) rotate(20deg);
   }
 }
+
+/* --------------------------------------------------------------------------
+   11. CUSTOM VINYL COVER, ANTI-GRAVITY BACKGROUND & TAPED LETTER MEMORIES
+   -------------------------------------------------------------------------- */
+
+/* Custom Vinyl Album Cover Image (Center Label of Record) */
+.vinyl-center-album-cover {
+  width: 90px;
+  height: 90px;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #D4AF37;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  display: block;
+}
+
+/* Anti-Gravity Floating Background (Vault Scene) */
+.vault-antigravity-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.vault-floating-polaroid {
+  position: absolute;
+  width: clamp(75px, 9vw, 100px);
+  background: #FFFFFF;
+  padding: 6px 6px 14px 6px;
+  border-radius: 6px;
+  box-shadow: 0 12px 28px rgba(92, 29, 36, 0.22);
+  opacity: 0.3 !important;
+  filter: blur(1.2px) !important;
+  pointer-events: none;
+  animation: floatZeroGravity 12s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  box-sizing: border-box;
+}
+
+.vault-floating-polaroid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 3px;
+  display: block;
+}
+
+.vault-floating-polaroid .float-tape {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 32px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@keyframes floatZeroGravity {
+  0% {
+    transform: translateY(0px) rotate(-3deg) scale(0.96);
+  }
+  50% {
+    transform: translateY(-24px) rotate(4deg) scale(1.02);
+  }
+  100% {
+    transform: translateY(-48px) rotate(-2deg) scale(0.98);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   TAPED PHOTO MEMORIES INSIDE BIRTHDAY LETTERS (WEBSITE RATIO & FULL PHOTO VISIBILITY)
+   - Generous Website Proportions: max-width 520px, fluid down to mobile
+   - 100% Complete Photo Visibility: Natural aspect-ratio, object-fit contain
+   - No cropped heads, faces, or bodies; no mobile phone squished preview
+   -------------------------------------------------------------------------- */
+
+.letter-memory-photo-wrap {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0.75rem auto !important;
+  padding: 0 !important;
+  position: static !important;
+  clear: both !important;
+  box-sizing: border-box !important;
+}
+
+.letter-taped-photo {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  background: #FFFFFF !important;
+  padding: 10px 10px 14px 10px !important;
+  border: 4px solid #FFFFFF !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 24px rgba(92, 29, 36, 0.14), 0 3px 8px rgba(0, 0, 0, 0.06) !important;
+  max-width: 300px !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.letter-taped-photo:hover {
+  transform: scale(1.03) rotate(0deg) !important;
+  box-shadow: 0 14px 30px rgba(92, 29, 36, 0.2) !important;
+  z-index: 5 !important;
+}
+
+.letter-taped-photo img {
+  position: static !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 280px !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  background: #FFFDF9 !important;
+  border-radius: 4px !important;
+  display: block !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.letter-taped-photo .photo-tape-strip {
+  position: absolute !important;
+  top: -9px !important;
+  left: 50% !important;
+  transform: translateX(-50%) rotate(-1deg) !important;
+  width: 54px !important;
+  height: 14px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(2px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.letter-taped-photo .photo-caption-note {
+  display: block !important;
+  font-family: var(--font-letter, 'Caveat', cursive) !important;
+  font-size: 1.02rem !important;
+  color: var(--maroon-dark, #5C1D24) !important;
+  text-align: center !important;
+  margin-top: 10px !important;
+  margin-bottom: 0 !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  width: 100% !important;
+}
+
+/* Alternating gentle tilts that do not break bounding layout */
+.tilt-left-1 { transform: rotate(-2deg); }
+.tilt-right-1 { transform: rotate(2deg); }
+.tilt-left-2 { transform: rotate(-1.5deg); }
+.tilt-right-2 { transform: rotate(1.5deg); }
+.tilt-left-3 { transform: rotate(-1.2deg); }
+.tilt-right-3 { transform: rotate(1.2deg); }
+

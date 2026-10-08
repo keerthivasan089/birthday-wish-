@@ -8,10 +8,10 @@
   <!-- 1. PAGE METADATA                                                     -->
   <!-- ==================================================================== -->
   <!-- REPLACE: Site title if you want to customize it -->
-  <title>Letters For You — Birthday Website</title>
-  <meta name="description" content="A romantic interactive Letters For You birthday card and memories website." />
-  <meta property="og:title" content="Letters For You — Birthday Website" />
-  <meta property="og:description" content="A romantic interactive Letters For You birthday card and memories website." />
+  <title>Letters For You — Happy Birthday, Little Sister!</title>
+  <meta name="description" content="A heartfelt interactive birthday celebration and memories keepsake from your elder sister." />
+  <meta property="og:title" content="Letters For You — Happy Birthday, Little Sister!" />
+  <meta property="og:description" content="A heartfelt interactive birthday celebration and memories keepsake from your elder sister." />
   <meta property="og:type" content="website" />
 
   <!-- ==================================================================== -->
@@ -19,7 +19,7 @@
   <!-- ==================================================================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@700;800;900&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- ==================================================================== -->
   <!-- 3. MAIN STYLESHEET                                                   -->
@@ -28,20 +28,25 @@
 </head>
 <body>
 
-  <!-- Background Music Element (Optional) -->
-  <!-- REPLACE: Replace the src with your favorite romantic mp3 URL if desired -->
-  <audio id="bg-audio" loop preload="auto">
-    <source src="" type="audio/mp3">
+  <!-- React Mount Point for React Audio and UI components -->
+  <div id="root"></div>
+
+  <!-- Hidden Audio Elements (React refs & HTML5 audio fallbacks for bg-song.mp3, happy-birthday.mp3, and golden-song.mp3) -->
+  <audio id="bg-audio" loop preload="auto" src="/bg-song.mp3" style="display: none;">
+    <source src="/bg-song.mp3" type="audio/mp3">
+    <source src="/assets/bg-song.mp3" type="audio/mp3">
   </audio>
 
-  <!-- Ambient Music Toggle Floating Button -->
-  <button id="music-toggle" class="music-toggle-btn" aria-label="Toggle background music" title="Toggle Music">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-    </svg>
-  </button>
+  <audio id="birthday-audio" preload="auto" src="/happy-birthday.mp3" style="display: none;">
+    <source src="/happy-birthday.mp3" type="audio/mp3">
+    <source src="/assets/happy-birthday.mp3" type="audio/mp3">
+  </audio>
+
+  <audio id="golden-audio" preload="auto" src="/golden-song.mp3" style="display: none;">
+    <source src="/golden-song.mp3" type="audio/mp3">
+    <source src="/assets/golden-song.mp3" type="audio/mp3">
+    <source src="/golden card song.mp3" type="audio/mp3">
+  </audio>
 
   <!-- Ambient & Interactive Particle Dispersion Canvas (Flowing Hearts, Flower Petals & Cursor Trail) -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
@@ -145,18 +150,16 @@
         </div>
 
         <!-- Playful Hand-Lettered Main Heading -->
-        <!-- REPLACE: Main Greeting Heading -->
-        <h1 class="landing-playful-title">Hello there ~!</h1>
+        <h1 class="landing-playful-title">Hello Little Sis ~!</h1>
 
         <!-- Subheading / Question -->
-        <!-- REPLACE: Subheading text (will dynamically update with teasing lines if NO is attempted) -->
-        <p id="landing-subheading" class="landing-subheading">do you want to see your gift?</p>
+        <p id="landing-subheading" class="landing-subheading">ready to see what your big sister made for you?</p>
 
         <!-- Interactive Pill Button Group -->
         <div class="landing-action-group" id="landing-btn-group">
-          <!-- "YES PLEASE" Button -> Transitions smoothly to next scene ("Happy Birthday to My Love" envelope intro) -->
-          <button id="btn-yes-please" class="btn-pill-choice btn-pill-yes" data-nav-target="intro" aria-label="Yes please, see gift">
-            YES PLEASE
+          <!-- "YES PLEASE" Button -> Transitions smoothly to next scene -->
+          <button id="btn-yes-please" class="btn-pill-choice btn-pill-yes" data-nav-target="intro" aria-label="Yes please, Di!">
+            YES PLEASE, DI!
           </button>
 
           <!-- "NO THANKS" Button -> Playfully dodges cursor/finger and vanishes after 2-3 tries -->
@@ -173,7 +176,6 @@
       <!-- ============================================================== -->
       
       <!-- Bottom Left Botanical Illustration & Accent Dots -->
-      <!-- REPLACE: Replace SVG or drop an <img src="flower-left.png"> -->
       <div class="botanical-corner botanical-corner-left" aria-hidden="true">
         <!-- Floating accent flower dots -->
         <div class="accent-flower-dot dot-left-1"></div>
@@ -205,7 +207,6 @@
       </div>
 
       <!-- Bottom Right Botanical Illustration & Accent Dots -->
-      <!-- REPLACE: Replace SVG or drop an <img src="flower-right.png"> -->
       <div class="botanical-corner botanical-corner-right" aria-hidden="true">
         <!-- Floating accent flower dots -->
         <div class="accent-flower-dot dot-right-1"></div>
@@ -252,7 +253,7 @@
               
               <!-- Inside letter paper peek -->
               <div class="envelope-letter-inside">
-                <span>With all my love...</span>
+                <span>With all my big sister love...</span>
               </div>
               
               <!-- Folded Flaps -->
@@ -273,10 +274,9 @@
 
           <!-- Script-Style Site Title & Tap Prompt -->
           <div class="intro-title-wrap">
-            <!-- REPLACE: Site title / Greeting -->
             <h1 class="script-hero-title">Letters<br>For You</h1>
             <div class="tap-prompt">
-              <span>Tap envelope to open</span>
+              <span>Tap envelope to open, little sis</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -291,25 +291,26 @@
 
     <!-- ================================================================== -->
     <!-- SCENE 2: HOME SCENE                                                -->
-    <!-- Elegant script heading, romantic subheading, open button           -->
+    <!-- Elegant script heading, sisterly message, open buttons             -->
     <!-- ================================================================== -->
     <section id="scene-home" class="scene" aria-label="Home Welcome" aria-hidden="true">
       <div class="scene-content">
         
         <div class="home-card">
-          <!-- REPLACE: Main home greeting / girlfriend's name -->
-          <h1 class="home-title">Happy Birthday, My Love</h1>
+          <!-- Main sister greeting -->
+          <h1 class="home-title">Happy Birthday, Little Sister! 🌸</h1>
           
-          <!-- REPLACE: Romantic subheading / short intro message -->
+          <!-- Sisterly intro message -->
           <p class="home-subtitle">
-            I created this little space to hold some special letters, sweet reminders,
-            and our favorite moments together. I hope every page brings a smile to your face.
+            No matter how many years pass or how tall you grow, you'll always be the little girl I held in my arms.
+            I created this special keepsake filled with sister letters, our favorite memories, and all the reasons
+            I’m so lucky to have you.
           </p>
 
           <div class="home-actions">
             <!-- Button to open the Letters Grid -->
             <button class="btn-primary" data-nav-target="lettersGrid" id="btn-open-letters">
-              <span>Open Letters</span>
+              <span>Open Sister Letters</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
@@ -348,9 +349,8 @@
       <div class="scene-content">
         
         <div class="letters-header">
-          <!-- REPLACE: Letters grid section heading -->
-          <h2 class="section-script-title">Choose a letter...</h2>
-          <p class="section-subtitle">Each one holds a piece of my heart</p>
+          <h2 class="section-script-title">Choose a letter, little sis...</h2>
+          <p class="section-subtitle">Written with so much sisterly love &amp; laughter</p>
         </div>
 
         <!-- 4 Envelope Cards Grid -->
@@ -368,9 +368,8 @@
                 </svg>
               </div>
             </div>
-            <!-- REPLACE: Letter 1 card label -->
             <span class="letter-card-label">Letter 1</span>
-            <span class="letter-card-hint">Read when you need a smile</span>
+            <span class="letter-card-hint">When you need a big sister hug</span>
           </div>
 
           <!-- Card 2: Letter 2 -->
@@ -385,9 +384,8 @@
                 </svg>
               </div>
             </div>
-            <!-- REPLACE: Letter 2 card label -->
             <span class="letter-card-label">Letter 2</span>
-            <span class="letter-card-hint">A virtual bouquet for you</span>
+            <span class="letter-card-hint">Why you're the best sister ever</span>
           </div>
 
           <!-- Card 3: Letter 3 -->
@@ -402,9 +400,8 @@
                 </svg>
               </div>
             </div>
-            <!-- REPLACE: Letter 3 card label -->
             <span class="letter-card-label">Letter 3</span>
-            <span class="letter-card-hint">Make a birthday wish</span>
+            <span class="letter-card-hint">Blow candles &amp; make a wish</span>
           </div>
 
           <!-- Card 4: Letter 4 (or "Last but not least") -->
@@ -419,9 +416,8 @@
                 </svg>
               </div>
             </div>
-            <!-- REPLACE: Letter 4 card label -->
-            <span class="letter-card-label">Last but not least</span>
-            <span class="letter-card-hint">My deepest message to you</span>
+            <span class="letter-card-label">Letter 4</span>
+            <span class="letter-card-hint">My lifelong promise as your Di</span>
           </div>
 
         </div>
@@ -434,7 +430,7 @@
             </button>
             <button class="btn-secret-bonus is-locked" id="btn-secret-bonus" type="button" aria-label="Secret Bonus Surprise">
               <span class="secret-bonus-icon" id="secret-bonus-icon">🔒</span>
-              <span class="secret-bonus-text" id="secret-bonus-text">Read all 4 letters to unlock Secret Surprise (0/4)</span>
+              <span class="secret-bonus-text" id="secret-bonus-text">Read all 4 letters to unlock Secret Sister Surprise (0/4)</span>
             </button>
           </div>
         </div>
@@ -465,39 +461,56 @@
           <div class="washi-tape-top"></div>
 
           <div class="scrapbook-grid">
-            
-            <!-- Photo Slot -->
-            <div class="scrapbook-photo-card">
-              <!-- REPLACE: letter 1 photo (drop your photo URL in src below or keep illustration) -->
-              <div class="photo-placeholder-box">
-                <!-- Example: <img src="your-photo-1.jpg" alt="Memory Photo 1" /> -->
-                <div class="photo-card-art">
-                  <svg viewBox="0 0 160 160" fill="none" class="photo-art-svg" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="80" cy="80" r="70" fill="rgba(200, 90, 83, 0.14)"/>
-                    <path d="M80 42 C66 22, 32 37, 47 67 C 57 87, 80 115, 80 115 C 80 115, 103 87, 113 67 C 128 37, 94 22, 80 42 Z" fill="#C85A53"/>
-                    <path d="M96 54 C88 42, 68 52, 76 70 C 82 82, 96 100, 96 100 C 96 100, 110 82, 116 70 C 124 52, 104 42, 96 54 Z" fill="#E88C86"/>
-                    <circle cx="118" cy="45" r="8" fill="#F4E295"/>
-                    <path d="M118 36 L120 43 L127 45 L120 47 L118 54 L116 47 L109 45 L116 43 Z" fill="#D4AF37"/>
-                  </svg>
-                  <span class="photo-caption-tag">✨ Sweet Moments ✨</span>
+
+            <!-- Left Column: Cherished Photos (Desktop Side-by-Side Spread) -->
+            <div class="scrapbook-photos-col">
+              <!-- Embedded Taped Photo 1 (Sweet Moments with Kavin) -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-right-1">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/10.jpeg" alt="Sweet Moments with Kavin" />
+                  <span class="photo-caption-note">Sweet moments with Kavin 🌸</span>
+                </div>
+              </div>
+
+              <!-- Embedded Taped Photo 2 -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-left-1">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/11.jpeg" alt="Memory Photo - Big smiles always" />
+                  <span class="photo-caption-note">The brightest smile in the room ✨</span>
+                </div>
+              </div>
+
+              <!-- Embedded Taped Photo 3 -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-right-2">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/13.jpeg" alt="Memory Photo - Cherished times" />
+                  <span class="photo-caption-note">Cherished moments forever 🤍</span>
                 </div>
               </div>
             </div>
 
-            <!-- Letter 1 Content -->
+            <!-- Right Column: Letter 1 Written Content -->
             <div class="scrapbook-content">
-              <!-- REPLACE: letter 1 title -->
-              <h3 class="letter-title">To my sweetest person,</h3>
+              <h3 class="letter-title">To my favorite little trouble-maker,</h3>
               
-              <!-- REPLACE: letter 1 message -->
               <p class="letter-text">
-                Every single day with you feels like a gift. Thank you for your warmth,
-                your laughter, and for being the gentlest place in my whole world.
-                I hope this year brings you all the happiness you give so effortlessly to everyone else.
+                From the day you came into this world, my life became infinitely noisier, sweeter, and so much brighter.
+                Thank you for your warmth, your infectious laugh, and for always being my built-in best friend.
               </p>
 
-              <!-- REPLACE: girlfriend's name or your signature -->
-              <div class="letter-signature">Forever yours, &hearts;</div>
+              <p class="letter-text">
+                Watching you grow into such a graceful, resilient, and wonderful young woman is one of my greatest joys in life.
+                No matter how much taller or wiser you get, you will always be my precious baby sister.
+              </p>
+
+              <p class="letter-text">
+                Through every late night and every dream you chase, always remember you have someone who loves you beyond measure.
+              </p>
+
+              <div class="letter-signature">Forever your big sister &amp; biggest cheerleader, &hearts;</div>
             </div>
 
           </div>
@@ -508,7 +521,7 @@
 
     <!-- ================================================================== -->
     <!-- SCENE 4.2: LETTER 2 REVEAL (Virtual Bouquet Scene)                 -->
-    <!-- Matching Video: Flower bouquet illustration + reasons I adore you  -->
+    <!-- Sister Bouquet: 5 reasons you're the best sister in the universe    -->
     <!-- ================================================================== -->
     <section id="scene-letter-2" class="scene reveal-scene" aria-label="Letter 2" aria-hidden="true">
       <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -526,61 +539,97 @@
       <div class="scene-content">
         <div class="bouquet-card">
           
-          <div class="bouquet-text-wrap">
-            <!-- REPLACE: letter 2 title -->
-            <h3 class="letter-title">Your Virtual Bouquet</h3>
-            <p style="font-family: var(--font-serif); font-size: 1.12rem; color: var(--text-muted); margin-bottom: 0.6rem;">
-              Every flower represents a reason why I adore you:
-            </p>
+          <div class="bouquet-content-grid">
+            <!-- Left Column: The 5 Reasons & Sister Message -->
+            <div class="bouquet-text-wrap">
+              <h3 class="letter-title">Your Sister Bouquet</h3>
+              <p style="font-family: var(--font-serif); font-size: 1.12rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                Every flower represents a reason why having you as my sister is the greatest gift:
+              </p>
 
-            <!-- REPLACE: reasons why I adore you -->
-            <ul class="reasons-list">
-              <li>Because your laugh is my absolute favorite sound in the world.</li>
-              <li>Because you listen to my random thoughts and make every day brighter.</li>
-              <li>Because you are so endlessly kind, thoughtful, and patient.</li>
-              <li>Because being next to you feels like coming home.</li>
-            </ul>
-          </div>
+              <ul class="reasons-list">
+                <li>Because you forgive me even when I borrow your clothes (and when you steal mine!).</li>
+                <li>Because you're the first person I run to when I have secrets and family gossip to spill.</li>
+                <li>Because your laughter can turn my worst days into happy ones in seconds.</li>
+                <li>Because nobody else in this universe understands our inside jokes like you do.</li>
+                <li>Because having you as my sister means I will never have to face this world alone.</li>
+              </ul>
 
-          <!-- Bouquet Graphic Frame -->
-          <div class="bouquet-graphic-wrap">
-            <!-- REPLACE: bouquet photo / graphic URL if you have one -->
-            <div class="bouquet-illustration photo-placeholder-box">
-              <div class="bouquet-art-container">
-                <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="bouquet-svg">
-                  <!-- Stems & Foliage -->
-                  <path d="M100 220 L90 140" stroke="#728461" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M100 220 L105 135" stroke="#637553" stroke-width="4" stroke-linecap="round"/>
-                  <path d="M100 220 L78 145" stroke="#889C74" stroke-width="3.5" stroke-linecap="round"/>
-                  <path d="M100 220 L122 145" stroke="#889C74" stroke-width="3.5" stroke-linecap="round"/>
-                  <!-- Leaves -->
-                  <path d="M85 170 C60 160, 50 140, 65 130 C75 140, 85 155, 85 170 Z" fill="#889C74"/>
-                  <path d="M115 170 C140 160, 150 140, 135 130 C125 140, 115 155, 115 170 Z" fill="#889C74"/>
-                  <path d="M95 145 C75 125, 70 105, 85 95 C95 110, 95 130, 95 145 Z" fill="#728461"/>
-                  <!-- Ribbon & Bow -->
-                  <path d="M82 195 C92 205, 108 205, 118 195 C124 185, 76 185, 82 195 Z" fill="#D4AF37"/>
-                  <path d="M92 200 C80 220, 72 235, 70 240" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
-                  <path d="M108 200 C120 220, 128 235, 130 240" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
-                  <circle cx="100" cy="195" r="5" fill="#F4E295"/>
-                  <!-- Rose 1 (Center) -->
-                  <circle cx="100" cy="110" r="28" fill="#C85A53"/>
-                  <path d="M85 105 C78 90, 95 80, 110 85 C125 90, 128 110, 115 125 C100 135, 80 120, 85 105 Z" fill="#A93F38"/>
-                  <path d="M92 98 C88 92, 102 88, 108 94 C112 100, 106 108, 100 108 C94 108, 90 102, 92 98 Z" fill="#E88C86"/>
-                  <circle cx="100" cy="102" r="5" fill="#F4E295"/>
-                  <!-- Rose 2 (Left Peony) -->
-                  <circle cx="68" cy="120" r="22" fill="#E88C86"/>
-                  <path d="M55 115 C50 102, 65 95, 78 100 C88 108, 82 125, 72 130 C62 130, 55 125, 55 115 Z" fill="#C85A53"/>
-                  <circle cx="68" cy="115" r="4" fill="#FFFDF9"/>
-                  <!-- Rose 3 (Right Blossom) -->
-                  <circle cx="132" cy="120" r="22" fill="#E88C86"/>
-                  <path d="M145 115 C150 102, 135 95, 122 100 C112 108, 118 125, 128 130 C138 130, 145 125, 145 115 Z" fill="#C85A53"/>
-                  <circle cx="132" cy="115" r="4" fill="#FFFDF9"/>
-                  <!-- Golden sparkles -->
-                  <circle cx="50" cy="80" r="3" fill="#D4AF37"/>
-                  <circle cx="150" cy="80" r="3" fill="#D4AF37"/>
-                  <circle cx="100" cy="60" r="4" fill="#F4E295"/>
-                </svg>
-                <span class="bouquet-badge">💐 A bouquet that never withers</span>
+              <div class="letter-signature" style="margin-top: 1.4rem;">With all my love &amp; blooming roses, &hearts;</div>
+            </div>
+
+            <!-- Right Column: Illustrated Bouquet & Sister Photos -->
+            <div class="bouquet-visuals-col">
+              <!-- Bouquet Graphic Frame -->
+              <div class="bouquet-graphic-wrap">
+                <div class="bouquet-illustration photo-placeholder-box">
+                  <div class="bouquet-art-container">
+                    <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="bouquet-svg">
+                      <!-- Stems & Foliage -->
+                      <path d="M100 220 L90 140" stroke="#728461" stroke-width="4.5" stroke-linecap="round"/>
+                      <path d="M100 220 L105 135" stroke="#637553" stroke-width="4" stroke-linecap="round"/>
+                      <path d="M100 220 L78 145" stroke="#889C74" stroke-width="3.5" stroke-linecap="round"/>
+                      <path d="M100 220 L122 145" stroke="#889C74" stroke-width="3.5" stroke-linecap="round"/>
+                      <!-- Leaves -->
+                      <path d="M85 170 C60 160, 50 140, 65 130 C75 140, 85 155, 85 170 Z" fill="#889C74"/>
+                      <path d="M115 170 C140 160, 150 140, 135 130 C125 140, 115 155, 115 170 Z" fill="#889C74"/>
+                      <path d="M95 145 C75 125, 70 105, 85 95 C95 110, 95 130, 95 145 Z" fill="#728461"/>
+                      <!-- Ribbon & Bow -->
+                      <path d="M82 195 C92 205, 108 205, 118 195 C124 185, 76 185, 82 195 Z" fill="#D4AF37"/>
+                      <path d="M92 200 C80 220, 72 235, 70 240" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                      <path d="M108 200 C120 220, 128 235, 130 240" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                      <circle cx="100" cy="195" r="5" fill="#F4E295"/>
+                      <!-- Rose 1 (Center) -->
+                      <circle cx="100" cy="110" r="28" fill="#C85A53"/>
+                      <path d="M85 105 C78 90, 95 80, 110 85 C125 90, 128 110, 115 125 C100 135, 80 120, 85 105 Z" fill="#A93F38"/>
+                      <path d="M92 98 C88 92, 102 88, 108 94 C112 100, 106 108, 100 108 C94 108, 90 102, 92 98 Z" fill="#E88C86"/>
+                      <circle cx="100" cy="102" r="5" fill="#F4E295"/>
+                      <!-- Rose 2 (Left Peony) -->
+                      <circle cx="68" cy="120" r="22" fill="#E88C86"/>
+                      <path d="M55 115 C50 102, 65 95, 78 100 C88 108, 82 125, 72 130 C62 130, 55 125, 55 115 Z" fill="#C85A53"/>
+                      <circle cx="68" cy="115" r="4" fill="#FFFDF9"/>
+                      <!-- Rose 3 (Right Blossom) -->
+                      <circle cx="132" cy="120" r="22" fill="#E88C86"/>
+                      <path d="M145 115 C150 102, 135 95, 122 100 C112 108, 118 125, 128 130 C138 130, 145 125, 145 115 Z" fill="#C85A53"/>
+                      <circle cx="132" cy="115" r="4" fill="#FFFDF9"/>
+                      <!-- Golden sparkles -->
+                      <circle cx="50" cy="80" r="3" fill="#D4AF37"/>
+                      <circle cx="150" cy="80" r="3" fill="#D4AF37"/>
+                      <circle cx="100" cy="60" r="4" fill="#F4E295"/>
+                    </svg>
+                    <span class="bouquet-badge">💐 A sister bouquet that never withers</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sister Memory Photos in Bouquet Card -->
+              <div class="bouquet-photos-row">
+                <!-- Embedded Taped Photo 1 in Letter 2 -->
+                <div class="letter-memory-photo-wrap">
+                  <div class="letter-taped-photo tilt-right-2">
+                    <div class="photo-tape-strip"></div>
+                    <img src="/14.jpeg" alt="Memory Photo - Sister Bond" />
+                    <span class="photo-caption-note">The keeper of all my secrets 🌸</span>
+                  </div>
+                </div>
+
+                <!-- Embedded Taped Photo 2 in Letter 2 -->
+                <div class="letter-memory-photo-wrap">
+                  <div class="letter-taped-photo tilt-left-2">
+                    <div class="photo-tape-strip"></div>
+                    <img src="/15.jpeg" alt="Memory Photo - Laughing together" />
+                    <span class="photo-caption-note">Nobody gets our jokes like you do 💖</span>
+                  </div>
+                </div>
+
+                <!-- Embedded Taped Photo 3 in Letter 2 -->
+                <div class="letter-memory-photo-wrap">
+                  <div class="letter-taped-photo tilt-right-3">
+                    <div class="photo-tape-strip"></div>
+                    <img src="/16.jpeg" alt="Memory Photo - Always together" />
+                    <span class="photo-caption-note">Forever by each other's side 🌷</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -610,53 +659,86 @@
       <div class="scene-content">
         <div class="cake-card">
           
-          <!-- REPLACE: letter 3 title -->
-          <h3 class="letter-title">Here's Your Virtual Cake!</h3>
-          <p style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-muted);">
-            It's calorie-free and filled with so much love.
-          </p>
+          <div class="cake-content-grid">
+            <!-- Left Column: Interactive Birthday Cake & Wish -->
+            <div class="cake-interactive-col">
+              <h3 class="letter-title">Here's Your Birthday Cake, Little Sis!</h3>
+              <p style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-muted);">
+                Zero calories, zero carbs, and baked with 100% big-sister love.
+              </p>
 
-          <!-- Interactive Cake SVG Visual -->
-          <div class="cake-visual-wrap" title="Click to blow out the candles">
-            <svg class="cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Plate -->
-              <ellipse cx="100" cy="175" rx="85" ry="16" fill="#F0E6E0" stroke="#C85A53" stroke-width="2"/>
-              <!-- Bottom Cake Layer -->
-              <rect x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
-              <path d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
-              <!-- Top Cake Layer -->
-              <rect x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
-              <!-- Frosting Drips -->
-              <path d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
-              <!-- Candle 1 -->
-              <rect x="75" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
-              <!-- Candle 2 (Center) -->
-              <rect x="97" y="50" width="6" height="35" rx="3" fill="#C85A53"/>
-              <!-- Candle 3 -->
-              <rect x="119" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
-              <!-- Animated Candle Flames Group -->
-              <g id="candle-flame" class="candle-flame">
-                <circle cx="78" cy="48" r="5" fill="#FFA500"/>
-                <circle cx="78" cy="46" r="3" fill="#FFFF00"/>
-                <circle cx="100" cy="42" r="6" fill="#FFA500"/>
-                <circle cx="100" cy="40" r="3.5" fill="#FFFF00"/>
-                <circle cx="122" cy="48" r="5" fill="#FFA500"/>
-                <circle cx="122" cy="46" r="3" fill="#FFFF00"/>
-              </g>
-            </svg>
+              <!-- Interactive Cake SVG Visual -->
+              <div class="cake-visual-wrap" title="Click to blow out the candles">
+                <svg class="cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Plate -->
+                  <ellipse cx="100" cy="175" rx="85" ry="16" fill="#F0E6E0" stroke="#C85A53" stroke-width="2"/>
+                  <!-- Bottom Cake Layer -->
+                  <rect x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
+                  <path d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <!-- Top Cake Layer -->
+                  <rect x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
+                  <!-- Frosting Drips -->
+                  <path d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <!-- Candle 1 -->
+                  <rect x="75" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
+                  <!-- Candle 2 (Center) -->
+                  <rect x="97" y="50" width="6" height="35" rx="3" fill="#C85A53"/>
+                  <!-- Candle 3 -->
+                  <rect x="119" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
+                  <!-- Animated Candle Flames Group -->
+                  <g id="candle-flame" class="candle-flame">
+                    <circle cx="78" cy="48" r="5" fill="#FFA500"/>
+                    <circle cx="78" cy="46" r="3" fill="#FFFF00"/>
+                    <circle cx="100" cy="42" r="6" fill="#FFA500"/>
+                    <circle cx="100" cy="40" r="3.5" fill="#FFFF00"/>
+                    <circle cx="122" cy="48" r="5" fill="#FFA500"/>
+                    <circle cx="122" cy="46" r="3" fill="#FFFF00"/>
+                  </g>
+                </svg>
+              </div>
+
+              <div>
+                <button id="blow-candle-btn" class="btn-secondary blow-candle-btn">
+                  💨 Blow Candle &amp; Make a Wish
+                </button>
+              </div>
+
+              <p class="wish-message">
+                May all the secret wishes you carry in your heart come true this year.
+                May you be surrounded by endless laughter, success, and love. You deserve the entire world, little sis!
+              </p>
+            </div>
+
+            <!-- Right Column: Birthday Memories Photo Gallery -->
+            <div class="cake-photos-col">
+              <!-- Embedded Taped Photo 1 in Letter 3 -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-left-3">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/17.jpeg" alt="Memory Photo - Birthday Celebration" />
+                  <span class="photo-caption-note">Celebrating your special light 🎂</span>
+                </div>
+              </div>
+
+              <!-- Embedded Taped Photo 2 in Letter 3 -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-left-1">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/18.jpeg" alt="Memory Photo - Pure Joy" />
+                  <span class="photo-caption-note">Pure joy and sister giggles ✨</span>
+                </div>
+              </div>
+
+              <!-- Embedded Taped Photo 3 in Letter 3 -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-right-2">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/19.jpeg" alt="Memory Photo - Unforgettable Days" />
+                  <span class="photo-caption-note">Unforgettable memories 💛</span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <button id="blow-candle-btn" class="btn-secondary blow-candle-btn">
-              💨 Blow Candle & Make a Wish
-            </button>
-          </div>
-
-          <!-- REPLACE: letter 3 birthday wish message -->
-          <p class="wish-message">
-            May all the dreams and secret wishes you carry in your heart come true this year.
-            You deserve everything wonderful!
-          </p>
 
         </div>
       </div>
@@ -692,27 +774,64 @@
           </div>
 
           <div class="heartfelt-header-row">
-            <!-- REPLACE: letter 4 title -->
-            <h3 class="letter-title" style="margin-bottom: 0;">My Heartfelt Promise</h3>
+            <h3 class="letter-title" style="margin-bottom: 0;">My Big Sister Promise</h3>
             <button type="button" id="btn-ink-skip" class="btn-ink-control" title="Reveal full letter">
               ✒️ Instant Reveal
             </button>
           </div>
 
-          <div class="heartfelt-content" id="heartfelt-ink-container">
-            <!-- REPLACE: letter 4 message (replace this with your personal full letter) -->
-            <p class="ink-paragraph" id="ink-p1" data-full-text="Looking back at all our memories, I'm constantly reminded of how lucky I am to have you in my life. You are not only my partner, but my confidant, my biggest cheerleader, and my favorite person to talk to at the end of every day." style="margin-bottom: 1rem;">
-              Looking back at all our memories, I'm constantly reminded of how lucky I am to have
-              you in my life. You are not only my partner, but my confidant, my biggest cheerleader,
-              and my favorite person to talk to at the end of every day.
-            </p>
-            <p class="ink-paragraph" id="ink-p2" data-full-text="I promise to always celebrate your victories, hold your hand through the hard days, and love you more with every passing birthday. Happy Birthday!" style="margin-bottom: 1.5rem;">
-              I promise to always celebrate your victories, hold your hand through the hard days,
-              and love you more with every passing birthday. Happy Birthday!
-            </p>
+          <div class="heartfelt-desktop-grid">
+            <!-- Left Column: The 4 Cherished Memories (Desktop Grid) -->
+            <div class="heartfelt-photos-col">
+              <!-- Embedded Taped Photo 1 in Letter 4 (Top Left) -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-left-2">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/20.jpeg" alt="Memory Photo - Sister Embrace" />
+                  <span class="photo-caption-note">Two hearts, one journey 🤍</span>
+                </div>
+              </div>
 
-            <!-- REPLACE: girlfriend's name or your signature -->
-            <div class="letter-signature ink-signature" id="ink-signature">Always &amp; forever, &hearts;</div>
+              <!-- Embedded Taped Photo 2 in Letter 4 (Top Right) -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-right-1">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/21.jpeg" alt="Memory Photo - Cherished Memories" />
+                  <span class="photo-caption-note">Growing together every year 🌸</span>
+                </div>
+              </div>
+
+              <!-- Embedded Taped Photo 3 in Letter 4 (Bottom Left) -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-left-1">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/22.jpeg" alt="Memory Photo - Beautiful Days" />
+                  <span class="photo-caption-note">Sunlight and sister love ☀️</span>
+                </div>
+              </div>
+
+              <!-- Embedded Taped Photo 4 in Letter 4 (Bottom Right) -->
+              <div class="letter-memory-photo-wrap">
+                <div class="letter-taped-photo tilt-right-3">
+                  <div class="photo-tape-strip"></div>
+                  <img src="/23.jpeg" alt="Memory Photo - Forever and Always" />
+                  <span class="photo-caption-note">Forever your cheerleader 💖</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Heartfelt Ink Letter Content -->
+            <div class="heartfelt-content" id="heartfelt-ink-container">
+              <p class="ink-paragraph" id="ink-p1" data-full-text="Looking back at every scraped knee, every shared snack, and all the secret whispered conversations in our bedroom, I am constantly reminded of how blessed I am. Being your elder sister has been the greatest gift and privilege of my life." style="margin-bottom: 1.1rem;">
+                Looking back at every scraped knee, every shared snack, and all the secret whispered conversations in our bedroom, I am constantly reminded of how blessed I am. Being your elder sister has been the greatest gift and privilege of my life.
+              </p>
+
+              <p class="ink-paragraph" id="ink-p2" data-full-text="I promise to always be your safe haven whenever life gets overwhelming, to cheer the loudest for your victories, to keep your deepest secrets, and to stand by you through every storm. Happy Birthday, my darling little sister! You will always have me in your corner." style="margin-bottom: 1.5rem;">
+                I promise to always be your safe haven whenever life gets overwhelming, to cheer the loudest for your victories, to keep your deepest secrets, and to stand by you through every storm. Happy Birthday, my darling little sister! You will always have me in your corner.
+              </p>
+
+              <div class="letter-signature ink-signature" id="ink-signature">Always &amp; forever, your loving Di &hearts;</div>
+            </div>
           </div>
 
         </div>
@@ -739,9 +858,7 @@
         
         <!-- Scene Header -->
         <div class="together-header">
-          <!-- REPLACE: Tagline above TOGETHER -->
           <p class="together-tagline">Forever &amp; Always</p>
-          <!-- Bold Condensed Sans-Serif "TOGETHER" Heading Matching Video -->
           <h2 class="together-bold-title">TOGETHER</h2>
           <p class="polaroid-flip-hint">✨ Tap any Polaroid to flip &amp; read the story behind it ✨</p>
         </div>
@@ -755,19 +872,9 @@
             <div class="polaroid-flip-inner">
               <!-- Front Face -->
               <div class="polaroid-face polaroid-front">
-                <!-- REPLACE: photo 1 (together photo - add your img src or keep placeholder) -->
                 <div class="polaroid-photo-frame">
-                  <!-- Example: <img src="together-photo-1.jpg" alt="Our Memory 1" /> -->
-                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0.5rem; text-align: center;">
-                    <svg viewBox="0 0 100 100" fill="none" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="50" cy="50" r="42" fill="rgba(200, 90, 83, 0.16)"/>
-                      <circle cx="50" cy="38" r="16" fill="#F4E295"/>
-                      <path d="M20 74 C35 55, 65 55, 80 74 Z" fill="#C85A53"/>
-                      <path d="M50 25 L52 30 L58 32 L52 34 L50 39 L48 34 L42 32 L48 30 Z" fill="#D4AF37"/>
-                    </svg>
-                  </div>
+                  <img src="/1.jpeg" alt="Memory Polaroid 1 - Where it all began" />
                 </div>
-                <!-- REPLACE: photo 1 caption -->
                 <p class="polaroid-caption">Where it all began ✨</p>
                 <span class="polaroid-flip-badge">↻ Flip</span>
               </div>
@@ -775,7 +882,7 @@
               <div class="polaroid-face polaroid-back">
                 <span class="polaroid-back-date">Chapter One • Day 1</span>
                 <p class="polaroid-back-note">
-                  "From the very first conversation, I knew there was something magical about your smile. Time stood still."
+                  "From the day Mom brought you home, my whole world changed. You became my built-in best friend."
                 </p>
                 <span class="polaroid-back-heart">&hearts;</span>
               </div>
@@ -788,27 +895,17 @@
             <div class="polaroid-flip-inner">
               <!-- Front Face -->
               <div class="polaroid-face polaroid-front">
-                <!-- REPLACE: photo 2 (together photo - add your img src or keep placeholder) -->
                 <div class="polaroid-photo-frame">
-                  <!-- Example: <img src="together-photo-2.jpg" alt="Our Memory 2" /> -->
-                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0.5rem; text-align: center;">
-                    <svg viewBox="0 0 100 100" fill="none" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="100" height="100" rx="6" fill="rgba(232, 140, 134, 0.18)"/>
-                      <path d="M50 28 C40 12, 16 24, 28 46 C 36 60, 50 76, 50 76 C 50 76, 64 60, 72 46 C 84 24, 60 12, 50 28 Z" fill="#BF4F49"/>
-                      <circle cx="74" cy="24" r="5" fill="#F4E295"/>
-                      <circle cx="28" cy="24" r="4" fill="#D4AF37"/>
-                    </svg>
-                  </div>
+                  <img src="/2.jpeg" alt="Memory Polaroid 2 - Partners in crime" />
                 </div>
-                <!-- REPLACE: photo 2 caption -->
-                <p class="polaroid-caption">My favorite adventure 🌅</p>
+                <p class="polaroid-caption">Partners in crime 🌅</p>
                 <span class="polaroid-flip-badge">↻ Flip</span>
               </div>
               <!-- Back Face (Handwritten Memory Story) -->
               <div class="polaroid-face polaroid-back">
-                <span class="polaroid-back-date">Golden Hour • Us</span>
+                <span class="polaroid-back-date">Growing Up • Us</span>
                 <p class="polaroid-back-note">
-                  "Every ordinary place turns into my favorite destination as long as I get to walk beside you."
+                  "Every ordinary day turned into an adventure because I had you by my side to share it with."
                 </p>
                 <span class="polaroid-back-heart">&hearts;</span>
               </div>
@@ -821,28 +918,17 @@
             <div class="polaroid-flip-inner">
               <!-- Front Face -->
               <div class="polaroid-face polaroid-front">
-                <!-- REPLACE: photo 3 (together photo - add your img src or keep placeholder) -->
                 <div class="polaroid-photo-frame">
-                  <!-- Example: <img src="together-photo-3.jpg" alt="Our Memory 3" /> -->
-                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0.5rem; text-align: center;">
-                    <svg viewBox="0 0 100 100" fill="none" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="50" cy="50" r="42" fill="rgba(128, 35, 48, 0.12)"/>
-                      <path d="M55 24 C45 28, 40 40, 44 50 C 48 60, 60 64, 70 60 C 60 72, 42 72, 32 60 C 22 48, 26 30, 42 22 C 47 19, 52 21, 55 24 Z" fill="#D4AF37"/>
-                      <circle cx="68" cy="30" r="3" fill="#E88C86"/>
-                      <circle cx="38" cy="42" r="2.5" fill="#F4E295"/>
-                      <circle cx="58" cy="48" r="2" fill="#D4AF37"/>
-                    </svg>
-                  </div>
+                  <img src="/3.jpeg" alt="Memory Polaroid 3 - Sisters forever" />
                 </div>
-                <!-- REPLACE: photo 3 caption -->
-                <p class="polaroid-caption">To a thousand more 💖</p>
+                <p class="polaroid-caption">Sisters forever 💖</p>
                 <span class="polaroid-flip-badge">↻ Flip</span>
               </div>
               <!-- Back Face (Handwritten Memory Story) -->
               <div class="polaroid-face polaroid-back">
                 <span class="polaroid-back-date">Today &amp; Forever</span>
                 <p class="polaroid-back-note">
-                  "Here is to countless more laughs, late-night talks, and birthdays together. I love you endlessly!"
+                  "Here is to countless more laughs, stolen clothes, late-night talks, and birthdays together. I love you endlessly!"
                 </p>
                 <span class="polaroid-back-heart">&hearts;</span>
               </div>
@@ -861,9 +947,9 @@
     </section>
 
     <!-- ================================================================== -->
-    <!-- SCENE 6: SECRET BONUS SURPRISE (Scratch-Off Gift + Voice Note)     -->
+    <!-- SCENE 6: SECRET BONUS SURPRISE (Scratch-Off Sister Pass + Melody)  -->
     <!-- ================================================================== -->
-    <section id="scene-secret-bonus" class="scene reveal-scene" aria-label="Secret Bonus Surprise" aria-hidden="true">
+    <section id="scene-secret-bonus" class="scene reveal-scene" aria-label="Secret Sister Surprise" aria-hidden="true">
       <div class="reading-progress-track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
         <div class="reading-progress-fill is-complete" style="width: 100%;"></div>
       </div>
@@ -877,65 +963,211 @@
       </nav>
 
       <div class="scene-content">
-        <div class="secret-bonus-card">
+        <div class="secret-bonus-card" id="secret-bonus-card">
           <div class="bonus-header">
-            <span class="bonus-pill-tag">✨ Secret Birthday Vault ✨</span>
-            <h2 class="letter-title" style="margin-bottom: 0.2rem;">Your Final Surprise</h2>
-            <p class="bonus-subtitle">Play your birthday melody &amp; scratch the golden foil below</p>
+            <span class="bonus-pill-tag">✨ Secret Sister Vault ✨</span>
+            <h2 class="letter-title" style="margin-bottom: 0.2rem;">Your Final Surprise, Little Sis!</h2>
+            <p class="bonus-subtitle" id="vault-subtitle">Scratch the giant golden card to reveal your sister melody, vinyl record &amp; VIP pass</p>
           </div>
 
-          <div class="bonus-interactive-grid">
-            <!-- 1. Custom Voice Note / Vintage Vinyl Record Player -->
-            <div class="vinyl-player-box">
-              <!-- REPLACE: Optional custom voice note or song audio file -->
-              <audio id="voice-note-audio" preload="auto">
-                <!-- Drop your voice note MP3/M4A here, e.g.: <source src="birthday-voice-note.mp3" type="audio/mpeg" /> -->
-              </audio>
+          <!-- The Vault Arena containing the 3-column layout and Giant Golden Overlay -->
+          <div class="vault-stage-wrapper" id="vault-stage-wrapper">
+            <!-- Anti-Gravity Floating Background (Vault Scene) - 6 Floating Polaroids -->
+            <div class="vault-antigravity-bg" aria-hidden="true">
+              <div class="vault-floating-polaroid" style="top: 8%; left: 6%; animation-delay: 0s; transform: rotate(-5deg);">
+                <div class="float-tape"></div>
+                <img src="/4.jpeg" alt="Floating memory 1" />
+              </div>
+              <div class="vault-floating-polaroid" style="top: 14%; right: 7%; animation-delay: -3s; transform: rotate(4deg);">
+                <div class="float-tape"></div>
+                <img src="/5.jpeg" alt="Floating memory 2" />
+              </div>
+              <div class="vault-floating-polaroid" style="top: 52%; left: 3%; animation-delay: -6s; transform: rotate(3deg);">
+                <div class="float-tape"></div>
+                <img src="/6.jpeg" alt="Floating memory 3" />
+              </div>
+              <div class="vault-floating-polaroid" style="top: 55%; right: 4%; animation-delay: -2s; transform: rotate(-4deg);">
+                <div class="float-tape"></div>
+                <img src="/7.jpeg" alt="Floating memory 4" />
+              </div>
+              <div class="vault-floating-polaroid" style="bottom: 8%; left: 16%; animation-delay: -5s; transform: rotate(-2deg);">
+                <div class="float-tape"></div>
+                <img src="/8.jpeg" alt="Floating memory 5" />
+              </div>
+              <div class="vault-floating-polaroid" style="bottom: 10%; right: 18%; animation-delay: -8s; transform: rotate(5deg);">
+                <div class="float-tape"></div>
+                <img src="/9.jpeg" alt="Floating memory 6" />
+              </div>
+            </div>
 
-              <div class="vinyl-stage">
-                <div class="vinyl-disc" id="vinyl-disc">
-                  <div class="vinyl-grooves"></div>
-                  <div class="vinyl-center-label">
-                    <span>&hearts;</span>
+            <!-- Giant Golden Overlay (Before Scratch) -->
+            <div class="giant-golden-overlay" id="giant-golden-overlay">
+              <canvas id="scratch-canvas" class="scratch-canvas" aria-label="Scratch to reveal your final surprise!"></canvas>
+            </div>
+
+            <!-- The Revealed Layout (After Scratch) - 3-Column Wide Flexbox Layout -->
+            <div class="vault-revealed-layout" id="vault-revealed-layout">
+              <!-- COLUMN 1 (LEFT): Spotify-style synced lyrics -->
+              <div class="vault-col vault-col-lyrics" id="vault-col-lyrics">
+                <div class="lyrics-scroll-container spotify-lyrics-container" id="lyrics-scroll-container" aria-label="Spotify-Style Sisterhood Song Lyrics">
+                  <div class="spotify-lyrics-header">
+                    <span class="spotify-lyrics-tag">
+                      <span class="spotify-sound-icon" aria-hidden="true">
+                        <i></i><i></i><i></i><i></i>
+                      </span>
+                      LYRICS
+                    </span>
+                    <span class="spotify-song-title">Written Just For You, Kav ✨</span>
+                  </div>
+                  <div class="spotify-lyrics-content" id="lyrics-content-text">
+                    <p class="spotify-lyric-line" data-id="1" data-time="10">First year of business studies and the books are piled up high</p>
+                    <p class="spotify-lyric-line" data-id="2" data-time="17">You look so dangerous in the light when you let your guard go by</p>
+                    <p class="spotify-lyric-line" data-id="3" data-time="24">Even when I am the oldest it is you who holds the space</p>
+                    <p class="spotify-lyric-line" data-id="4" data-time="31">A quiet kind of wisdom hiding in your lovely face</p>
+
+                    <p class="spotify-lyric-line" data-id="5" data-time="41">Oh Kav you feel like a warm hug for the ones you hold so near</p>
+                    <p class="spotify-lyric-line" data-id="6" data-time="48">Discarding all the shadows just to keep the vision clear</p>
+                    <p class="spotify-lyric-line" data-id="7" data-time="55">Though you worry in the silence if you chose the path that is right</p>
+                    <p class="spotify-lyric-line" data-id="8" data-time="63">The Universe is writing every twist for you tonight</p>
+                    <p class="spotify-lyric-line" data-id="9" data-time="70">Yes the story is divine and the best is yet to start</p>
+                    <p class="spotify-lyric-line" data-id="10" data-time="78">With a billion hidden memories waiting for your heart</p>
+
+                    <p class="spotify-lyric-line" data-id="11" data-time="92">You turn the page on a forbidden novel late into the dark</p>
+                    <p class="spotify-lyric-line" data-id="12" data-time="100">From the Elite Mall to the lecture hall you always leave a mark</p>
+                    <p class="spotify-lyric-line" data-id="13" data-time="108">You do not look back at the people you have left behind</p>
+                    <p class="spotify-lyric-line" data-id="14" data-time="116">Moving toward the beauty that you are destined to find</p>
+
+                    <p class="spotify-lyric-line" data-id="15" data-time="127">You think you are so confused with every step you take</p>
+                    <p class="spotify-lyric-line" data-id="16" data-time="135">But trust the gentle rhythm that the constellations make</p>
+                    <p class="spotify-lyric-line" data-id="17" data-time="144">It is all unfolding exactly as it should be</p>
+
+                    <p class="spotify-lyric-line" data-id="18" data-time="157">Oh Kav you feel like a warm hug for the ones you hold so near</p>
+                    <p class="spotify-lyric-line" data-id="19" data-time="164">Discarding all the shadows just to keep the vision clear</p>
+                    <p class="spotify-lyric-line" data-id="20" data-time="171">Though you worry in the silence if you chose the path that is right</p>
+                    <p class="spotify-lyric-line" data-id="21" data-time="178">The Universe is writing every twist for you tonight</p>
+                    <p class="spotify-lyric-line" data-id="22" data-time="185">Yes the story is divine and the best is yet to start</p>
+                    <p class="spotify-lyric-line" data-id="23" data-time="193">With a billion hidden memories waiting for your heart</p>
+
+                    <p class="spotify-lyric-line" data-id="24" data-time="204">Look forward to the chapters still unread</p>
+                    <p class="spotify-lyric-line" data-id="25" data-time="212">With all the beauty waiting just ahead</p>
                   </div>
                 </div>
-                <div class="vinyl-tonearm" id="vinyl-tonearm"></div>
               </div>
 
-              <div class="vinyl-info">
-                <span class="vinyl-track-title" id="vinyl-track-title">Birthday Music Box &amp; Note</span>
-                <span class="vinyl-track-status" id="vinyl-track-status">Tap play to listen 🎶</span>
-                <div class="vinyl-waveform" id="vinyl-waveform" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-                <button type="button" class="btn-primary btn-vinyl-play" id="btn-vinyl-play">
-                  <span id="vinyl-play-label">▶ Play Birthday Melody</span>
-                </button>
-              </div>
-            </div>
+              <!-- COLUMN 2 (CENTER): Spinning vinyl record graphic -->
+              <div class="vault-col vault-col-vinyl" id="vault-col-vinyl">
+                <div class="vinyl-player-box" id="vinyl-player-box">
+                  <audio id="voice-note-audio" preload="auto"></audio>
 
-            <!-- 2. Interactive Gold Foil Scratch-Off Card -->
-            <div class="scratch-card-box">
-              <div class="scratch-prize-container" id="scratch-prize-container">
-                <!-- Hidden Prize Underneath -->
-                <div class="scratch-hidden-prize">
-                  <span class="prize-badge">🎟️ VIP BIRTHDAY VOUCHER</span>
-                  <h4 class="prize-title">One Dream Date Night &amp; Any Wish Granted!</h4>
-                  <p class="prize-desc">
-                    Redeemable anytime for your favorite dinner, dessert, movie night, and a special birthday gift waiting for you! 💖
-                  </p>
-                  <span class="prize-code">CODE: HAPPY-BDAY-MY-LOVE</span>
+                  <div class="vinyl-stage">
+                    <div class="vinyl-disc" id="vinyl-disc" aria-label="Sister Keepsake Vinyl Record">
+                      <svg class="vinyl-record-svg" viewBox="0 0 240 240" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <defs>
+                          <radialGradient id="discSheenGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#2E171A" />
+                            <stop offset="42%" stop-color="#160B0D" />
+                            <stop offset="52%" stop-color="#241013" />
+                            <stop offset="82%" stop-color="#130709" />
+                            <stop offset="100%" stop-color="#090204" />
+                          </radialGradient>
+                          <linearGradient id="labelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#E8C359" />
+                            <stop offset="45%" stop-color="#C85A53" />
+                            <stop offset="100%" stop-color="#6E1F27" />
+                          </linearGradient>
+                          <linearGradient id="sheenReflection1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16" />
+                            <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.02" />
+                            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+                          </linearGradient>
+                          <linearGradient id="sheenReflection2" x1="100%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16" />
+                            <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.02" />
+                            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+                          </linearGradient>
+                          <!-- Center Label Clip Path for Custom Vinyl Album Cover -->
+                          <clipPath id="centerLabelClip">
+                            <circle cx="120" cy="120" r="44" />
+                          </clipPath>
+                        </defs>
+
+                        <!-- 1. Outermost Black Vinyl Disc Body & Rim -->
+                        <circle cx="120" cy="120" r="118" fill="url(#discSheenGrad)" stroke="#421C22" stroke-width="2" />
+                        <circle cx="120" cy="120" r="114" fill="none" stroke="#2B1417" stroke-width="1.5" />
+
+                        <!-- 2. Concentric Vinyl Grooves (Clearly shows disc spinning) -->
+                        <circle cx="120" cy="120" r="105" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="10 3" />
+                        <circle cx="120" cy="120" r="96" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8" />
+                        <circle cx="120" cy="120" r="88" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.2" stroke-dasharray="16 4" />
+                        <circle cx="120" cy="120" r="80" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8" />
+                        <circle cx="120" cy="120" r="72" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="8 3" />
+                        <circle cx="120" cy="120" r="64" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8" />
+                        <circle cx="120" cy="120" r="56" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1.2" stroke-dasharray="12 4" />
+
+                        <!-- 3. Vinyl Sheen Highlights (Rotates together as one single connected unit) -->
+                        <path d="M 120 120 L 40 40 A 114 114 0 0 1 120 6 Z" fill="url(#sheenReflection1)" />
+                        <path d="M 120 120 L 200 200 A 114 114 0 0 1 120 234 Z" fill="url(#sheenReflection2)" />
+
+                        <!-- 4. Custom Vinyl Album Cover Image (Replaces center label with vinyl.jpg) -->
+                        <g clip-path="url(#centerLabelClip)">
+                          <image href="/vinyl.jpeg" xlink:href="/vinyl.jpeg" x="76" y="76" width="88" height="88" preserveAspectRatio="xMidYMid slice" style="object-fit: cover; border-radius: 50%;" />
+                          <circle cx="120" cy="120" r="44" fill="rgba(92, 29, 36, 0.12)" />
+                        </g>
+                        <circle cx="120" cy="120" r="44" fill="none" stroke="#D4AF37" stroke-width="2.5" />
+                        <circle cx="120" cy="120" r="41" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.75" />
+
+                        <!-- 5. Spindle Hole -->
+                        <circle cx="120" cy="120" r="6" fill="#FAF2EB" stroke="#1D080B" stroke-width="1.8" />
+                      </svg>
+                    </div>
+                    <div class="vinyl-tonearm" id="vinyl-tonearm"></div>
+                  </div>
+
+                  <div class="vinyl-info">
+                    <span class="vinyl-track-title" id="vinyl-track-title">Sister Keepsake Melody</span>
+                    <span class="vinyl-track-status" id="vinyl-track-status">Forever spinning with big sister love 🎶</span>
+                    <div class="vinyl-equalizer" id="vinyl-equalizer" aria-label="Music beats equalizer">
+                      <span class="eq-bar"></span>
+                      <span class="eq-bar"></span>
+                      <span class="eq-bar"></span>
+                      <span class="eq-bar"></span>
+                    </div>
+                  </div>
                 </div>
-                <!-- Interactive Scratch-Off Canvas Overlay -->
-                <canvas id="scratch-canvas" class="scratch-canvas" aria-label="Scratch off gold foil to reveal surprise"></canvas>
               </div>
-              <div class="scratch-footer-row">
-                <span class="scratch-status-text" id="scratch-status-text">✨ Rub with your finger or cursor to scratch off!</span>
-                <button type="button" class="btn-scratch-reset" id="btn-scratch-reset">Reset Foil</button>
+
+              <!-- COLUMN 3 (RIGHT): SISTERHOOD VIP PASS & Personal Sisterly Message -->
+              <div class="vault-col vault-col-vip" id="vault-col-vip">
+                <div class="scratch-prize-container golden-card-vip" id="scratch-prize-container">
+                  <div class="scratch-hidden-prize">
+                    <div class="vip-pass-header">
+                      <span class="prize-badge">🎟️ SISTERHOOD VIP PASS</span>
+                      <span class="vip-serial-badge">NO. 001-KAVIN</span>
+                    </div>
+                    <h4 class="prize-title">Unlimited Big Sister Treats &amp; Free Shopping Spree!</h4>
+                    <p class="prize-desc">
+                      Valid forever! Redeemable anytime for your favorite dinner date, an ice cream run, one free shopping pass where I pay for everything, and one "Di does your chores" pass! 💖
+                    </p>
+                    <div class="prize-sister-note">
+                      <p class="prize-personal-words">
+                        "Through every late study night, little doubt, and glorious milestone ahead, remember you are never alone. Your big sister is in your corner forever."
+                      </p>
+                      <span class="prize-signature">— With all my love, Di ✨</span>
+                    </div>
+                    <div class="prize-footer-bar">
+                      <span class="prize-code">CODE: BEST-LIL-SIS-FOREVER</span>
+                      <span class="prize-expiry">EXPIRY: NEVER</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
+          <div class="scratch-footer-row" id="scratch-footer-row">
+            <span class="scratch-status-text" id="scratch-status-text">✨ Rub with your finger or cursor to scratch off!</span>
+            <button type="button" class="btn-scratch-reset" id="btn-scratch-reset">Reset Foil</button>
+          </div>
         </div>
       </div>
     </section>
@@ -943,8 +1175,9 @@
   </main>
 
   <!-- ==================================================================== -->
-  <!-- 4. MAIN JAVASCRIPT CONTROLLER                                        -->
+  <!-- 4. REACT CONTROLLER & MAIN SCRIPT                                    -->
   <!-- ==================================================================== -->
-  <script src="script.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
+  <script type="module" src="/script.js"></script>
 </body>
 </html>

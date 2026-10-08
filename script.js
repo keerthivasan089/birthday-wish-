@@ -1,7 +1,6 @@
 /**
  * ============================================================================
- * LETTERS FOR YOU — JAVASCRIPT CONTROLLER
- * Vanilla JavaScript (No frameworks or libraries required)
+ * LETTERS FOR YOU — JAVASCRIPT CONTROLLER (Elder Sister to Younger Sister)
  * ============================================================================
  */
 
@@ -30,15 +29,262 @@ document.addEventListener('DOMContentLoaded', () => {
   const candleFlame = document.getElementById('candle-flame');
   const blowCandleBtn = document.getElementById('blow-candle-btn');
   const bgAudio = document.getElementById('bg-audio');
-  const musicToggle = document.getElementById('music-toggle');
+  const birthdayAudio = document.getElementById('birthday-audio');
+  const goldenAudio = document.getElementById('golden-audio');
 
   let currentScene = 'landing';
   let previousScene = 'landing';
   let isEnvelopeOpening = false;
   let isCandleLit = true;
   let isMusicPlaying = false;
+  let isBirthdayPlaying = false;
+  let isGoldenSongPlaying = false;
   let noThanksDodgeCount = 0;
   const readLetters = new Set();
+  let bgSongStarted = false;
+
+  /**
+   * Plays the background song (bg-song.mp3) on infinite loop at 40% volume.
+   * Triggered automatically upon first user interaction and on initial entry button click.
+   */
+  function startBackgroundSong() {
+    if (bgSongStarted) return;
+    bgSongStarted = true;
+
+    // Check if React controller is available
+    if (window.__sisterAudio && typeof window.__sisterAudio.playBg === 'function') {
+      window.__sisterAudio.playBg();
+    }
+    window.dispatchEvent(new CustomEvent('sisterhood-entry-click'));
+
+    // HTML5 fallback / direct audio controller
+    if (bgAudio) {
+      bgAudio.volume = 0.4;
+      bgAudio.loop = true;
+      const playPromise = bgAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isMusicPlaying = true;
+        }).catch((err) => {
+          console.warn('Background song autoplay awaiting user gesture:', err);
+        });
+      }
+    }
+  }
+
+  /**
+   * Resumes the background song from the exact second it was paused.
+   */
+  function resumeBackgroundSong() {
+    if (birthdayAudio) {
+      birthdayAudio.pause();
+      isBirthdayPlaying = false;
+    }
+    const reactBirthday = document.getElementById('react-birthday-audio');
+    if (reactBirthday && typeof reactBirthday.pause === 'function') {
+      reactBirthday.pause();
+    }
+
+    if (window.__sisterAudio && typeof window.__sisterAudio.resumeBg === 'function') {
+      window.__sisterAudio.resumeBg();
+    } else if (window.__sisterAudio && typeof window.__sisterAudio.playBg === 'function') {
+      window.__sisterAudio.playBg();
+    }
+
+    if (bgAudio) {
+      bgAudio.volume = 0.4;
+      bgAudio.loop = true;
+      const playPromise = bgAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isMusicPlaying = true;
+        }).catch((err) => {
+          console.warn('Background song resume awaiting user gesture:', err);
+        });
+      }
+    }
+    isMusicPlaying = true;
+  }
+
+  // Automatic background music start on first user interaction anywhere
+  function handleFirstUserInteraction() {
+    startBackgroundSong();
+    window.removeEventListener('click', handleFirstUserInteraction);
+    window.removeEventListener('touchstart', handleFirstUserInteraction);
+    window.removeEventListener('keydown', handleFirstUserInteraction);
+  }
+  window.addEventListener('click', handleFirstUserInteraction, { once: true });
+  window.addEventListener('touchstart', handleFirstUserInteraction, { once: true, passive: true });
+  window.addEventListener('keydown', handleFirstUserInteraction, { once: true });
+
+  /**
+   * Candle Blow Event (Pause & Play):
+   * Inside that function, PAUSE the background song, and immediately PLAY the Happy Birthday melody.
+   */
+  function triggerBirthdayMelodyOnCandleBlow() {
+    // 1. Completely PAUSE the background song (bg-song.mp3)
+    if (bgAudio) {
+      bgAudio.pause();
+      isMusicPlaying = false;
+    }
+    const reactBg = document.getElementById('react-bg-audio');
+    if (reactBg && typeof reactBg.pause === 'function') {
+      reactBg.pause();
+    }
+    if (window.__sisterAudio && typeof window.__sisterAudio.pauseBg === 'function') {
+      window.__sisterAudio.pauseBg();
+    }
+
+    // 2. Immediately PLAY the Happy Birthday melody
+    if (window.__sisterAudio && typeof window.__sisterAudio.playBirthday === 'function') {
+      window.__sisterAudio.playBirthday();
+    }
+    window.dispatchEvent(new CustomEvent('sisterhood-candle-blow'));
+
+    if (birthdayAudio) {
+      birthdayAudio.volume = 0.9;
+      birthdayAudio.currentTime = 0;
+      const playPromise = birthdayAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isBirthdayPlaying = true;
+        }).catch((err) => {
+          console.warn('Birthday melody playback deferred:', err);
+          // Fallback user interaction unlock if needed
+          const retryBirthday = () => {
+            birthdayAudio.play();
+            window.removeEventListener('pointerup', retryBirthday);
+            window.removeEventListener('touchend', retryBirthday);
+            window.removeEventListener('click', retryBirthday);
+          };
+          window.addEventListener('pointerup', retryBirthday, { once: true });
+          window.addEventListener('touchend', retryBirthday, { once: true });
+          window.addEventListener('click', retryBirthday, { once: true });
+        });
+      }
+    }
+  }
+
+  /**
+   * Exit Candle Letter (Resume):
+   * When user closes cake letter or moves to next scene, PAUSE Happy Birthday melody,
+   * and RESUME background song (bg-song.mp3) from the exact second it left off.
+   */
+  function handleExitCandleScene() {
+    // 1. Pause Happy Birthday melody
+    if (birthdayAudio) {
+      birthdayAudio.pause();
+      birthdayAudio.currentTime = 0;
+      isBirthdayPlaying = false;
+    }
+    const reactBirthday = document.getElementById('react-birthday-audio');
+    if (reactBirthday && typeof reactBirthday.pause === 'function') {
+      reactBirthday.pause();
+    }
+    if (window.__sisterAudio && typeof window.__sisterAudio.stopBirthday === 'function') {
+      window.__sisterAudio.stopBirthday();
+    }
+    window.dispatchEvent(new CustomEvent('sisterhood-exit-candle'));
+
+    // 2. RESUME background song
+    resumeBackgroundSong();
+  }
+
+  /**
+   * Golden Card Scratch (Pause & Play):
+   * Inside the onComplete / 50%+ scratched callback:
+   * 1. bg-music.current.pause()
+   * 2. golden-song.current.play()
+   */
+  function revealGoldenCardAndPlaySong() {
+    // 1. bg-music.current.pause()
+    if (window.__sisterAudio && window.__sisterAudio.bgRef && window.__sisterAudio.bgRef.current) {
+      try {
+        window.__sisterAudio.bgRef.current.pause();
+      } catch (e) {}
+    } else if (window.__sisterAudio && typeof window.__sisterAudio.pauseBg === 'function') {
+      window.__sisterAudio.pauseBg();
+    }
+    if (bgAudio) {
+      try {
+        bgAudio.pause();
+      } catch (e) {}
+    }
+    const reactBg = document.getElementById('react-bg-audio');
+    if (reactBg && typeof reactBg.pause === 'function') {
+      try {
+        reactBg.pause();
+      } catch (e) {}
+    }
+    isMusicPlaying = false;
+
+    // Also ensure birthday audio is paused
+    if (birthdayAudio) {
+      try {
+        birthdayAudio.pause();
+      } catch (e) {}
+      isBirthdayPlaying = false;
+    }
+
+    // 2. golden-song.current.play()
+    if (window.__sisterAudio && window.__sisterAudio.goldenRef && window.__sisterAudio.goldenRef.current) {
+      try {
+        const gAudio = window.__sisterAudio.goldenRef.current;
+        gAudio.volume = 1.0;
+        gAudio.currentTime = 0;
+        gAudio.play().then(() => {
+          isGoldenSongPlaying = true;
+        }).catch((err) => {
+          console.warn('golden-song.current.play() deferred:', err);
+        });
+      } catch (e) {}
+    } else if (window.__sisterAudio && typeof window.__sisterAudio.playGolden === 'function') {
+      window.__sisterAudio.playGolden();
+    }
+    window.dispatchEvent(new CustomEvent('sisterhood-golden-reveal'));
+
+    if (goldenAudio) {
+      goldenAudio.volume = 1.0;
+      goldenAudio.currentTime = 0;
+      const playPromise = goldenAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isGoldenSongPlaying = true;
+        }).catch((err) => {
+          console.warn('Golden song playback deferred:', err);
+          const retryAudio = () => {
+            goldenAudio.play();
+            window.removeEventListener('pointerup', retryAudio);
+            window.removeEventListener('touchend', retryAudio);
+            window.removeEventListener('click', retryAudio);
+          };
+          window.addEventListener('pointerup', retryAudio, { once: true });
+          window.addEventListener('touchend', retryAudio, { once: true });
+          window.addEventListener('click', retryAudio, { once: true });
+        });
+      }
+    }
+
+    // 3. Fade out giant golden overlay and reveal 3-column layout
+    const giantOverlay = document.getElementById('giant-golden-overlay');
+    if (giantOverlay) {
+      giantOverlay.classList.add('is-revealed');
+    }
+    const scratchCanvasEl = document.getElementById('scratch-canvas');
+    if (scratchCanvasEl) {
+      scratchCanvasEl.classList.add('is-revealed');
+    }
+
+    // Expand main container and modal max-width to 1200px ONLY after the card is revealed
+    const bonusCard = document.querySelector('.secret-bonus-card');
+    if (bonusCard) {
+      bonusCard.classList.add('is-revealed');
+    }
+    const sceneBonus = document.getElementById('scene-secret-bonus');
+    if (sceneBonus) {
+      sceneBonus.classList.add('is-revealed');
+    }
+  }
 
   // --------------------------------------------------------------------------
   // 2. SCENE TRANSITION CONTROLLER
@@ -94,6 +340,11 @@ document.addEventListener('DOMContentLoaded', () => {
       startHandwrittenInkReveal();
     } else {
       stopHandwrittenInkReveal();
+    }
+
+    // Check if exiting Letter 3 (Candle Cake scene)
+    if (previousScene === 'letter3' && targetSceneName !== 'letter3') {
+      handleExitCandleScene();
     }
 
     // Initialize gold foil scratch-off canvas when entering Secret Bonus scene
@@ -212,18 +463,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2.5. LANDING PAGE "NO THANKS" CONTINUOUS PLAYABLE DODGING & TEASING
   // --------------------------------------------------------------------------
   const teaseMessages = [
-    "nice try 🙈",
-    "nope, can't catch me! 😜",
-    "you can't say no! 💕",
-    "almost got it! 🎯",
-    "still no? try again! 🏃‍♂️💨",
-    "are you sure though? 🥺",
-    "oops, too fast! ✨",
-    "not an option! 🤭",
-    "haha keep trying! 🌸",
-    "just click YES PLEASE! 🎁",
-    "over here now! 🎈",
-    "infinite dodges unlocked! 💖"
+    "Hey! You can't say no to your big sister! 🙈",
+    "I'm older, you have to look! 😜",
+    "Don't make me tell Mom! 🤫",
+    "Look or I'm borrowing your favorite sweater! 👚",
+    "Nice try, kiddo! 🏃‍♀️💨",
+    "I spent hours making this for you! 🥺",
+    "Oops, Di is way too fast for you! ✨",
+    "Saying no is strictly against sister rules! 🤭",
+    "Haha keep trying, little sis! 🌸",
+    "Just click YES PLEASE, DI! 🎁",
+    "Over here now, trouble-maker! 🎈",
+    "Big sister hugs are non-negotiable! 💖"
   ];
 
   let dodgeMessageIndex = 0;
@@ -433,6 +684,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnNoThanks.addEventListener('click', dodgeNoThanksButton);
   }
 
+  // Initial entry button ('YES PLEASE, DI!') plays the background song on infinite loop at 40% volume
+  if (btnYesPlease) {
+    btnYesPlease.addEventListener('click', () => {
+      startBackgroundSong();
+    });
+  }
+
   // Song Nav Link Handler
   if (navSongBtn && musicToggle) {
     navSongBtn.addEventListener('click', (e) => {
@@ -505,11 +763,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isCandleLit) {
       candleFlame.classList.remove('blown-out');
-      if (blowCandleBtn) blowCandleBtn.textContent = '💨 Blow Candle';
+      if (blowCandleBtn) blowCandleBtn.textContent = '💨 Blow Candle & Make a Wish';
+      // When relighting, pause birthday melody and resume background song
+      handleExitCandleScene();
     } else {
       candleFlame.classList.add('blown-out');
       if (blowCandleBtn) blowCandleBtn.textContent = '🕯️ Relight Candle';
-      spawnHeartShower(12);
+      spawnHeartShower(16);
+      triggerBirthdayMelodyOnCandleBlow();
     }
   }
 
@@ -526,40 +787,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. AMBIENT BACKGROUND MUSIC & SOUND CONTROLLER
   // --------------------------------------------------------------------------
   const mascotVideo = document.getElementById('mascot-video');
-
-  if (musicToggle) {
-    musicToggle.addEventListener('click', () => {
-      if (isMusicPlaying) {
-        if (bgAudio) bgAudio.pause();
-        if (mascotVideo) mascotVideo.muted = true;
-        isMusicPlaying = false;
-        musicToggle.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <line x1="23" y1="9" x2="17" y2="15"></line>
-            <line x1="17" y1="9" x2="23" y2="15"></line>
-          </svg>
-        `;
-        musicToggle.setAttribute('aria-label', 'Unmute sound');
-      } else {
-        if (mascotVideo) {
-          mascotVideo.muted = false;
-          mascotVideo.play().catch(() => {});
-        }
-        if (bgAudio && bgAudio.querySelector('source')?.getAttribute('src')) {
-          bgAudio.play().catch(() => {});
-        }
-        isMusicPlaying = true;
-        musicToggle.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-          </svg>
-        `;
-        musicToggle.setAttribute('aria-label', 'Mute sound');
-      }
-    });
+  if (mascotVideo) {
+    // Keep mascot video unobtrusive
+    mascotVideo.muted = true;
   }
 
   // --------------------------------------------------------------------------
@@ -1224,7 +1454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attach Hover Dispersion Effect to all interactive elements
     function attachHoverParticles() {
       const hoverTargets = document.querySelectorAll(
-        '.btn-pill-choice, .btn-primary, .btn-secondary, .btn-back, .letter-card, .envelope-wrapper, .polaroid-card, .wax-seal, .cake-visual-wrap, .music-toggle-btn, .mascot-media-wrapper'
+        '.btn-pill-choice, .btn-primary, .btn-secondary, .btn-back, .letter-card, .envelope-wrapper, .polaroid-card, .wax-seal, .cake-visual-wrap, .mascot-media-wrapper'
       );
 
       hoverTargets.forEach((el) => {
@@ -1432,24 +1662,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 11. 3D POLAROID FLIP INTERACTION (Scene 5: "TOGETHER" Memories)
+  // 11. "TOGETHER" MEMORIES POLAROID FLIP CONTROLLER
   // --------------------------------------------------------------------------
   const polaroidCards = document.querySelectorAll('.polaroid-card');
   polaroidCards.forEach((card) => {
-    function togglePolaroidFlip(e) {
-      e.stopPropagation();
+    function toggleCardFlip(e) {
       card.classList.toggle('is-flipped');
+      const isFlipped = card.classList.contains('is-flipped');
+      card.setAttribute('aria-expanded', isFlipped ? 'true' : 'false');
+
+      // Spawn playful celebration burst particles around the flipped polaroid
       const rect = card.getBoundingClientRect();
-      if (window.particleEngine) {
-        window.particleEngine.burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 16);
+      const clickX = e.clientX || (rect.left + rect.width / 2);
+      const clickY = e.clientY || (rect.top + rect.height / 2);
+      if (typeof spawnBurstParticles === 'function') {
+        spawnBurstParticles(clickX, clickY, 8);
       }
     }
 
-    card.addEventListener('click', togglePolaroidFlip);
+    card.addEventListener('click', toggleCardFlip);
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        togglePolaroidFlip(e);
+        toggleCardFlip(e);
       }
     });
   });
@@ -1537,7 +1772,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateVinylVisualState(playing) {
     isVinylPlaying = playing;
-    if (vinylDisc) vinylDisc.classList.toggle('is-spinning', playing);
+    const vinylSvg = document.querySelector('.vinyl-record-svg');
+    if (vinylDisc) {
+      vinylDisc.classList.toggle('is-spinning', playing);
+      vinylDisc.classList.toggle('playing', playing);
+      vinylDisc.classList.toggle('animate-spin', playing);
+    }
+    if (vinylSvg) {
+      vinylSvg.classList.toggle('is-spinning', playing);
+      vinylSvg.classList.toggle('playing', playing);
+      vinylSvg.classList.toggle('animate-spin', playing);
+    }
     if (vinylTonearm) vinylTonearm.classList.toggle('is-active', playing);
     if (vinylWaveform) vinylWaveform.classList.toggle('is-playing', playing);
     if (vinylPlayLabel) {
@@ -1545,7 +1790,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (vinylTrackStatus) {
       vinylTrackStatus.textContent = playing
-        ? '♪ Playing "Happy Birthday, My Love" ♪'
+        ? '♪ Playing "Happy Birthday, Little Sister" ♪'
         : 'Tap play to listen 🎶';
     }
   }
@@ -1615,7 +1860,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 13. INTERACTIVE GOLD FOIL SCRATCH-OFF CARD (Scene 6)
   // --------------------------------------------------------------------------
   const scratchCanvas = document.getElementById('scratch-canvas');
-  const scratchContainer = document.getElementById('scratch-prize-container');
+  const giantGoldenOverlay = document.getElementById('giant-golden-overlay');
   const scratchStatusText = document.getElementById('scratch-status-text');
   const btnScratchReset = document.getElementById('btn-scratch-reset');
   let scratchCtx = null;
@@ -1623,14 +1868,24 @@ document.addEventListener('DOMContentLoaded', () => {
   let isScratchCompleted = false;
 
   function initScratchCard() {
-    if (!scratchCanvas || !scratchContainer) return;
-    const rect = scratchContainer.getBoundingClientRect();
-    const w = Math.max(240, Math.floor(rect.width));
-    const h = Math.max(145, Math.floor(rect.height));
+    if (!scratchCanvas) return;
+    const container = document.getElementById('vault-stage-wrapper') || document.querySelector('.secret-bonus-card');
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const w = Math.max(320, Math.floor(rect.width));
+    const h = Math.max(380, Math.floor(rect.height));
 
     scratchCanvas.width = w;
     scratchCanvas.height = h;
     scratchCanvas.classList.remove('is-revealed');
+    if (giantGoldenOverlay) {
+      giantGoldenOverlay.classList.remove('is-revealed');
+    }
+
+    const bonusCard = document.querySelector('.secret-bonus-card');
+    if (bonusCard) {
+      bonusCard.classList.remove('is-revealed');
+    }
     isScratchCompleted = false;
 
     if (scratchStatusText) {
@@ -1640,44 +1895,82 @@ document.addEventListener('DOMContentLoaded', () => {
     scratchCtx = scratchCanvas.getContext('2d');
     if (!scratchCtx) return;
 
-    // 1. Rich Metallic Gold Foil Gradient Coat
+    // 1. Rich Metallic Gold Foil Gradient Coat covering the entire vault area
     scratchCtx.globalCompositeOperation = 'source-over';
     const grad = scratchCtx.createLinearGradient(0, 0, w, h);
     grad.addColorStop(0, '#E6C35C');
-    grad.addColorStop(0.28, '#FFF2B2');
-    grad.addColorStop(0.52, '#D4AF37');
-    grad.addColorStop(0.78, '#B88E1E');
-    grad.addColorStop(1, '#F0D578');
+    grad.addColorStop(0.2, '#FFF2B2');
+    grad.addColorStop(0.42, '#D4AF37');
+    grad.addColorStop(0.68, '#B88E1E');
+    grad.addColorStop(0.85, '#F0D578');
+    grad.addColorStop(1, '#9C781A');
 
     scratchCtx.fillStyle = grad;
     scratchCtx.fillRect(0, 0, w, h);
 
-    // 2. Subtle Shimmering Foil Pattern & Border
-    scratchCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-    scratchCtx.lineWidth = 2;
-    scratchCtx.strokeRect(8, 8, w - 16, h - 16);
+    // 2. Subtle Shimmering Foil Pattern & Borders
+    scratchCtx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+    scratchCtx.lineWidth = 3;
+    scratchCtx.strokeRect(14, 14, w - 28, h - 28);
 
-    // 3. Foil Label Prompt
-    scratchCtx.fillStyle = '#5C4004';
-    scratchCtx.font = '700 15px Montserrat, sans-serif';
+    scratchCtx.strokeStyle = 'rgba(110, 78, 10, 0.4)';
+    scratchCtx.lineWidth = 1.5;
+    scratchCtx.strokeRect(22, 22, w - 44, h - 44);
+
+    // 3. Giant Golden Overlay Headline
+    // The user should see nothing but a huge golden card that says 'Scratch to reveal your final surprise!'
     scratchCtx.textAlign = 'center';
     scratchCtx.textBaseline = 'middle';
-    scratchCtx.fillText('✨ SCRATCH HERE FOR YOUR GIFT ✨', w / 2, h / 2 - 10);
 
-    scratchCtx.font = '500 12px Lora, serif';
+    // Top pill badge
+    const badgeW = Math.min(280, w - 60);
+    const badgeH = 34;
+    const badgeX = (w - badgeW) / 2;
+    const badgeY = Math.max(35, h / 2 - 95);
+
+    scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    if (typeof scratchCtx.roundRect === 'function') {
+      scratchCtx.beginPath();
+      scratchCtx.roundRect(badgeX, badgeY, badgeW, badgeH, 17);
+      scratchCtx.fill();
+    } else {
+      scratchCtx.fillRect(badgeX, badgeY, badgeW, badgeH);
+    }
+
+    scratchCtx.fillStyle = '#5C4004';
+    scratchCtx.font = '700 13px Montserrat, sans-serif';
+    scratchCtx.fillText('✨ SECRET SISTER VAULT VOUCHER ✨', w / 2, badgeY + badgeH / 2);
+
+    // Main giant heading
+    const titleFontSize = Math.max(20, Math.min(36, Math.floor(w / 26)));
+    scratchCtx.font = `800 ${titleFontSize}px Montserrat, sans-serif`;
+    scratchCtx.fillStyle = '#422802';
+    scratchCtx.shadowColor = 'rgba(255, 255, 255, 0.6)';
+    scratchCtx.shadowBlur = 10;
+    scratchCtx.fillText('Scratch to reveal your final surprise!', w / 2, h / 2 - 20);
+    scratchCtx.shadowBlur = 0;
+
+    // Subtitle
+    scratchCtx.font = '500 16px Lora, serif';
     scratchCtx.fillStyle = '#6E4E0A';
-    scratchCtx.fillText('Rub golden foil to reveal your birthday surprise', w / 2, h / 2 + 14);
+    scratchCtx.fillText('Rub anywhere with your finger or mouse to unveil the melody & VIP pass ✨', w / 2, h / 2 + 25);
+
+    // Giant gift emoji / seal
+    scratchCtx.font = '36px sans-serif';
+    scratchCtx.fillText('🎁', w / 2, h / 2 + 80);
   }
 
   function scratchAtPoint(clientX, clientY) {
     if (!scratchCtx || !scratchCanvas || isScratchCompleted) return;
     const rect = scratchCanvas.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+    const scaleX = scratchCanvas.width / (rect.width || 1);
+    const scaleY = scratchCanvas.height / (rect.height || 1);
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
 
     scratchCtx.globalCompositeOperation = 'destination-out';
     scratchCtx.beginPath();
-    scratchCtx.arc(x, y, 24, 0, Math.PI * 2);
+    scratchCtx.arc(x, y, 48, 0, Math.PI * 2);
     scratchCtx.fill();
 
     // Check revealed percentage periodically
@@ -1691,7 +1984,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgData = scratchCtx.getImageData(0, 0, w, h).data;
 
     let transparentPixels = 0;
-    const stride = 16; // sample every 4th pixel for fast performance
+    const stride = 32; // sample every 8th pixel for fast 60fps performance on large canvas
     const totalSampled = Math.floor(imgData.length / stride);
 
     for (let i = 3; i < imgData.length; i += stride) {
@@ -1701,13 +1994,133 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const ratio = transparentPixels / (totalSampled || 1);
-    if (ratio > 0.44) {
-      isScratchCompleted = true;
+    // Once 50% scratched, fade out canvas to reveal 3-column layout
+    if (ratio >= 0.50) {
+      onScratchCardComplete();
+    }
+  }
+
+  /**
+   * Exact function that fires when the Golden Card scratch-off is completed / threshold reached:
+   * 1. bg-music.current.pause()
+   * 2. golden-song.current.play() at 100% volume
+   */
+  function onScratchCardComplete() {
+    if (isScratchCompleted) return;
+    isScratchCompleted = true;
+
+    // Fade out canvas and giant overlay
+    if (scratchCanvas) {
       scratchCanvas.classList.add('is-revealed');
-      if (scratchStatusText) {
-        scratchStatusText.textContent = '🎉 Surprise Revealed! Happy Birthday, My Love! 💖';
+    }
+    const giantOverlay = document.getElementById('giant-golden-overlay');
+    if (giantOverlay) {
+      giantOverlay.classList.add('is-revealed');
+    }
+    const bonusCard = document.querySelector('.secret-bonus-card');
+    if (bonusCard) {
+      bonusCard.classList.add('is-revealed');
+    }
+    const sceneBonus = document.getElementById('scene-secret-bonus');
+    if (sceneBonus) {
+      sceneBonus.classList.add('is-revealed');
+    }
+
+    if (scratchStatusText) {
+      scratchStatusText.textContent = '🎉 VIP Sister Pass & Keepsake Melody Unlocked! Happy Birthday, Little Sis! 💖';
+    }
+    confetti();
+
+    // Guarantee background music's .pause() method runs immediately before new song starts
+    if (bgAudio) {
+      try {
+        bgAudio.pause();
+      } catch (e) {
+        console.log('bgAudio.pause error:', e);
       }
-      confetti();
+    }
+    const reactBg = document.getElementById('react-bg-audio');
+    if (reactBg && typeof reactBg.pause === 'function') {
+      try {
+        reactBg.pause();
+      } catch (e) {}
+    }
+    if (window.__sisterAudio && window.__sisterAudio.bgSongRef && window.__sisterAudio.bgSongRef.current) {
+      try {
+        window.__sisterAudio.bgSongRef.current.pause();
+      } catch (e) {
+        console.log('bgSongRef.current.pause error:', e);
+      }
+    } else if (window.__sisterAudio && window.__sisterAudio.bgRef && window.__sisterAudio.bgRef.current) {
+      try {
+        window.__sisterAudio.bgRef.current.pause();
+      } catch (e) {}
+    } else if (window.__sisterAudio && typeof window.__sisterAudio.pauseBg === 'function') {
+      window.__sisterAudio.pauseBg();
+    }
+    isMusicPlaying = false;
+
+    // Explicitly fire goldenSongRef.current.play() inside onComplete / 50% threshold callback
+    let goldenStarted = false;
+    if (window.__sisterAudio && window.__sisterAudio.goldenSongRef && window.__sisterAudio.goldenSongRef.current) {
+      try {
+        const gAudio = window.__sisterAudio.goldenSongRef.current;
+        gAudio.volume = 1.0;
+        gAudio.currentTime = 0;
+        gAudio.play().then(() => {
+          isGoldenSongPlaying = true;
+          if (window.__sisterAudio.setIsPlayingGolden) window.__sisterAudio.setIsPlayingGolden(true);
+        }).catch((err) => {
+          console.log('Audio autoplay blocked:', err);
+        });
+        goldenStarted = true;
+      } catch (e) {
+        console.log('goldenSongRef execution error:', e);
+      }
+    } else if (window.__sisterAudio && window.__sisterAudio.goldenRef && window.__sisterAudio.goldenRef.current) {
+      try {
+        const gAudio = window.__sisterAudio.goldenRef.current;
+        gAudio.volume = 1.0;
+        gAudio.currentTime = 0;
+        gAudio.play().then(() => {
+          isGoldenSongPlaying = true;
+          if (window.__sisterAudio.setIsPlayingGolden) window.__sisterAudio.setIsPlayingGolden(true);
+        }).catch((err) => {
+          console.log('Audio autoplay blocked:', err);
+        });
+        goldenStarted = true;
+      } catch (e) {}
+    }
+
+    if (!goldenStarted && window.__sisterAudio && typeof window.__sisterAudio.playGolden === 'function') {
+      window.__sisterAudio.playGolden();
+      goldenStarted = true;
+    }
+
+    if (goldenAudio) {
+      goldenAudio.volume = 1.0;
+      goldenAudio.currentTime = 0;
+      goldenAudio.play().then(() => {
+        isGoldenSongPlaying = true;
+      }).catch((err) => {
+        console.log('Audio autoplay blocked:', err);
+      });
+    }
+
+    window.dispatchEvent(new CustomEvent('sisterhood-golden-reveal'));
+
+    // Toggle spinning classes on vinyl disc & equalizer
+    const vinylDisc = document.getElementById('vinyl-disc');
+    const vinylSvg = document.querySelector('.vinyl-record-svg');
+    if (vinylDisc) {
+      vinylDisc.classList.add('playing', 'is-spinning', 'animate-spin');
+    }
+    if (vinylSvg) {
+      vinylSvg.classList.add('playing', 'is-spinning', 'animate-spin');
+    }
+    const vinylEq = document.getElementById('vinyl-equalizer');
+    if (vinylEq) {
+      vinylEq.classList.add('playing');
     }
   }
 
@@ -1722,7 +2135,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     window.addEventListener('mouseup', () => {
-      isScratching = false;
+      if (isScratching) {
+        isScratching = false;
+        checkScratchCompletion();
+      }
     });
 
     scratchCanvas.addEventListener('touchstart', (e) => {
@@ -1739,9 +2155,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     scratchCanvas.addEventListener('touchend', () => {
-      isScratching = false;
+      if (isScratching) {
+        isScratching = false;
+        checkScratchCompletion();
+      }
     });
   }
+
+  // Interactive Spotify lyrics line clicking to highlight line
+  document.addEventListener('click', (e) => {
+    const lyricLine = e.target.closest('.spotify-lyric-line');
+    if (lyricLine) {
+      document.querySelectorAll('.spotify-lyric-line').forEach((el) => el.classList.remove('active'));
+      lyricLine.classList.add('active');
+    }
+  });
 
   if (btnScratchReset) {
     btnScratchReset.addEventListener('click', () => {
