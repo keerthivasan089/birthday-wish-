@@ -1659,8 +1659,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   // 10. HANDWRITTEN INK REVEAL EFFECT (Letter 4: "My Heartfelt Promise")
   // --------------------------------------------------------------------------
-  const inkP1 = document.getElementById('ink-p1');
-  const inkP2 = document.getElementById('ink-p2');
+  const inkParagraphs = Array.from(document.querySelectorAll('#heartfelt-ink-container .ink-paragraph'));
   const inkSig = document.getElementById('ink-signature');
   const btnInkSkip = document.getElementById('btn-ink-skip');
   let inkRevealTimeouts = [];
@@ -1680,14 +1679,11 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInkTimeouts();
     isInkRevealing = false;
 
-    if (inkP1) {
-      inkP1.classList.remove('is-writing');
-      inkP1.textContent = inkP1.getAttribute('data-full-text') || '';
-    }
-    if (inkP2) {
-      inkP2.classList.remove('is-writing');
-      inkP2.textContent = inkP2.getAttribute('data-full-text') || '';
-    }
+    inkParagraphs.forEach((p) => {
+      p.classList.remove('is-writing');
+      p.textContent = p.getAttribute('data-full-text') || '';
+    });
+
     if (inkSig) {
       inkSig.classList.add('is-visible');
     }
@@ -1697,17 +1693,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startHandwrittenInkReveal() {
-    if (!inkP1 || !inkP2 || !inkSig) return;
+    if (!inkParagraphs.length || !inkSig) return;
     clearInkTimeouts();
     isInkRevealing = true;
 
-    const text1 = inkP1.getAttribute('data-full-text') || '';
-    const text2 = inkP2.getAttribute('data-full-text') || '';
-
-    inkP1.textContent = '';
-    inkP2.textContent = '';
-    inkP1.classList.add('is-writing');
-    inkP2.classList.remove('is-writing');
+    inkParagraphs.forEach((p, idx) => {
+      p.textContent = '';
+      if (idx === 0) {
+        p.classList.add('is-writing');
+      } else {
+        p.classList.remove('is-writing');
+      }
+    });
     inkSig.classList.remove('is-visible');
 
     if (btnInkSkip) {
@@ -1715,37 +1712,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let delay = 220;
-    const charSpeed = 24;
+    const charSpeed = 20;
 
-    // Write Paragraph 1
-    for (let i = 1; i <= text1.length; i++) {
-      const t = setTimeout(() => {
-        inkP1.textContent = text1.slice(0, i);
-      }, delay);
-      inkRevealTimeouts.push(t);
-      delay += charSpeed;
-    }
+    inkParagraphs.forEach((p, pIdx) => {
+      const fullText = p.getAttribute('data-full-text') || '';
+      for (let i = 1; i <= fullText.length; i++) {
+        const t = setTimeout(() => {
+          p.textContent = fullText.slice(0, i);
+        }, delay);
+        inkRevealTimeouts.push(t);
+        delay += charSpeed;
+      }
 
-    // Switch quill to Paragraph 2
-    const switchT = setTimeout(() => {
-      inkP1.classList.remove('is-writing');
-      inkP2.classList.add('is-writing');
-    }, delay);
-    inkRevealTimeouts.push(switchT);
-    delay += 260;
-
-    // Write Paragraph 2
-    for (let j = 1; j <= text2.length; j++) {
-      const t = setTimeout(() => {
-        inkP2.textContent = text2.slice(0, j);
-      }, delay);
-      inkRevealTimeouts.push(t);
-      delay += charSpeed;
-    }
+      if (pIdx < inkParagraphs.length - 1) {
+        const nextP = inkParagraphs[pIdx + 1];
+        const switchT = setTimeout(() => {
+          p.classList.remove('is-writing');
+          nextP.classList.add('is-writing');
+        }, delay);
+        inkRevealTimeouts.push(switchT);
+        delay += 220;
+      }
+    });
 
     // Complete & fade in signature
     const finishT = setTimeout(() => {
-      inkP2.classList.remove('is-writing');
+      inkParagraphs.forEach((p) => p.classList.remove('is-writing'));
       inkSig.classList.add('is-visible');
       isInkRevealing = false;
       if (btnInkSkip) {
@@ -1972,17 +1964,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let scratchCtx = null;
   let isScratching = false;
   let isScratchCompleted = false;
+  let lastScratchPoint = null;
+  let lastCompletionCheckTime = 0;
+  let scratchDpr = 1;
 
   function initScratchCard() {
     if (!scratchCanvas) return;
     const container = document.getElementById('vault-stage-wrapper') || document.querySelector('.secret-bonus-card');
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    const w = Math.max(320, Math.floor(rect.width));
-    const h = Math.max(380, Math.floor(rect.height));
+    const cssW = Math.max(320, Math.floor(rect.width));
+    const cssH = Math.max(380, Math.floor(rect.height));
 
-    scratchCanvas.width = w;
-    scratchCanvas.height = h;
+    // Cap DPR at 1.5 so text & foil are crisp while keeping pixel buffer fast
+    scratchDpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    scratchCanvas.width = Math.floor(cssW * scratchDpr);
+    scratchCanvas.height = Math.floor(cssH * scratchDpr);
+
     scratchCanvas.classList.remove('is-revealed');
     if (giantGoldenOverlay) {
       giantGoldenOverlay.classList.remove('is-revealed');
@@ -1993,26 +1991,45 @@ document.addEventListener('DOMContentLoaded', () => {
       bonusCard.classList.remove('is-revealed');
     }
     isScratchCompleted = false;
+    lastScratchPoint = null;
+    lastCompletionCheckTime = 0;
 
     if (scratchStatusText) {
       scratchStatusText.textContent = '✨ Rub with your finger or cursor to scratch off!';
     }
 
-    scratchCtx = scratchCanvas.getContext('2d');
+    scratchCtx = scratchCanvas.getContext('2d', { willReadFrequently: true });
     if (!scratchCtx) return;
+
+    scratchCtx.save();
+    scratchCtx.scale(scratchDpr, scratchDpr);
+
+    const w = cssW;
+    const h = cssH;
 
     // 1. Rich Metallic Gold Foil Gradient Coat covering the entire vault area
     scratchCtx.globalCompositeOperation = 'source-over';
     const grad = scratchCtx.createLinearGradient(0, 0, w, h);
     grad.addColorStop(0, '#E6C35C');
-    grad.addColorStop(0.2, '#FFF2B2');
-    grad.addColorStop(0.42, '#D4AF37');
-    grad.addColorStop(0.68, '#B88E1E');
-    grad.addColorStop(0.85, '#F0D578');
+    grad.addColorStop(0.18, '#FFF4BD');
+    grad.addColorStop(0.38, '#D4AF37');
+    grad.addColorStop(0.55, '#F9E498');
+    grad.addColorStop(0.75, '#B88E1E');
+    grad.addColorStop(0.9, '#F0D578');
     grad.addColorStop(1, '#9C781A');
 
     scratchCtx.fillStyle = grad;
     scratchCtx.fillRect(0, 0, w, h);
+
+    // Subtle Diagonal Metallic Brushed Sheen Lines
+    scratchCtx.strokeStyle = 'rgba(255, 250, 220, 0.16)';
+    scratchCtx.lineWidth = 1;
+    for (let i = -h; i < w + h; i += 14) {
+      scratchCtx.beginPath();
+      scratchCtx.moveTo(i, 0);
+      scratchCtx.lineTo(i - h * 0.6, h);
+      scratchCtx.stroke();
+    }
 
     // 2. Subtle Shimmering Foil Pattern & Borders
     scratchCtx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
@@ -2024,7 +2041,6 @@ document.addEventListener('DOMContentLoaded', () => {
     scratchCtx.strokeRect(22, 22, w - 44, h - 44);
 
     // 3. Giant Golden Overlay Headline
-    // The user should see nothing but a huge golden card that says 'Scratch to reveal your final surprise!'
     scratchCtx.textAlign = 'center';
     scratchCtx.textBaseline = 'middle';
 
@@ -2034,7 +2050,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const badgeX = (w - badgeW) / 2;
     const badgeY = Math.max(35, h / 2 - 95);
 
-    scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.52)';
     if (typeof scratchCtx.roundRect === 'function') {
       scratchCtx.beginPath();
       scratchCtx.roundRect(badgeX, badgeY, badgeW, badgeH, 17);
@@ -2064,33 +2080,89 @@ document.addEventListener('DOMContentLoaded', () => {
     // Giant gift emoji / seal
     scratchCtx.font = '36px sans-serif';
     scratchCtx.fillText('🎁', w / 2, h / 2 + 80);
+
+    scratchCtx.restore();
+  }
+
+  function eraseSoftDab(x, y, radius) {
+    const radial = scratchCtx.createRadialGradient(x, y, radius * 0.35, x, y, radius);
+    radial.addColorStop(0, 'rgba(0, 0, 0, 1)');
+    radial.addColorStop(0.75, 'rgba(0, 0, 0, 0.92)');
+    radial.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    scratchCtx.fillStyle = radial;
+    scratchCtx.beginPath();
+    scratchCtx.arc(x, y, radius, 0, Math.PI * 2);
+    scratchCtx.fill();
   }
 
   function scratchAtPoint(clientX, clientY) {
     if (!scratchCtx || !scratchCanvas || isScratchCompleted) return;
     const rect = scratchCanvas.getBoundingClientRect();
-    const scaleX = scratchCanvas.width / (rect.width || 1);
-    const scaleY = scratchCanvas.height / (rect.height || 1);
+    if (!rect.width || !rect.height) return;
+
+    const scaleX = scratchCanvas.width / rect.width;
+    const scaleY = scratchCanvas.height / rect.height;
     const x = (clientX - rect.left) * scaleX;
     const y = (clientY - rect.top) * scaleY;
+    const brushRadius = 56 * scratchDpr;
 
+    scratchCtx.save();
     scratchCtx.globalCompositeOperation = 'destination-out';
-    scratchCtx.beginPath();
-    scratchCtx.arc(x, y, 48, 0, Math.PI * 2);
-    scratchCtx.fill();
+    scratchCtx.lineCap = 'round';
+    scratchCtx.lineJoin = 'round';
 
-    // Check revealed percentage periodically
-    checkScratchCompletion();
+    if (lastScratchPoint) {
+      const dx = x - lastScratchPoint.x;
+      const dy = y - lastScratchPoint.y;
+      const dist = Math.hypot(dx, dy);
+      const step = Math.max(4, brushRadius * 0.22);
+
+      // Draw a solid core connector line for zero gaps even at ultra-high mouse speeds
+      scratchCtx.lineWidth = brushRadius * 1.55;
+      scratchCtx.strokeStyle = 'rgba(0, 0, 0, 1)';
+      scratchCtx.beginPath();
+      scratchCtx.moveTo(lastScratchPoint.x, lastScratchPoint.y);
+      scratchCtx.lineTo(x, y);
+      scratchCtx.stroke();
+
+      // Stamp feathered soft radial dabs along the path for buttery-smooth edges
+      const steps = Math.min(40, Math.ceil(dist / step));
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        const ix = lastScratchPoint.x + dx * t;
+        const iy = lastScratchPoint.y + dy * t;
+        eraseSoftDab(ix, iy, brushRadius);
+      }
+
+      // Spawn subtle gold dust trail particles while scratching
+      if (dist > 6 && window.particleEngine && Math.random() < 0.45) {
+        window.particleEngine.spawnTrail(clientX, clientY, dx * 0.04, dy * 0.04);
+      }
+    } else {
+      eraseSoftDab(x, y, brushRadius);
+    }
+
+    scratchCtx.restore();
+    lastScratchPoint = { x, y };
+
+    // Throttle expensive getImageData() check to at most once every 120ms for locked 60fps+ smoothness
+    const now = performance.now();
+    if (now - lastCompletionCheckTime > 120) {
+      lastCompletionCheckTime = now;
+      checkScratchCompletion();
+    }
   }
 
   function checkScratchCompletion() {
     if (!scratchCtx || !scratchCanvas || isScratchCompleted) return;
     const w = scratchCanvas.width;
     const h = scratchCanvas.height;
+    if (!w || !h) return;
+
     const imgData = scratchCtx.getImageData(0, 0, w, h).data;
 
     let transparentPixels = 0;
-    const stride = 32; // sample every 8th pixel for fast 60fps performance on large canvas
+    const stride = 64; // sample every 16th pixel for sub-millisecond evaluation
     const totalSampled = Math.floor(imgData.length / stride);
 
     for (let i = 3; i < imgData.length; i += stride) {
@@ -2100,8 +2172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const ratio = transparentPixels / (totalSampled || 1);
-    // Once 50% scratched, fade out canvas to reveal 3-column layout
-    if (ratio >= 0.50) {
+    // Once 45% scratched, smoothly fade out canvas to reveal 3-column layout
+    if (ratio >= 0.45) {
       onScratchCardComplete();
     }
   }
@@ -2114,6 +2186,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function onScratchCardComplete() {
     if (isScratchCompleted) return;
     isScratchCompleted = true;
+    isScratching = false;
+    lastScratchPoint = null;
 
     // Fade out canvas and giant overlay
     if (scratchCanvas) {
@@ -2166,7 +2240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     isMusicPlaying = false;
 
-    // Explicitly fire goldenSongRef.current.play() inside onComplete / 50% threshold callback
+    // Explicitly fire goldenSongRef.current.play() inside onComplete / threshold callback
     let goldenStarted = false;
     if (window.__sisterAudio && window.__sisterAudio.goldenSongRef && window.__sisterAudio.goldenSongRef.current) {
       try {
@@ -2233,41 +2307,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (scratchCanvas) {
-    scratchCanvas.addEventListener('mousedown', (e) => {
+    scratchCanvas.addEventListener('pointerdown', (e) => {
+      if (isScratchCompleted) return;
       isScratching = true;
+      lastScratchPoint = null;
+      if (typeof scratchCanvas.setPointerCapture === 'function') {
+        try {
+          scratchCanvas.setPointerCapture(e.pointerId);
+        } catch (_) {}
+      }
       scratchAtPoint(e.clientX, e.clientY);
     });
-    window.addEventListener('mousemove', (e) => {
-      if (isScratching && currentScene === 'secretBonus') {
-        scratchAtPoint(e.clientX, e.clientY);
-      }
-    });
-    window.addEventListener('mouseup', () => {
-      if (isScratching) {
-        isScratching = false;
-        checkScratchCompletion();
+
+    scratchCanvas.addEventListener('pointermove', (e) => {
+      if (!isScratching || isScratchCompleted || currentScene !== 'secretBonus') return;
+      // Use coalesced events when available for ultra-smooth high-refresh-rate strokes
+      const events = typeof e.getCoalescedEvents === 'function' ? e.getCoalescedEvents() : [e];
+      for (let i = 0; i < events.length; i++) {
+        scratchAtPoint(events[i].clientX, events[i].clientY);
       }
     });
 
-    scratchCanvas.addEventListener('touchstart', (e) => {
-      isScratching = true;
-      if (e.touches && e.touches[0]) {
-        scratchAtPoint(e.touches[0].clientX, e.touches[0].clientY);
+    const endScratchStroke = (e) => {
+      if (!isScratching) return;
+      isScratching = false;
+      lastScratchPoint = null;
+      if (e && e.pointerId !== undefined && typeof scratchCanvas.releasePointerCapture === 'function') {
+        try {
+          scratchCanvas.releasePointerCapture(e.pointerId);
+        } catch (_) {}
       }
-    }, { passive: true });
+      checkScratchCompletion();
+    };
 
-    scratchCanvas.addEventListener('touchmove', (e) => {
-      if (isScratching && e.touches && e.touches[0]) {
-        scratchAtPoint(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    }, { passive: true });
-
-    scratchCanvas.addEventListener('touchend', () => {
-      if (isScratching) {
-        isScratching = false;
-        checkScratchCompletion();
-      }
-    });
+    scratchCanvas.addEventListener('pointerup', endScratchStroke);
+    scratchCanvas.addEventListener('pointercancel', endScratchStroke);
+    window.addEventListener('pointerup', endScratchStroke);
   }
 
   // Interactive Spotify lyrics line clicking to highlight line

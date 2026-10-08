@@ -50,10 +50,10 @@ export const VAULT_FLOATING_PHOTOS = [
   SISTER_PHOTOS[8],
 ];
 
-// 3. Four Sister Birthday Letters - 13 Photos distributed evenly (3, 3, 3, 4)
+// 3. Four Sister Birthday Letters - 16 Photos distributed across the 4 letters (including the 3 displaced memories photos)
 export const LETTER_PHOTOS = {
   letter1: [SISTER_PHOTOS[9], SISTER_PHOTOS[10], SISTER_PHOTOS[11]],
-  letter2: [SISTER_PHOTOS[12], SISTER_PHOTOS[13], SISTER_PHOTOS[14]],
+  letter2: [SISTER_PHOTOS[12], SISTER_PHOTOS[13], SISTER_PHOTOS[14], SISTER_PHOTOS[1], SISTER_PHOTOS[0]],
   letter3: [SISTER_PHOTOS[15], SISTER_PHOTOS[16], SISTER_PHOTOS[17]],
-  letter4: [SISTER_PHOTOS[18], SISTER_PHOTOS[19], SISTER_PHOTOS[20], SISTER_PHOTOS[21]],
+  letter4: [SISTER_PHOTOS[18], SISTER_PHOTOS[19], SISTER_PHOTOS[20], SISTER_PHOTOS[21], SISTER_PHOTOS[2]],
 };
