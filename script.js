@@ -848,11 +848,6 @@ document.addEventListener('DOMContentLoaded', () => {
     blowCandleBtn.addEventListener('click', toggleCandleFlame);
   }
 
-  const cakeVisual = document.querySelector('.cake-visual-wrap');
-  if (cakeVisual) {
-    cakeVisual.addEventListener('click', toggleCandleFlame);
-  }
-
   // --------------------------------------------------------------------------
   // 6. AMBIENT BACKGROUND MUSIC & SOUND CONTROLLER
   // --------------------------------------------------------------------------
@@ -2755,10 +2750,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 15. FEATURE #4: INTERACTIVE CAKE TOPPINGS, MIC SENSOR & SLICE (Letter 3)
+  // 15. FEATURE #4: INTERACTIVE CAKE TOPPINGS & SLICE (Letter 3)
   // ==========================================================================
   const toppingButtons = document.querySelectorAll('.btn-cake-topping');
-  const btnMicBlow = document.getElementById('btn-mic-blow');
   const btnSliceCake = document.getElementById('btn-slice-cake');
   const cakeSliceCutLine = document.getElementById('cake-slice-cut-line');
   const cakeSliceServedBanner = document.getElementById('cake-slice-served-banner');
@@ -2783,111 +2777,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Cut First Slice for Di
+  // Cut First Slice for Di (also allow clicking the cake visual to cut/serve slice)
   let isCakeSliced = false;
-  if (btnSliceCake) {
-    btnSliceCake.addEventListener('click', (e) => {
-      isCakeSliced = !isCakeSliced;
-      playPasscodeUnlockSound();
+  function handleToggleCakeSlice(e) {
+    isCakeSliced = !isCakeSliced;
+    playPasscodeUnlockSound();
 
-      if (cakeSliceCutLine) {
-        cakeSliceCutLine.classList.toggle('is-sliced', isCakeSliced);
-      }
-      if (cakeSliceServedBanner) {
-        cakeSliceServedBanner.classList.toggle('is-visible', isCakeSliced);
-      }
+    if (cakeSliceCutLine) {
+      cakeSliceCutLine.classList.toggle('is-sliced', isCakeSliced);
+    }
+    if (cakeSliceServedBanner) {
+      cakeSliceServedBanner.classList.toggle('is-visible', isCakeSliced);
+    }
+    if (btnSliceCake) {
       btnSliceCake.textContent = isCakeSliced ? '🍰 First Slice Served to Di!' : '🔪 Cut First Slice for Di';
+    }
 
-      if (isCakeSliced) {
-        spawnHeartShower(10);
-        if (e.clientX && window.particleEngine) {
-          window.particleEngine.confettiBurst(e.clientX, e.clientY, 35);
-        }
+    if (isCakeSliced) {
+      spawnHeartShower(12);
+      triggerConfettiExplosion();
+      if (e && e.clientX && window.particleEngine) {
+        window.particleEngine.confettiBurst(e.clientX, e.clientY, 45);
       }
-    });
-  }
-
-  // Real Microphone Breath Detection to Blow Out Candles
-  let micStream = null;
-  let micAnimFrame = null;
-  let isListeningToMic = false;
-
-  function stopMicListening() {
-    isListeningToMic = false;
-    if (micAnimFrame) {
-      cancelAnimationFrame(micAnimFrame);
-      micAnimFrame = null;
-    }
-    if (micStream) {
-      micStream.getTracks().forEach((track) => track.stop());
-      micStream = null;
-    }
-    if (btnMicBlow) {
-      btnMicBlow.classList.remove('is-listening');
-      btnMicBlow.textContent = '🎙️ Blow with Mic';
     }
   }
 
-  if (btnMicBlow) {
-    btnMicBlow.addEventListener('click', async () => {
-      if (isListeningToMic) {
-        stopMicListening();
-        return;
-      }
-
-      // Ensure candle is lit before blowing
-      if (!isCandleLit) {
-        toggleCandleFlame();
-      }
-
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        // Graceful fallback if browser blocks mic in iframe
-        toggleCandleFlame();
-        return;
-      }
-
-      try {
-        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        isListeningToMic = true;
-        btnMicBlow.classList.add('is-listening');
-        btnMicBlow.textContent = '💨 Blow into Mic Now...';
-
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const audioCtx = new AudioCtx();
-        const source = audioCtx.createMediaStreamSource(micStream);
-        const analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 256;
-        source.connect(analyser);
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-        function checkBlowLevel() {
-          if (!isListeningToMic) return;
-          analyser.getByteFrequencyData(dataArray);
-          // Low-frequency energy typical of blowing air into a mic
-          let sum = 0;
-          for (let i = 0; i < 24; i++) {
-            sum += dataArray[i];
-          }
-          const avg = sum / 24;
-
-          if (avg > 85) {
-            stopMicListening();
-            if (isCandleLit) {
-              toggleCandleFlame();
-            }
-            return;
-          }
-          micAnimFrame = requestAnimationFrame(checkBlowLevel);
-        }
-        checkBlowLevel();
-      } catch (_) {
-        // If microphone permission is declined, blow out candle directly so the user never hits a dead end
-        stopMicListening();
-        if (isCandleLit) {
-          toggleCandleFlame();
-        }
-      }
-    });
+  if (btnSliceCake) {
+    btnSliceCake.addEventListener('click', handleToggleCakeSlice);
+  }
+  const cakeVisualEl = document.getElementById('cake-visual-wrap');
+  if (cakeVisualEl) {
+    cakeVisualEl.addEventListener('click', handleToggleCakeSlice);
   }
 
   // ==========================================================================
