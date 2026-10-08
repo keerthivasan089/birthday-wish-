@@ -483,11 +483,13 @@
               </div>
 
               <!-- Embedded Taped Photo 3 -->
-              <div class="letter-memory-photo-wrap">
+              <div class="letter-memory-photo-wrap" style="position: relative !important;">
                 <div class="letter-taped-photo tilt-right-2">
                   <div class="photo-tape-strip"></div>
                   <img src="/13.jpeg" alt="Memory Photo - Cherished times" />
                   <span class="photo-caption-note">Cherished moments forever 🤍</span>
+                  <!-- Hidden Sister Gem #1 -->
+                  <button type="button" class="hidden-sister-gem" data-gem-id="1" title="Wait... what's this glowing flower?" aria-label="Hidden Sister Gem 1">🌸</button>
                 </div>
               </div>
             </div>
@@ -574,14 +576,62 @@
                 </div>
               </div>
 
+              <!-- FEATURE #3: INTERACTIVE "OPEN WHEN..." SISTER FORTUNE JAR -->
+              <div class="fortune-jar-widget" id="fortune-jar-widget">
+                <div class="fortune-jar-header">
+                  <span class="fortune-jar-kicker">✨ Sisterhood Pill Jar · <span id="fortune-jar-counter">0/12 Opened</span></span>
+                  <h4 class="fortune-jar-title">Tap the Jar for a Little Sister Note</h4>
+                  <p class="fortune-jar-sub">Whenever you need a boost, tap the glass jar to pull a secret rolled-up note from Di!</p>
+                </div>
+
+                <div class="fortune-jar-stage">
+                  <button type="button" class="fortune-jar-btn" id="btn-tap-fortune-jar" aria-label="Tap to pull a secret note from the sister jar">
+                    <svg class="fortune-jar-svg" viewBox="0 0 140 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Cork Lid & Ribbon -->
+                      <rect x="42" y="10" width="56" height="16" rx="5" fill="#C69C6D" stroke="#5C1D24" stroke-width="2"/>
+                      <rect x="36" y="24" width="68" height="10" rx="4" fill="#E8D8C8" stroke="#5C1D24" stroke-width="2"/>
+                      <path d="M40 29 H100" stroke="#C85A53" stroke-width="3"/>
+                      <!-- Glass Body -->
+                      <path d="M38 34 C24 44, 22 60, 22 95 C22 135, 28 156, 46 158 H94 C112 156, 118 135, 118 95 C118 60, 116 44, 102 34 Z" fill="rgba(255, 253, 249, 0.78)" stroke="#5C1D24" stroke-width="2.5"/>
+                      <!-- Glass Highlight -->
+                      <path d="M32 55 C29 75, 29 115, 34 140" stroke="rgba(255,255,255,0.9)" stroke-width="4" stroke-linecap="round"/>
+                      <!-- Colorful Rolled Notes & Stars Inside -->
+                      <g class="jar-capsules-group">
+                        <rect x="38" y="132" width="26" height="12" rx="6" transform="rotate(-14 38 132)" fill="#E88C86" stroke="#5C1D24" stroke-width="1.5"/>
+                        <rect x="68" y="136" width="28" height="12" rx="6" transform="rotate(10 68 136)" fill="#F4E295" stroke="#5C1D24" stroke-width="1.5"/>
+                        <rect x="48" y="116" width="28" height="12" rx="6" transform="rotate(8 48 116)" fill="#C85A53" stroke="#5C1D24" stroke-width="1.5"/>
+                        <rect x="74" y="114" width="26" height="12" rx="6" transform="rotate(-22 74 114)" fill="#90A57A" stroke="#5C1D24" stroke-width="1.5"/>
+                        <rect x="34" y="102" width="26" height="12" rx="6" transform="rotate(18 34 102)" fill="#D4AF37" stroke="#5C1D24" stroke-width="1.5"/>
+                        <rect x="62" y="96" width="28" height="12" rx="6" transform="rotate(-8 62 96)" fill="#FCECE9" stroke="#5C1D24" stroke-width="1.5"/>
+                        <!-- Glowing Heart Tag on Jar -->
+                        <circle cx="70" cy="72" r="15" fill="#FFFDF9" stroke="#C85A53" stroke-width="1.8"/>
+                        <path d="M70 79 L64 73 C61 70, 63 65, 67 66 C69 66.5, 70 68, 70 68 C70 68, 71 66.5, 73 66 C77 65, 79 70, 76 73 Z" fill="#C85A53"/>
+                      </g>
+                    </svg>
+                    <span class="jar-tap-badge">✨ Tap Jar</span>
+                  </button>
+
+                  <!-- Unrolled Fortune Note Display -->
+                  <div class="fortune-note-card" id="fortune-note-card" aria-live="polite">
+                    <span class="fortune-note-prompt" id="fortune-note-prompt">💌 Open when you want your first sisterly reminder...</span>
+                    <p class="fortune-note-message" id="fortune-note-message">
+                      Tap the jar on the left to unroll a secret note written just for you, Kavin!
+                    </p>
+                    <button type="button" class="fortune-next-btn" id="btn-next-fortune">Pull Another Note ↻</button>
+                  </div>
+                </div>
+              </div>
+
               <div class="letter-signature" style="margin-top: 1.4rem;">With all my love &amp; blooming roses, &hearts;</div>
             </div>
 
             <!-- Right Column: Illustrated Bouquet & Parallel Sister Photos -->
             <div class="bouquet-visuals-col">
               <!-- Bouquet Graphic Frame -->
-              <div class="bouquet-graphic-wrap">
-                <div class="bouquet-illustration photo-placeholder-box">
+              <div class="bouquet-graphic-wrap" style="position: relative;">
+                <div class="bouquet-illustration photo-placeholder-box" style="position: relative;">
+                  <!-- Hidden Sister Gem #2 tucked in the bouquet -->
+                  <button type="button" class="hidden-sister-gem" data-gem-id="2" style="top: 12px; right: 14px;" title="A secret butterfly in your bouquet!" aria-label="Hidden Sister Gem 2">🦋</button>
                   <div class="bouquet-art-container">
                     <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="bouquet-svg">
                       <!-- Stems & Foliage -->
@@ -689,7 +739,9 @@
           
           <div class="cake-content-grid">
             <!-- Left Column: Interactive Birthday Cake & Wish -->
-            <div class="cake-interactive-col">
+            <div class="cake-interactive-col" style="position: relative;">
+              <!-- Hidden Sister Gem #3 near cake title -->
+              <button type="button" class="hidden-sister-gem" data-gem-id="3" style="top: 4px; right: 8px;" title="A secret golden star on the cake table!" aria-label="Hidden Sister Gem 3">⭐</button>
               <h3 class="letter-title">Here's Your Birthday Cake, Little Sis!</h3>
               <p class="leading-relaxed my-6" style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-muted);">
                 Zero calories, zero carbs, and baked with 100% big-sister love.
@@ -700,18 +752,77 @@
                 En uyir thangachi Kavin kku, Iniya Pirandha Naal Vaazhthukkal! ✨
               </h4>
 
+              <!-- FEATURE #4 STEP 1: DECORATE YOUR CAKE TOPPINGS BAR -->
+              <div class="cake-Step-bar" aria-label="Step 1: Decorate your birthday cake">
+                <span class="cake-step-label">Step 1 · Add Toppings:</span>
+                <div class="cake-toppings-group">
+                  <button type="button" class="btn-cake-topping" id="btn-topping-strawberries" data-topping="strawberries">
+                    🍓 Strawberries
+                  </button>
+                  <button type="button" class="btn-cake-topping" id="btn-topping-sprinkles" data-topping="sprinkles">
+                    🌈 Rainbow Sprinkles
+                  </button>
+                  <button type="button" class="btn-cake-topping" id="btn-topping-choco" data-topping="choco">
+                    🍫 Choco Hearts
+                  </button>
+                </div>
+              </div>
+
               <!-- Interactive Cake SVG Visual -->
-              <div class="cake-visual-wrap" title="Click to blow out the candles">
-                <svg class="cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="cake-visual-wrap" id="cake-visual-wrap" title="Click to blow out the candles">
+                <svg class="cake-svg" id="birthday-cake-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <!-- Plate -->
                   <ellipse cx="100" cy="175" rx="85" ry="16" fill="#F0E6E0" stroke="#C85A53" stroke-width="2"/>
-                  <!-- Bottom Cake Layer -->
-                  <rect x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
-                  <path d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
-                  <!-- Top Cake Layer -->
-                  <rect x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
-                  <!-- Frosting Drips -->
-                  <path d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <!-- Whole Cake Group (shifts slightly when sliced) -->
+                  <g id="cake-main-body">
+                    <!-- Bottom Cake Layer -->
+                    <rect x="35" y="125" width="130" height="42" rx="6" fill="#FCECE9" stroke="#5C1D24" stroke-width="2"/>
+                    <path d="M35 138 C 55 146, 75 130, 100 138 C 125 146, 145 130, 165 138" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+                    <!-- Top Cake Layer -->
+                    <rect x="50" y="85" width="100" height="42" rx="6" fill="#FFFDF9" stroke="#5C1D24" stroke-width="2"/>
+                    <!-- Frosting Drips -->
+                    <path d="M50 95 C 60 102, 70 90, 80 98 C 90 104, 100 92, 110 100 C 120 104, 130 92, 150 95" stroke="#C85A53" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+                    <!-- TOPPING LAYER 1: STRAWBERRIES (Hidden until toggled) -->
+                    <g id="cake-layer-strawberries" class="cake-topping-layer">
+                      <path d="M62 85 C58 76, 70 76, 66 85 Z" fill="#D9383A" stroke="#5C1D24" stroke-width="1.2"/>
+                      <path d="M86 85 C82 76, 94 76, 90 85 Z" fill="#D9383A" stroke="#5C1D24" stroke-width="1.2"/>
+                      <path d="M112 85 C108 76, 120 76, 116 85 Z" fill="#D9383A" stroke="#5C1D24" stroke-width="1.2"/>
+                      <path d="M136 85 C132 76, 144 76, 140 85 Z" fill="#D9383A" stroke="#5C1D24" stroke-width="1.2"/>
+                      <circle cx="48" cy="124" r="5.5" fill="#D9383A" stroke="#5C1D24" stroke-width="1.2"/>
+                      <circle cx="152" cy="124" r="5.5" fill="#D9383A" stroke="#5C1D24" stroke-width="1.2"/>
+                    </g>
+
+                    <!-- TOPPING LAYER 2: RAINBOW SPRINKLES (Hidden until toggled) -->
+                    <g id="cake-layer-sprinkles" class="cake-topping-layer">
+                      <line x1="60" y1="108" x2="66" y2="111" stroke="#FF6B8B" stroke-width="2.6" stroke-linecap="round"/>
+                      <line x1="82" y1="114" x2="88" y2="110" stroke="#4ECDC4" stroke-width="2.6" stroke-linecap="round"/>
+                      <line x1="105" y1="112" x2="112" y2="115" stroke="#D4AF37" stroke-width="2.6" stroke-linecap="round"/>
+                      <line x1="128" y1="108" x2="134" y2="112" stroke="#9B5DE5" stroke-width="2.6" stroke-linecap="round"/>
+                      <line x1="52" y1="150" x2="59" y2="154" stroke="#4ECDC4" stroke-width="2.8" stroke-linecap="round"/>
+                      <line x1="78" y1="156" x2="85" y2="152" stroke="#FF6B8B" stroke-width="2.8" stroke-linecap="round"/>
+                      <line x1="106" y1="154" x2="113" y2="157" stroke="#D4AF37" stroke-width="2.8" stroke-linecap="round"/>
+                      <line x1="135" y1="151" x2="142" y2="155" stroke="#9B5DE5" stroke-width="2.8" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- TOPPING LAYER 3: CHOCO HEARTS & GOLD STARS (Hidden until toggled) -->
+                    <g id="cake-layer-choco" class="cake-topping-layer">
+                      <circle cx="72" cy="112" r="4" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
+                      <circle cx="100" cy="115" r="4.5" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
+                      <circle cx="126" cy="112" r="4" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
+                      <circle cx="66" cy="152" r="4.5" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
+                      <circle cx="100" cy="154" r="5" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
+                      <circle cx="132" cy="152" r="4.5" fill="#5C2C16" stroke="#D4AF37" stroke-width="1"/>
+                    </g>
+
+                    <!-- Cut Slice Wedge Visual Indicator -->
+                    <g id="cake-slice-cut-line" class="cake-slice-cut-line">
+                      <path d="M100 85 L118 167 L142 167 L130 85 Z" fill="#FFF5EE" stroke="#5C1D24" stroke-width="1.8" stroke-dasharray="3 2"/>
+                      <line x1="102" y1="105" x2="132" y2="105" stroke="#C85A53" stroke-width="3"/>
+                      <line x1="108" y1="145" x2="138" y2="145" stroke="#C85A53" stroke-width="3"/>
+                    </g>
+                  </g>
+
                   <!-- Candle 1 -->
                   <rect x="75" y="55" width="6" height="30" rx="3" fill="#D4AF37"/>
                   <!-- Candle 2 (Center) -->
@@ -730,10 +841,22 @@
                 </svg>
               </div>
 
-              <div>
+              <!-- FEATURE #4 STEP 2 & 3: BLOW CANDLES (BUTTON OR REAL MIC) + CUT CAKE SLICE -->
+              <div class="cake-actions-cluster">
                 <button id="blow-candle-btn" class="btn-secondary blow-candle-btn">
                   💨 Blow Candle &amp; Make a Wish
                 </button>
+                <button id="btn-mic-blow" type="button" class="btn-cake-subaction" title="Blow into your microphone to blow out the candles!">
+                  🎙️ Blow with Mic
+                </button>
+                <button id="btn-slice-cake" type="button" class="btn-cake-subaction" title="Cut a birthday slice for you and Di!">
+                  🔪 Cut First Slice for Di
+                </button>
+              </div>
+
+              <!-- Served Slice Toast Banner -->
+              <div class="cake-slice-served-banner" id="cake-slice-served-banner" aria-live="polite">
+                🍰 <strong>First Slice Served!</strong> You fed the first virtual bite to Di—zero calories and 100% sisterly sweetness! 💖
               </div>
 
               <!-- Warm Concluding Text Block Below the Cake & Button -->
@@ -858,11 +981,13 @@
               </div>
 
               <!-- Displaced Memory Photo Integrated in Parallel Layout -->
-              <div class="letter-memory-photo-wrap">
+              <div class="letter-memory-photo-wrap" style="position: relative !important;">
                 <div class="letter-taped-photo tilt-left-3">
                   <div class="photo-tape-strip"></div>
                   <img src="/3.jpeg" alt="Memory Photo - Sisters Forever" />
                   <span class="photo-caption-note">Sisters forever 💖</span>
+                  <!-- Hidden Sister Gem #4 -->
+                  <button type="button" class="hidden-sister-gem" data-gem-id="4" title="A hidden sister diamond!" aria-label="Hidden Sister Gem 4">💎</button>
                 </div>
               </div>
             </div>
@@ -1019,9 +1144,11 @@
       <div class="scene-content">
         
         <!-- Scene Header -->
-        <div class="together-header">
+        <div class="together-header" style="position: relative;">
           <p class="together-tagline">Forever &amp; Always</p>
           <h2 class="together-bold-title">TOGETHER</h2>
+          <!-- Hidden Sister Gem #5 -->
+          <button type="button" class="hidden-sister-gem" data-gem-id="5" style="top: 0; right: -12px;" title="The final hidden crown gem!" aria-label="Hidden Sister Gem 5">👑</button>
           <p class="polaroid-flip-hint">✨ Tap any Polaroid to flip &amp; read the story behind it ✨</p>
         </div>
 
@@ -1359,6 +1486,39 @@
         </div>
       </div>
     </section>
+
+    <!-- ================================================================== -->
+    <!-- FEATURE #5: HIDDEN SISTER GEMS SCAVENGER HUNT HUD & POPUP MODAL    -->
+    <!-- ================================================================== -->
+    <div class="gem-hunt-hud" id="gem-hunt-hud" role="status" aria-live="polite">
+      <button type="button" class="gem-hunt-hud-btn" id="btn-gem-hunt-hud" title="Tap to see your Hidden Sister Gems progress!">
+        <span class="gem-hud-icon" id="gem-hud-icon">🌸</span>
+        <span class="gem-hud-label" id="gem-hud-label">Sister Gems: 0/5</span>
+      </button>
+    </div>
+
+    <!-- Secret Gem Discovery Toast / Modal -->
+    <div class="gem-discovery-modal" id="gem-discovery-modal" aria-hidden="true" role="dialog" aria-labelledby="gem-modal-title">
+      <div class="gem-modal-backdrop" id="gem-modal-backdrop"></div>
+      <div class="gem-modal-card" id="gem-modal-card">
+        <span class="gem-modal-badge" id="gem-modal-badge">✨ Hidden Sister Gem Found!</span>
+        <div class="gem-modal-emoji" id="gem-modal-emoji">🌸</div>
+        <h3 class="gem-modal-title" id="gem-modal-title">Secret Sister Memory #1</h3>
+        <p class="gem-modal-text" id="gem-modal-text">
+          You found a hidden gem!
+        </p>
+        <div class="gem-modal-progress-dots" id="gem-modal-progress-dots">
+          <span class="gem-dot" data-dot="1">🌸</span>
+          <span class="gem-dot" data-dot="2">🦋</span>
+          <span class="gem-dot" data-dot="3">⭐</span>
+          <span class="gem-dot" data-dot="4">💎</span>
+          <span class="gem-dot" data-dot="5">👑</span>
+        </div>
+        <button type="button" class="btn-primary gem-modal-close-btn" id="btn-gem-modal-close">
+          <span>Keep Exploring 💖</span>
+        </button>
+      </div>
+    </div>
 
   </main>
 

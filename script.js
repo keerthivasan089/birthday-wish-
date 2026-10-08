@@ -2650,6 +2650,379 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ==========================================================================
+  // 14. FEATURE #3: INTERACTIVE "OPEN WHEN..." SISTER FORTUNE JAR (Letter 2)
+  // ==========================================================================
+  const fortuneNotes = [
+    {
+      prompt: '💌 Open when you are stressed about Business Studies exams...',
+      message: 'Take a deep breath, Kavin! One textbook chapter cannot measure how brilliant, capable, and unstoppable you are. Grab some water, take a 10-minute break, and call me if you want to vent!'
+    },
+    {
+      prompt: '🌙 Open when you are craving snacks at 1 AM...',
+      message: 'This is your official permission from Di to raid the kitchen right now! Save a bite for me or text me what you are eating.'
+    },
+    {
+      prompt: '👗 Open when you want to raid my wardrobe...',
+      message: 'Yes, you can borrow that outfit—even the one I usually hide! Just promise to take 10 cute photos in it first.'
+    },
+    {
+      prompt: '🥺 Open when you are having a low or overwhelming day...',
+      message: 'Un anbu dhaan en balam. Even on days when you feel tired or unsure, remember you are deeply loved, cherished, and never walking alone.'
+    },
+    {
+      prompt: '✨ Open when you need a reminder of how pretty you are...',
+      message: 'Have you looked in the mirror lately?! Your smile literally lights up every room you walk into, little sis!'
+    },
+    {
+      prompt: '🤫 Open when you have piping hot gossip to spill...',
+      message: 'Stop everything and call or voice-note me IMMEDIATELY! My ears are 100% ready for the tea.'
+    },
+    {
+      prompt: '🛡️ Open when Amma or Appa is lecturing you...',
+      message: 'Stay calm and nod—your big sister alibi shield is active! Text me the signal and I will come rescue you.'
+    },
+    {
+      prompt: '📖 Open when you are reading a novel late into the night...',
+      message: 'Just one more chapter, right? Make sure your blanket is cozy, and don’t forget to sleep before sunrise!'
+    },
+    {
+      prompt: '🛍️ Open when you need retail therapy at the mall...',
+      message: 'Let’s go! Next coffee/boba and dessert run is 100% on your Di. Pick the day!'
+    },
+    {
+      prompt: '🌟 Open when you doubt your path or future...',
+      message: 'Trust the gentle rhythm of the universe, Kav. You don’t have to have every single step figured out today—your story is unfolding beautifully.'
+    },
+    {
+      prompt: '😂 Open when you remember our weirdest childhood mischief...',
+      message: 'Nobody else on earth could survive our chaos or understand our inside jokes. Best partners-in-crime for life!'
+    },
+    {
+      prompt: '💖 Open whenever you miss your big sister...',
+      message: 'No matter how busy life gets or where we are, you are always my #1 priority. Sending you the tightest big-sister bear hug right now!'
+    }
+  ];
+
+  const btnTapFortuneJar = document.getElementById('btn-tap-fortune-jar');
+  const btnNextFortune = document.getElementById('btn-next-fortune');
+  const fortuneNoteCard = document.getElementById('fortune-note-card');
+  const fortuneNotePrompt = document.getElementById('fortune-note-prompt');
+  const fortuneNoteMessage = document.getElementById('fortune-note-message');
+  const fortuneJarCounter = document.getElementById('fortune-jar-counter');
+
+  const openedFortunesSet = new Set();
+  let currentFortuneIndex = -1;
+
+  function pullSisterFortune(originEvent) {
+    // Pick next note in sequence or random unvisited first
+    currentFortuneIndex = (currentFortuneIndex + 1) % fortuneNotes.length;
+    openedFortunesSet.add(currentFortuneIndex);
+
+    const item = fortuneNotes[currentFortuneIndex];
+    playKeyTapSound();
+
+    if (btnTapFortuneJar) {
+      btnTapFortuneJar.classList.remove('is-shaking');
+      void btnTapFortuneJar.offsetWidth;
+      btnTapFortuneJar.classList.add('is-shaking');
+    }
+
+    if (fortuneNoteCard) {
+      fortuneNoteCard.classList.remove('is-popping');
+      void fortuneNoteCard.offsetWidth;
+      fortuneNoteCard.classList.add('is-popping');
+    }
+
+    if (fortuneNotePrompt) fortuneNotePrompt.textContent = item.prompt;
+    if (fortuneNoteMessage) fortuneNoteMessage.textContent = `"${item.message}"`;
+    if (fortuneJarCounter) {
+      fortuneJarCounter.textContent = `${openedFortunesSet.size}/${fortuneNotes.length} Opened`;
+    }
+
+    if (originEvent && originEvent.clientX && window.particleEngine) {
+      window.particleEngine.burst(originEvent.clientX, originEvent.clientY, 12);
+    } else {
+      spawnHeartShower(4);
+    }
+  }
+
+  if (btnTapFortuneJar) {
+    btnTapFortuneJar.addEventListener('click', (e) => pullSisterFortune(e));
+  }
+  if (btnNextFortune) {
+    btnNextFortune.addEventListener('click', (e) => pullSisterFortune(e));
+  }
+
+  // ==========================================================================
+  // 15. FEATURE #4: INTERACTIVE CAKE TOPPINGS, MIC SENSOR & SLICE (Letter 3)
+  // ==========================================================================
+  const toppingButtons = document.querySelectorAll('.btn-cake-topping');
+  const btnMicBlow = document.getElementById('btn-mic-blow');
+  const btnSliceCake = document.getElementById('btn-slice-cake');
+  const cakeSliceCutLine = document.getElementById('cake-slice-cut-line');
+  const cakeSliceServedBanner = document.getElementById('cake-slice-served-banner');
+
+  toppingButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const topping = btn.getAttribute('data-topping');
+      const layer = document.getElementById(`cake-layer-${topping}`);
+      if (!layer) return;
+
+      const isActive = layer.classList.toggle('is-visible');
+      btn.classList.toggle('is-active', isActive);
+      playKeyTapSound();
+
+      if (isActive) {
+        if (e.clientX && window.particleEngine) {
+          window.particleEngine.burst(e.clientX, e.clientY, 14);
+        } else {
+          spawnHeartShower(4);
+        }
+      }
+    });
+  });
+
+  // Cut First Slice for Di
+  let isCakeSliced = false;
+  if (btnSliceCake) {
+    btnSliceCake.addEventListener('click', (e) => {
+      isCakeSliced = !isCakeSliced;
+      playPasscodeUnlockSound();
+
+      if (cakeSliceCutLine) {
+        cakeSliceCutLine.classList.toggle('is-sliced', isCakeSliced);
+      }
+      if (cakeSliceServedBanner) {
+        cakeSliceServedBanner.classList.toggle('is-visible', isCakeSliced);
+      }
+      btnSliceCake.textContent = isCakeSliced ? '🍰 First Slice Served to Di!' : '🔪 Cut First Slice for Di';
+
+      if (isCakeSliced) {
+        spawnHeartShower(10);
+        if (e.clientX && window.particleEngine) {
+          window.particleEngine.confettiBurst(e.clientX, e.clientY, 35);
+        }
+      }
+    });
+  }
+
+  // Real Microphone Breath Detection to Blow Out Candles
+  let micStream = null;
+  let micAnimFrame = null;
+  let isListeningToMic = false;
+
+  function stopMicListening() {
+    isListeningToMic = false;
+    if (micAnimFrame) {
+      cancelAnimationFrame(micAnimFrame);
+      micAnimFrame = null;
+    }
+    if (micStream) {
+      micStream.getTracks().forEach((track) => track.stop());
+      micStream = null;
+    }
+    if (btnMicBlow) {
+      btnMicBlow.classList.remove('is-listening');
+      btnMicBlow.textContent = '🎙️ Blow with Mic';
+    }
+  }
+
+  if (btnMicBlow) {
+    btnMicBlow.addEventListener('click', async () => {
+      if (isListeningToMic) {
+        stopMicListening();
+        return;
+      }
+
+      // Ensure candle is lit before blowing
+      if (!isCandleLit) {
+        toggleCandleFlame();
+      }
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        // Graceful fallback if browser blocks mic in iframe
+        toggleCandleFlame();
+        return;
+      }
+
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        isListeningToMic = true;
+        btnMicBlow.classList.add('is-listening');
+        btnMicBlow.textContent = '💨 Blow into Mic Now...';
+
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioCtx();
+        const source = audioCtx.createMediaStreamSource(micStream);
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        source.connect(analyser);
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        function checkBlowLevel() {
+          if (!isListeningToMic) return;
+          analyser.getByteFrequencyData(dataArray);
+          // Low-frequency energy typical of blowing air into a mic
+          let sum = 0;
+          for (let i = 0; i < 24; i++) {
+            sum += dataArray[i];
+          }
+          const avg = sum / 24;
+
+          if (avg > 85) {
+            stopMicListening();
+            if (isCandleLit) {
+              toggleCandleFlame();
+            }
+            return;
+          }
+          micAnimFrame = requestAnimationFrame(checkBlowLevel);
+        }
+        checkBlowLevel();
+      } catch (_) {
+        // If microphone permission is declined, blow out candle directly so the user never hits a dead end
+        stopMicListening();
+        if (isCandleLit) {
+          toggleCandleFlame();
+        }
+      }
+    });
+  }
+
+  // ==========================================================================
+  // 16. FEATURE #5: HIDDEN SISTER GEMS SCAVENGER HUNT (5 Gems Across Scenes)
+  // ==========================================================================
+  const gemStories = {
+    '1': {
+      emoji: '🌸',
+      title: 'Gem #1 · The Built-In Best Friend',
+      text: 'Remember how you used to follow me around everywhere when you were tiny? Now I’m the one who looks up to your quiet grace and strength!'
+    },
+    '2': {
+      emoji: '🦋',
+      title: 'Gem #2 · Secret Wardrobe Raids',
+      text: 'No matter how many times we say "Don’t touch my clothes!", half of my closet looks 10x better on you anyway, Kavin!'
+    },
+    '3': {
+      emoji: '⭐',
+      title: 'Gem #3 · Midnight Gossip Sessions',
+      text: 'Our late-night talks and uncontrollable giggles when everyone else is asleep are my favorite therapy sessions in the world.'
+    },
+    '4': {
+      emoji: '💎',
+      title: 'Gem #4 · Unconditional Alibi Partner',
+      text: 'Through every tiny mistake, college stress, or big life leap—your Di has your back 1000%, no questions asked!'
+    },
+    '5': {
+      emoji: '👑',
+      title: 'Gem #5 · Forever My Baby Sister',
+      text: 'Even when we’re 80 years old and grey, you will still be my precious little thangachi. En uyir thangachi Kavin!'
+    }
+  };
+
+  const foundGems = new Set();
+  const gemButtons = document.querySelectorAll('.hidden-sister-gem');
+  const gemHudBtn = document.getElementById('btn-gem-hunt-hud');
+  const gemHudLabel = document.getElementById('gem-hud-label');
+  const gemHudIcon = document.getElementById('gem-hud-icon');
+  const gemModal = document.getElementById('gem-discovery-modal');
+  const gemModalBackdrop = document.getElementById('gem-modal-backdrop');
+  const gemModalCloseBtn = document.getElementById('btn-gem-modal-close');
+  const gemModalBadge = document.getElementById('gem-modal-badge');
+  const gemModalEmoji = document.getElementById('gem-modal-emoji');
+  const gemModalTitle = document.getElementById('gem-modal-title');
+  const gemModalText = document.getElementById('gem-modal-text');
+  const gemDots = document.querySelectorAll('.gem-dot');
+
+  function updateGemHudUI() {
+    const count = foundGems.size;
+    if (gemHudLabel) {
+      gemHudLabel.textContent = count === 5 ? '👑 All 5 Sister Gems Found!' : `Sister Gems: ${count}/5`;
+    }
+    if (gemHudIcon) {
+      gemHudIcon.textContent = count === 5 ? '👑' : '🌸';
+    }
+    if (gemHudBtn) {
+      gemHudBtn.classList.toggle('is-complete', count === 5);
+    }
+    gemDots.forEach((dot) => {
+      const id = dot.getAttribute('data-dot');
+      dot.classList.toggle('is-collected', foundGems.has(id));
+    });
+  }
+
+  function openGemModal(gemId, isSummaryClick = false) {
+    if (!gemModal) return;
+    const count = foundGems.size;
+
+    if (isSummaryClick && count < 5) {
+      if (gemModalBadge) gemModalBadge.textContent = `✨ Sister Scavenger Hunt (${count}/5 Found)`;
+      if (gemModalEmoji) gemModalEmoji.textContent = '🔍';
+      if (gemModalTitle) gemModalTitle.textContent = 'Find All 5 Hidden Sister Gems!';
+      if (gemModalText) {
+        gemModalText.textContent = 'Look closely inside Letter 1, Letter 2 (Bouquet), Letter 3 (Cake), Letter 4, and the Together Memories page to collect all 5 glowing keepsake gems!';
+      }
+    } else if (count === 5 && (isSummaryClick || gemId)) {
+      const story = gemStories[gemId] || gemStories['5'];
+      if (gemModalBadge) gemModalBadge.textContent = '🎉 ALL 5 GEMS UNLOCKED · SUPER SISTER CROWN!';
+      if (gemModalEmoji) gemModalEmoji.textContent = '👑';
+      if (gemModalTitle) gemModalTitle.textContent = gemId ? story.title : 'Queen of Sisterhood Unlocked!';
+      if (gemModalText) {
+        gemModalText.textContent = `${gemId ? story.text + ' — ' : ''}You found all 5 hidden gems across the keepsake! You officially hold the Super Little Sister Crown forever! 💖`;
+      }
+      triggerConfettiExplosion();
+    } else if (gemId && gemStories[gemId]) {
+      const story = gemStories[gemId];
+      if (gemModalBadge) gemModalBadge.textContent = `✨ Hidden Sister Gem Found! (${count}/5)`;
+      if (gemModalEmoji) gemModalEmoji.textContent = story.emoji;
+      if (gemModalTitle) gemModalTitle.textContent = story.title;
+      if (gemModalText) gemModalText.textContent = story.text;
+    }
+
+    updateGemHudUI();
+    gemModal.classList.add('is-open');
+    gemModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeGemModal() {
+    if (!gemModal) return;
+    gemModal.classList.remove('is-open');
+    gemModal.setAttribute('aria-hidden', 'true');
+  }
+
+  gemButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const gemId = btn.getAttribute('data-gem-id');
+      if (!gemId) return;
+
+      foundGems.add(gemId);
+      btn.classList.add('is-found');
+      playPasscodeUnlockSound();
+      spawnHeartShower(8);
+
+      if (e.clientX && window.particleEngine) {
+        window.particleEngine.confettiBurst(e.clientX, e.clientY, 30);
+      }
+
+      openGemModal(gemId, false);
+    });
+  });
+
+  if (gemHudBtn) {
+    gemHudBtn.addEventListener('click', () => {
+      playKeyTapSound();
+      openGemModal(null, true);
+    });
+  }
+  if (gemModalCloseBtn) {
+    gemModalCloseBtn.addEventListener('click', closeGemModal);
+  }
+  if (gemModalBackdrop) {
+    gemModalBackdrop.addEventListener('click', closeGemModal);
+  }
+
   // Initial setup: activate landing scene as primary entry point
   navigateTo('landing');
 });
